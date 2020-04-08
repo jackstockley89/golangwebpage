@@ -13,8 +13,7 @@ type Welcome struct {
 }
 
 func main() {
-
-	welcome := Welcome{"Jack", time.Now().Format(time.Stamp)}
+	welcome := Welcome{"Anonymous", time.Now().Format(time.Stamp)}
 
 	templates := template.Must(template.ParseFiles("templates/welcome-template.html"))
 
@@ -23,8 +22,7 @@ func main() {
 			http.FileServer(http.Dir("static"))))
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-
-		if name := r.FormValue("name"); name != "Jack" {
+		if name := r.FormValue("name"); name != "" {
 			welcome.Name = name
 		}
 
