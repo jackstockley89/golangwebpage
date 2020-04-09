@@ -13,7 +13,7 @@ type Welcome struct {
 }
 
 func main() {
-	welcome := Welcome{"Anonymous", time.Now().Format(time.Stamp)}
+	welcome := Welcome{"to Cycling Blog", time.Now().Format(time.Stamp)}
 
 	templates := template.Must(template.ParseFiles("templates/welcome-template.html"))
 
