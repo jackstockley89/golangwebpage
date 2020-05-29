@@ -1,0 +1,155 @@
+img {
+  max-width: 500px;
+  max-height: 500px;
+  height: 500px;
+  width: 500px;
+}
+
+nav {
+  -webkit-flex: 1;
+  -ms-flex: 1;
+  flex: 1;
+  padding: 5px;
+  overflow: hidden;
+  background-color: #333;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+h1 { 
+  color: #000000; 
+  font-family: 'Lato', sans-serif; 
+  font-size: 54px; 
+  font-weight: 300; 
+  line-height: 58px; 
+  text-indent: 30px;
+  margin: 20px 0 20px;
+}
+
+p { color: #000000; 
+  font-family: 'Lucida Sans', Arial, sans-serif; 
+  font-size: 16px; 
+  line-height: 26px; 
+  text-indent: 30px; 
+  margin: 0; 
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 2fr);
+  grid-template-rows: repeat(3, 2fr);
+  gap: 20px 20px;
+  grid-template-areas: "one two three" "four five six" "seven eight nine" "ten eleven twelve";
+  background-image: url("/static/stylesheets/images/background.jpg");
+  height: 100%;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  margin-top: 130px;
+}
+
+.one { grid-area: one; }
+
+.two { grid-area: two; }
+
+.three { grid-area: three; }
+
+.four { grid-area: four; }
+
+.five { grid-area: five; }
+
+.six { grid-area: six; }
+
+.seven { grid-area: seven; }
+
+.eight { grid-area: eight; }
+
+.nine { grid-area: nine; }
+
+.ten { grid-area: ten; }
+
+.eleven { grid-area: eleven; }
+
+.twelve { grid-area: twelve; }
+
+.buttonHome {
+  background: #3D94F6;
+  background-image: -webkit-linear-gradient(top, #3D94F6, #1E62D0);
+  background-image: -moz-linear-gradient(top, #3D94F6, #1E62D0);
+  background-image: -ms-linear-gradient(top, #3D94F6, #1E62D0);
+  background-image: -o-linear-gradient(top, #3D94F6, #1E62D0);
+  background-image: linear-gradient(to bottom, #3D94F6, #1E62D0);
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+  color: #FFFFFF;
+  font-family: Open Sans;
+  font-size: 40px;
+  font-weight: 100;
+  padding: 40px;
+  box-shadow: 1px 1px 20px 0px #000000;
+  -webkit-box-shadow: 1px 1px 20px 0px #000000;
+  -moz-box-shadow: 1px 1px 20px 0px #000000;
+  text-shadow: 1px 1px 20px #000000;
+  border: solid #337FED 1px;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+  text-align: center;
+}
+  
+.buttonHome:hover {
+  border: solid #337FED 1px;
+  background: #1E62D0;
+  background-image: -webkit-linear-gradient(top, #1E62D0, #3D94F6);
+  background-image: -moz-linear-gradient(top, #1E62D0, #3D94F6);
+  background-image: -ms-linear-gradient(top, #1E62D0, #3D94F6);
+  background-image: -o-linear-gradient(top, #1E62D0, #3D94F6);
+  background-image: linear-gradient(to bottom, #1E62D0, #3D94F6);
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+  text-decoration: none;
+}
+
+.buttonAct {
+  background: #3D94F6;
+  background-image: -webkit-linear-gradient(top, #3D94F6, #1E62D0);
+  background-image: -moz-linear-gradient(top, #3D94F6, #1E62D0);
+  background-image: -ms-linear-gradient(top, #3D94F6, #1E62D0);
+  background-image: -o-linear-gradient(top, #3D94F6, #1E62D0);
+  background-image: linear-gradient(to bottom, #3D94F6, #1E62D0);
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+  color: #FFFFFF;
+  font-family: Open Sans;
+  font-size: 40px;
+  font-weight: 100;
+  padding: 40px;
+  box-shadow: 1px 1px 20px 0px #000000;
+  -webkit-box-shadow: 1px 1px 20px 0px #000000;
+  -moz-box-shadow: 1px 1px 20px 0px #000000;
+  text-shadow: 1px 1px 20px #000000;
+  border: solid #337FED 1px;
+  text-decoration: none;
+  display: inline-block;
+  cursor: pointer;
+  text-align: center;
+}
+  
+.buttonAct:hover {
+  border: solid #337FED 1px;
+  background: #1E62D0;
+  background-image: -webkit-linear-gradient(top, #1E62D0, #3D94F6);
+  background-image: -moz-linear-gradient(top, #1E62D0, #3D94F6);
+  background-image: -ms-linear-gradient(top, #1E62D0, #3D94F6);
+  background-image: -o-linear-gradient(top, #1E62D0, #3D94F6);
+  background-image: linear-gradient(to bottom, #1E62D0, #3D94F6);
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  border-radius: 20px;
+  text-decoration: none;
+}
