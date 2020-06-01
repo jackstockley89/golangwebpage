@@ -1,6 +1,6 @@
 FROM golang:1.14.3-alpine3.11
 
-LABEL "maintainer"="jack.stockley@digital.justice.gov.uk"
+LABEL "maintainer"="jack.stockley"
 LABEL "container"="1"
 
 RUN addgroup -g 1000 -S appgroup && \
