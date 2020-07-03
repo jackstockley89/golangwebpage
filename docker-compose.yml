@@ -1,0 +1,20 @@
+# Docker Compose file Reference (https://docs.docker.com/compose/compose-file/)
+
+version: '3.8'
+
+services:
+ 
+  db:
+   image: postgres:13-alpine
+   env_file: .env 
+   ports:
+      - "5021:5021"
+ 
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    depends_on: 
+      - db
