@@ -1,52 +1,110 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
 	"html/template"
+	"log"
 	"net/http"
 	"time"
+
+	_ "github.com/lib/pq"
 )
 
+const (
+	host     = "cyclingblog-db"
+	port     = 5432
+	user     = "demouser"
+	password = "P455w0rd"
+	dbname   = "cyclingblog"
+)
+
+// Ride table query list
+type Ride struct {
+	Name     string
+	Date     string
+	Distance string
+	Time     string
+	AvgSpeed string
+}
+
+// Welcome sets home page data types
 type Welcome struct {
 	Name string
 	Time string
 }
 
+// Active sets activites page data types
 type Active struct {
 	Title string
 }
 
+// DB variable used by query function to connect to the database
+var (
+	DB *sql.DB
+)
+
+func main() {
+	dbConnect()
+	http.Handle("/static/",
+		http.StripPrefix("/static/",
+			http.FileServer(http.Dir("static"))))
+	http.HandleFunc("/home", homeHandler)
+	http.HandleFunc("/activities", activitiesHandler)
+	fmt.Println("Listening")
+	fmt.Println(http.ListenAndServe(":8080", nil))
+}
+
 func homeHandler(w http.ResponseWriter, r *http.Request) {
 	welcome := Welcome{"to Cycling Blog", time.Now().Format(time.Stamp)}
+	t := template.Must(template.ParseFiles("templates/home.html"))
 
-	templates := template.Must(template.ParseFiles("templates/home.html"))
-
-	if name := r.FormValue("name"); name != "" {
-		welcome.Name = name
-	}
-
-	if err := templates.ExecuteTemplate(w, "home.html", welcome); err != nil {
+	if err := t.ExecuteTemplate(w, "home.html", welcome); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 }
 
 func activitiesHandler(w http.ResponseWriter, r *http.Request) {
-	p := Active{Title: "Activities"}
 	t := template.Must(template.ParseFiles("templates/activities.html"))
-	//t.Execute(w, p)
+	sql := `SELECT * FROM rides_table WHERE id=$1`
 
-	if err := t.ExecuteTemplate(w, "activities.html", p); err != nil {
+	row1, err := DB.Query(sql, 1)
+
+	if err != nil {
+		log.Panic("activitiesHandler: Query Error", err)
+	}
+
+	defer row1.Close()
+	var id string
+	var name string
+	var date string
+	var distance string
+	var time string
+	var avgSpeed string
+
+	var ps []Ride
+	for row1.Next() {
+		err := row1.Scan(&id, &name, &date, &distance, &time, &avgSpeed)
+		if err != nil {
+			log.Panic("activitiesHandler: Scan Error", err)
+		}
+		ps = append(ps, Ride{Name: name, Date: date, Distance: distance, Time: time, AvgSpeed: avgSpeed})
+	}
+	if err := t.ExecuteTemplate(w, "activities.html", ps); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 }
 
-func main() {
-	http.Handle("/static/",
-		http.StripPrefix("/static/",
-			http.FileServer(http.Dir("static"))))
-
-	http.HandleFunc("/home", homeHandler)
-	http.HandleFunc("/activities", activitiesHandler)
-	fmt.Println("Listening")
-	fmt.Println(http.ListenAndServe(":8080", nil))
+// uses const above to add in the connection values for the datatbase
+// and then open a connection to the database
+func dbConnect() {
+	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
+		"password=%s dbname=%s sslmode=disable",
+		host, port, user, password, dbname)
+	db, err := sql.Open("postgres", psqlInfo)
+	if err != nil {
+		log.Panic("DbConnect: unable to connect to database", err)
+	}
+	DB = db
+	fmt.Println("Successfully connected!")
 }

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-
-<html>
+<html lang="en">
    <head>
       <meta charset="UTF-8">
       <link rel="stylesheet" href="/static/stylesheets/activities.css"> 
@@ -42,8 +41,16 @@
          <p>Time: 01:27:34</p>
          <p>Avg Speed: 15.3mph</p>
          </div>
-         
-         <div class="five"></div>
+         {{ range. }}
+         <div class="five">
+            <h1>{{.Name}}</h1>
+            <img src="/static/stylesheets/images/25May2020.png" alt="25May2020" />
+            <p>Distance: {{.Distance}}mi</p>
+            <p>Time: {{.Time}}</p>
+            <p>Avg Speed: {{.AvgSpeed}}mph</p>
+         </div>
+         {{ end }}
+
          <div class="six"></div>
          <div class="seven"></div>
          <div class="eight"></div>
