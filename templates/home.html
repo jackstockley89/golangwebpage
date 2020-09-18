@@ -2,16 +2,18 @@
 
 <html>
    <head>
-         <meta charset="UTF-8">
-         <link rel="stylesheet" href="/static/stylesheets/home.css">
+      <meta charset="UTF-8">
+      <link rel="stylesheet" href="/static/stylesheets/home.css">
    </head>
    <nav>
       <a href="./home" class="buttonHome">Home</a>
       <a href="./activities" class="buttonAct">Activities</a>
    </nav>
    <body>
-      <header>
-         <div class="welcome center">Welcome {{.Name}}, it is {{.Time}}</div>
-      </header>
+      <div class="grid-container">
+         <div class="grid-element">
+            <div class="welcome center">Welcome {{.Name}}, it is {{.Time}}</div>
+         </div>
+      </div>
    </body>
 </html>

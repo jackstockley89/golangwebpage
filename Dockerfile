@@ -3,13 +3,20 @@ FROM golang:1.14.3-alpine3.11
 LABEL "maintainer"="jack.stockley"
 LABEL "container"="1"
 
+RUN apk add git
+RUN apk add postgresql-client
+
+RUN go get -u github.com/lib/pq
+
 RUN addgroup -g 1000 -S appgroup && \
     adduser -u 1000 -S appuser -G appgroup
+
+
 
 WORKDIR /app
 
 COPY . . 
-
+ 
 RUN chown -R appuser:appgroup /app
 
 USER 1000

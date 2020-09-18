@@ -3,21 +3,40 @@
 version: '3.8'
 
 services:
- 
+  # Database Server
   db:
-   image: postgres:13-alpine
-   env_file: .env 
-   ports:
-      - "5021:5021"
-   volumes:
+    image: postgres:13-alpine
+    container_name: cyclingblog-db
+    env_file: .env_db
+    ports:
+      - "5432:5432"
+    volumes:
       - /Users/jackstockley/repo/script-volume:/scripts-volume:rw
-      - /Users/jackstockley/repo/postgres/data:/var/lib/postgresql/data:rw 
- 
+      - /Users/jackstockley/repo/postgres/data:/var/lib/postgresql/data:rw
+    networks:
+      - app-network
+  
+  # Applicstion Server
   app:
     build:
       context: .
       dockerfile: Dockerfile
+    container_name: cyclingblog-app
+    env_file: .env_app
     ports:
       - "8080:8080"
+    volumes:
+      - /Users/jackstockley/repo/script-volume:/scripts-volume:rw
     depends_on: 
       - db
+    networks:
+      - app-network
+  
+# Network
+networks:
+  app-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.110.0.0/16
+

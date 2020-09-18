@@ -1,11 +1,11 @@
 body  {
-    background-image: url("/static/stylesheets/images/background.jpg");
-    height: 100%;
-    background-attachment: fixed;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
- }
+  background-image: url("/static/stylesheets/images/background.jpg");
+  height: 100%;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
 
 nav {
   -webkit-flex: 1;
@@ -14,23 +14,34 @@ nav {
   padding: 5px;
   overflow: hidden;
   background-color: #333;
-  position: fixed;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  position: relative;
   top: 0;
   width: 100%;
 }
  
- .welcome {
-    font-family: 'Segoe UI', 'Tahoma', 'Geneva', 'Verdana', 'sans-serif';
-    font-size: 3rem;
-    color: rgb(137, 200, 255);
- }
- 
- .center {
-    height: 50vh;
-    display: flex;
-    justify-content: center;
-    align-items: center
- }
+.grid-container {
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  margin-top: 1px;
+}
+
+.grid-element {
+  padding: 5px;
+  border: 1px solid transparent;
+}
+
+.welcome {
+  font-family: 'Segoe UI', 'Tahoma', 'Geneva', 'Verdana', 'sans-serif';
+  font-size: 3rem;
+  color: rgb(137, 200, 255);
+}
+
+.center {
+  height: 50vh;
+  display: flex;
+  justify-content: center;
+  align-items: center
+}
 
 .buttonHome {
   background: #3D94F6;

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-
-<html>
+<html lang="en">
    <head>
       <meta charset="UTF-8">
       <link rel="stylesheet" href="/static/stylesheets/activities.css"> 
@@ -11,46 +10,26 @@
    </nav>
    <body>
       <div class="grid-container">
-         <div class="one">
-            <h1>25 May 2020</h1>
-         <img src="/static/stylesheets/images/25May2020.png" alt="25May2020" />
-         <p>Distance: 16.79 mi</p>
-         <p>Time: 01:08:20</p>
-         <p>Avg Speed: 14.7 mph</p>
+         <div class="grid-element">
+            <table >
+               <tr>
+                  <th scope="col">Date</th>
+                  <th scope="col">Distance (mi)</th>
+                  <th scope="col">Time</th>
+                  <th scope="col">AvgSpeed (mph)</th>
+                  <th scope="col">Route</th>
+               </tr>
+               {{ range . }}
+               <tr>
+                  <td>{{.Date}}</td>
+                  <td>{{.Distance}}</td>
+                  <td>{{.Time}}</td>
+                  <td>{{.AvgSpeed}}</td>
+                  <td><img src={{.Route}} alt="25May2020" /></td>
+               </tr>
+               {{ end }}
+           </table>
          </div>
-
-         <div class="two">
-            <h1>26 May 2020</h1>
-         <img src="/static/stylesheets/images/26May2020.png" alt="26May2020" />
-         <p>Distance: 21.34 mi</p>
-         <p>Time: 01:22:04</p>
-         <p>Avg Speed: 15.6 mph</p>
-         </div>
-
-         <div class="three">
-            <h1>27 May 2020</h1>
-         <img src="/static/stylesheets/images/27May2020.png" alt="27May2020" />
-         <p>Distance: 17.38 mi</p>
-         <p>Time: 01:07:14</p>
-         <p>Avg Speed: 15.5mph</p>
-         </div>
-
-         <div class="four">
-            <h1>28 May 2020</h1>
-         <img src="/static/stylesheets/images/28May2020.png" alt="28May2020" />
-         <p>Distance: 22.35 mi</p>
-         <p>Time: 01:27:34</p>
-         <p>Avg Speed: 15.3mph</p>
-         </div>
-         
-         <div class="five"></div>
-         <div class="six"></div>
-         <div class="seven"></div>
-         <div class="eight"></div>
-         <div class="nine"></div>
-         <div class="ten"></div>
-         <div class="eleven"></div>
-         <div class="twelve"></div>
-       </div>
+      </div>
    </body>
 </html>
