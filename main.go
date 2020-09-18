@@ -21,11 +21,13 @@ const (
 
 // Ride table query list
 type Ride struct {
+	ID       int
 	Name     string
 	Date     string
 	Distance string
 	Time     string
 	AvgSpeed string
+	Route    string
 }
 
 // Welcome sets home page data types
@@ -66,30 +68,46 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 
 func activitiesHandler(w http.ResponseWriter, r *http.Request) {
 	t := template.Must(template.ParseFiles("templates/activities.html"))
-	sql := `SELECT * FROM rides_table WHERE id=$1`
+	sql := `SELECT * FROM rides_table`
 
-	row1, err := DB.Query(sql, 1)
+	row1, err := DB.Query(sql)
 
 	if err != nil {
 		log.Panic("activitiesHandler: Query Error", err)
 	}
 
 	defer row1.Close()
-	var id string
+
+	var id int
 	var name string
 	var date string
 	var distance string
 	var time string
 	var avgSpeed string
+	var route string
 
 	var ps []Ride
+	var m map[string]Ride
 	for row1.Next() {
-		err := row1.Scan(&id, &name, &date, &distance, &time, &avgSpeed)
+		err := row1.Scan(&id, &name, &date, &distance, &time, &avgSpeed, &route)
 		if err != nil {
 			log.Panic("activitiesHandler: Scan Error", err)
 		}
-		ps = append(ps, Ride{Name: name, Date: date, Distance: distance, Time: time, AvgSpeed: avgSpeed})
+		ps = append(ps, Ride{ID: id, Name: name, Date: date, Distance: distance, Time: time, AvgSpeed: avgSpeed, Route: route})
+		m = map[string]Ride{
+			"Date":     {Date: date},
+			"Distance": {Distance: distance},
+			"Time":     {Time: time},
+			"AvgSpeed": {AvgSpeed: avgSpeed},
+			"Route":    {Route: route},
+		}
+		fmt.Println(m["Date"])
+		fmt.Println(m["Distance"])
+		fmt.Println(m["Time"])
+		fmt.Println(m["AvgSpeed"])
+		fmt.Println(m["Route"])
 	}
+
 	if err := t.ExecuteTemplate(w, "activities.html", ps); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
