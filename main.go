@@ -87,25 +87,12 @@ func activitiesHandler(w http.ResponseWriter, r *http.Request) {
 	var route string
 
 	var ps []Ride
-	var m map[string]Ride
 	for row1.Next() {
 		err := row1.Scan(&id, &name, &date, &distance, &time, &avgSpeed, &route)
 		if err != nil {
 			log.Panic("activitiesHandler: Scan Error", err)
 		}
 		ps = append(ps, Ride{ID: id, Name: name, Date: date, Distance: distance, Time: time, AvgSpeed: avgSpeed, Route: route})
-		m = map[string]Ride{
-			"Date":     {Date: date},
-			"Distance": {Distance: distance},
-			"Time":     {Time: time},
-			"AvgSpeed": {AvgSpeed: avgSpeed},
-			"Route":    {Route: route},
-		}
-		fmt.Println(m["Date"])
-		fmt.Println(m["Distance"])
-		fmt.Println(m["Time"])
-		fmt.Println(m["AvgSpeed"])
-		fmt.Println(m["Route"])
 	}
 
 	if err := t.ExecuteTemplate(w, "activities.html", ps); err != nil {
