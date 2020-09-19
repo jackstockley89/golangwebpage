@@ -7,17 +7,33 @@ body  {
   background-size: cover;
 }
 
-nav {
-  -webkit-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
-  padding: 5px;
+.navcontainer {
+  position: absolute;
+  margin: 20px;
+  width: auto;
+}
+
+.topnav {
   overflow: hidden;
   background-color: #333;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  position: relative;
-  top: 0;
-  width: 100%;
+}
+
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+  font-family: 'Lato', sans-serif;
+  font-weight: bold;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+  font-family: 'Lato', sans-serif;
+  font-weight: bold;
 }
 
 img {
@@ -29,24 +45,22 @@ img {
 
 .grid-container {
   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-  margin-top: 1px;
+  margin-top: 0px;
 }
 
 .grid-element {
-  padding: 5px;
+  padding: 0px;
   border: 1px solid transparent;
 }
   
 table {
-  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
   border-collapse: collapse;
   width: 100%;
   table-layout: fixed;
-  border-collapse: collapse;
 }
 
 td, th {
-  border: 1px solid #ddd;
+  border: 1px solid transparent;
   padding: 8px;
 }
 
@@ -62,88 +76,15 @@ th {
   text-align: center;
   background-color: #09a4f1;
   color: white;
+  font-family: 'Lato', sans-serif; 	  
+  font-size: 30px;
+  font-weight: bold;
 }
 
 td {
   text-align: center;
-}
-
-.buttonHome {
-  background: #3D94F6;
-  background-image: -webkit-linear-gradient(top, #3D94F6, #1E62D0);
-  background-image: -moz-linear-gradient(top, #3D94F6, #1E62D0);
-  background-image: -ms-linear-gradient(top, #3D94F6, #1E62D0);
-  background-image: -o-linear-gradient(top, #3D94F6, #1E62D0);
-  background-image: linear-gradient(to bottom, #3D94F6, #1E62D0);
-  -webkit-border-radius: 20px;
-  -moz-border-radius: 20px;
-  border-radius: 20px;
-  color: #FFFFFF;
-  font-family: Open Sans;
-  font-size: 40px;
-  font-weight: 100;
-  padding: 40px;
-  box-shadow: 1px 1px 20px 0px #000000;
-  -webkit-box-shadow: 1px 1px 20px 0px #000000;
-  -moz-box-shadow: 1px 1px 20px 0px #000000;
-  text-shadow: 1px 1px 20px #000000;
-  border: solid #337FED 1px;
-  text-decoration: none;
-  display: inline-block;
-  cursor: pointer;
-  text-align: center;
-}
-  
-.buttonHome:hover {
-  border: solid #337FED 1px;
-  background: #1E62D0;
-  background-image: -webkit-linear-gradient(top, #1E62D0, #3D94F6);
-  background-image: -moz-linear-gradient(top, #1E62D0, #3D94F6);
-  background-image: -ms-linear-gradient(top, #1E62D0, #3D94F6);
-  background-image: -o-linear-gradient(top, #1E62D0, #3D94F6);
-  background-image: linear-gradient(to bottom, #1E62D0, #3D94F6);
-  -webkit-border-radius: 20px;
-  -moz-border-radius: 20px;
-  border-radius: 20px;
-  text-decoration: none;
-}
-
-.buttonAct {
-  background: #3D94F6;
-  background-image: -webkit-linear-gradient(top, #3D94F6, #1E62D0);
-  background-image: -moz-linear-gradient(top, #3D94F6, #1E62D0);
-  background-image: -ms-linear-gradient(top, #3D94F6, #1E62D0);
-  background-image: -o-linear-gradient(top, #3D94F6, #1E62D0);
-  background-image: linear-gradient(to bottom, #3D94F6, #1E62D0);
-  -webkit-border-radius: 20px;
-  -moz-border-radius: 20px;
-  border-radius: 20px;
-  color: #FFFFFF;
-  font-family: Open Sans;
-  font-size: 40px;
-  font-weight: 100;
-  padding: 40px;
-  box-shadow: 1px 1px 20px 0px #000000;
-  -webkit-box-shadow: 1px 1px 20px 0px #000000;
-  -moz-box-shadow: 1px 1px 20px 0px #000000;
-  text-shadow: 1px 1px 20px #000000;
-  border: solid #337FED 1px;
-  text-decoration: none;
-  display: inline-block;
-  cursor: pointer;
-  text-align: center;
-}
-  
-.buttonAct:hover {
-  border: solid #337FED 1px;
-  background: #1E62D0;
-  background-image: -webkit-linear-gradient(top, #1E62D0, #3D94F6);
-  background-image: -moz-linear-gradient(top, #1E62D0, #3D94F6);
-  background-image: -ms-linear-gradient(top, #1E62D0, #3D94F6);
-  background-image: -o-linear-gradient(top, #1E62D0, #3D94F6);
-  background-image: linear-gradient(to bottom, #1E62D0, #3D94F6);
-  -webkit-border-radius: 20px;
-  -moz-border-radius: 20px;
-  border-radius: 20px;
-  text-decoration: none;
+  color: #000000;
+  font-family: 'Lato', sans-serif;
+  font-size: 25px;
+  font-weight: normal;
 }
