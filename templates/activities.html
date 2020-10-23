@@ -15,7 +15,6 @@
          <div class="grid-element">
             <table >
                <tr>
-                  <th scope="col">Ride Name</th>
                   <th scope="col">Date</th>
                   <th scope="col">Distance (mi)</th>
                   <th scope="col">Time</th>
@@ -24,12 +23,11 @@
                </tr>
                {{ range . }}
                <tr>
-                  <td>{{.Name}}</td>
-                  <td>{{.Date}}</td>
-                  <td>{{.Distance}}</td>
-                  <td>{{.Time}}</td>
-                  <td>{{.AvgSpeed}}</td>
-                  <td><img src={{.Route}} alt="25May2020" /></td>
+                  <td><a href={{.Link}}>{{.Date}}</a></td>
+                  <td><a href={{.Link}}>{{.Distance}}</a></td>
+                  <td><a href={{.Link}}>{{.Time}}</a></td>
+                  <td><a href={{.Link}}>{{.AvgSpeed}}</a></td>
+                  <td><img src={{.Route}} alt="Image" /></td>
                </tr>
                {{ end }}
            </table>
