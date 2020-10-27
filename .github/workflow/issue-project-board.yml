@@ -1,0 +1,17 @@
+name: Move new issues into cycling-blog project
+
+## https://github.com/marketplace/actions/github-project-automation
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  automate-project-columns:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: jackstockley89/golangwebpage
+        with:
+          project: cycling-blog project
+          column: To do
+          repo-token: ${{ secrets.ACTION_TOKEN }}
