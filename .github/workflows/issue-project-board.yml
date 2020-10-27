@@ -1,7 +1,5 @@
 name: Move new issues into cycling-blog project
 
-## https://github.com/marketplace/actions/github-project-automation
-
 on:
   issues:
     types: [opened]
@@ -10,7 +8,7 @@ jobs:
   automate-project-columns:
     runs-on: ubuntu-latest
     steps:
-      - uses: jackstockley89/golangwebpage
+      - uses: actions/checkout@v2.3.3
         with:
           project: cycling-blog project
           column: To do
