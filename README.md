@@ -37,3 +37,21 @@ Once the image has completed building, this is now ready to run
 ```
 docker run -d -p 8080:8080 cycling-blog:latest
 ```
+
+<br/>
+
+<h2 align="left" style="font-family: 'Lucida Sans', Arial, sans-serif"><b>How to Run in Docker Compose</b></h2>
+ 
+---
+
+The docker-compose.yml contains a volume mounted to the local drive to prevent data lost within the database if shutdown. This would required edit if to be used on local machine.
+
+To run the application with database this can be done using docker compose command. The following command build and start the containers in the background
+```
+docker-compose up --build -d
+```
+
+To stop the application with and database with
+```
+docker-compose down
+```
