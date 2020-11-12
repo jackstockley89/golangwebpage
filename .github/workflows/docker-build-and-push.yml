@@ -32,6 +32,4 @@ jobs:
           push: true
           tags: |
             jackstock8904/cycling-blog:latest 
-            jackstock8904/cycling-blog:$VERSION
-        env:
-          VERSION: 1.1
+            jackstock8904/cycling-blog:1.1
