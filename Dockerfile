@@ -1,7 +1,6 @@
 FROM golang:1.14.3-alpine3.11
 
-LABEL "maintainer"="jack.stockley"
-LABEL "container"="1"
+LABEL "Version"="1.1"
 
 RUN apk add git
 RUN apk add postgresql-client
