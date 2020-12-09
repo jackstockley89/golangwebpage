@@ -6,6 +6,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"os"
 	"time"
 
 	"github.com/joho/godotenv"
@@ -13,13 +14,14 @@ import (
 	_ "github.com/lib/pq"
 )
 
-const (
-	host     = "cyclingblog-db"
-	port     = 5432
-	user     = "demouser"
-	password = "P455w0rd"
-	dbname   = "cyclingblog"
-)
+// ENV struct values
+type ENV struct {
+	Host     string
+	Port     int
+	User     string
+	Password string
+	Dbname   string
+}
 
 // Ride table query list
 type Ride struct {
@@ -44,9 +46,24 @@ type Active struct {
 	Title string
 }
 
+// IDHandler set sql query for ride pages
+type IDHandler struct {
+	ID int
+}
+
 // DB variable used by query function to connect to the database
 var (
-	DB *sql.DB
+	DB      *sql.DB
+	idone   = &IDHandler{ID: 1}
+	idtwo   = &IDHandler{ID: 2}
+	idthree = &IDHandler{ID: 3}
+	idfour  = &IDHandler{ID: 4}
+	idfive  = &IDHandler{ID: 5}
+	idsix   = &IDHandler{ID: 6}
+	idseven = &IDHandler{ID: 7}
+	ideight = &IDHandler{ID: 8}
+	idnine  = &IDHandler{ID: 9}
+	idten   = &IDHandler{ID: 10}
 )
 
 //
@@ -102,10 +119,11 @@ func activitiesHandler(w http.ResponseWriter, r *http.Request) {
 //
 // Ride Page
 //
-func rideHandler(w http.ResponseWriter, r *http.Request, id int) {
+func (p *IDHandler) rideHandler(w http.ResponseWriter, r *http.Request) {
 	t := template.Must(template.ParseFiles("templates/rides.html"))
 	sql := "SELECT * FROM rides_table WHERE id=$1 "
-
+	id := fmt.Sprintf("%d", p.ID)
+	fmt.Println(id)
 	row1, err := DB.Query(sql, id)
 
 	if err != nil {
@@ -138,29 +156,23 @@ func rideHandler(w http.ResponseWriter, r *http.Request, id int) {
 }
 
 //
-// Load env files
+// database connect
+// uses variable to load values from .env file and then pass them in connection parameters via a struct
 //
-
-func getEnvVars() {
-	err := godotenv.Load("variables.env")
+func dbConnect() {
+	err := godotenv.Load(".env_app")
 	if err != nil {
 		log.Fatal("Error loading .envdb file")
 	}
-}
+	postgresHost := os.Getenv("POSTGRES_HOSTNAME")
+	postgresPort := 5432
+	postgresUser := os.Getenv("POSTGRES_USER")
+	postgresPassword := os.Getenv("POSTGRES_PASSWORD")
+	postgresName := os.Getenv("POSTGRES_DB")
 
-// uses const above to add in the connection values for the datatbase
-// and then open a connection to the database
-func dbConnect() {
-	//getEnvVars()
-	//postgresHost := os.Getenv("HOSTNAME")
-	//postgresPort := 5432
-	//postgresUser := os.Getenv("POSTGRES_USER")
-	//postgresPassword := os.Getenv("POSTGRES_PASSWORD")
-	//postgresName := os.Getenv("POSTGRES_DB")
+	env := ENV{Host: postgresHost, Port: postgresPort, User: postgresUser, Password: postgresPassword, Dbname: postgresName}
 
-	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
-		"password=%s dbname=%s sslmode=disable",
-		host, port, user, password, dbname)
+	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", env.Host, env.Port, env.User, env.Password, env.Dbname)
 	db, err := sql.Open("postgres", psqlInfo)
 	if err != nil {
 		log.Panic("DbConnect: unable to connect to database", err)
@@ -169,35 +181,23 @@ func dbConnect() {
 	fmt.Println("Successfully connected!")
 }
 
-//var validPath = regexp.MustCompile("^/(*/rideOne|*/rideTwo)/([a-zA-Z0-9]+)$")
-
-//
-// wrapper for handler function
-//
-func makeHandler(fn func(http.ResponseWriter, *http.Request, int)) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		m := 1
-		fn(w, r, m)
-	}
-}
-
 func main() {
 	dbConnect()
 	http.Handle("/static/",
 		http.StripPrefix("/static/",
 			http.FileServer(http.Dir("static"))))
-	http.HandleFunc("/home/", homeHandler)
-	http.HandleFunc("/activities/", activitiesHandler)
-	http.HandleFunc("/activities/rideOne/", makeHandler(rideHandler))
-	//  http.HandleFunc("/activities/rideTwo/", makeHandler(rideHandler))
-	//	http.HandleFunc("/activities/rideThree", rideHandler)
-	//	http.HandleFunc("/activities/rideFour", rideHandler)
-	//	http.HandleFunc("/activities/rideFive", rideHandler)
-	//	http.HandleFunc("/activities/rideSix", rideHandler)
-	//	http.HandleFunc("/activities/rideSeven", rideHandler)
-	//	http.HandleFunc("/activities/ridEight", rideHandler)
-	//	http.HandleFunc("/activities/rideNine", rideHandler)
-	//	http.HandleFunc("/activities/rideTen", rideHandler)
-	//	fmt.Println("Listening")
-	//	fmt.Println(http.ListenAndServe(":8080", nil))
+	http.HandleFunc("/home", homeHandler)
+	http.HandleFunc("/activities", activitiesHandler)
+	http.HandleFunc("/activities/rideOne", idone.rideHandler)
+	http.HandleFunc("/activities/rideTwo", idtwo.rideHandler)
+	http.HandleFunc("/activities/rideThree", idthree.rideHandler)
+	http.HandleFunc("/activities/rideFour", idfour.rideHandler)
+	http.HandleFunc("/activities/rideFive", idfive.rideHandler)
+	http.HandleFunc("/activities/rideSix", idsix.rideHandler)
+	http.HandleFunc("/activities/rideSeven", idseven.rideHandler)
+	http.HandleFunc("/activities/ridEight", ideight.rideHandler)
+	http.HandleFunc("/activities/rideNine", idnine.rideHandler)
+	http.HandleFunc("/activities/rideTen", idten.rideHandler)
+	fmt.Println("Listening")
+	fmt.Println(http.ListenAndServe(":8080", nil))
 }
