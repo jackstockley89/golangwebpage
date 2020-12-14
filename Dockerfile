@@ -6,6 +6,7 @@ RUN apk add git
 RUN apk add postgresql-client
 
 RUN go get -u github.com/lib/pq
+RUN go get -u github.com/joho/godotenv
 
 RUN addgroup -g 1000 -S appgroup && \
     adduser -u 1000 -S appuser -G appgroup

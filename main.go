@@ -6,18 +6,22 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"os"
 	"time"
 
+	"github.com/joho/godotenv"
+	_ "github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 )
 
-const (
-	host     = "cyclingblog-db"
-	port     = 5432
-	user     = "demouser"
-	password = "P455w0rd"
-	dbname   = "cyclingblog"
-)
+// ENV struct values
+type ENV struct {
+	Host     string
+	Port     int
+	User     string
+	Password string
+	Dbname   string
+}
 
 // Ride table query list
 type Ride struct {
@@ -42,9 +46,24 @@ type Active struct {
 	Title string
 }
 
+// IDHandler set sql query for ride pages
+type IDHandler struct {
+	ID int
+}
+
 // DB variable used by query function to connect to the database
 var (
-	DB *sql.DB
+	DB      *sql.DB
+	idone   = &IDHandler{ID: 1}
+	idtwo   = &IDHandler{ID: 2}
+	idthree = &IDHandler{ID: 3}
+	idfour  = &IDHandler{ID: 4}
+	idfive  = &IDHandler{ID: 5}
+	idsix   = &IDHandler{ID: 6}
+	idseven = &IDHandler{ID: 7}
+	ideight = &IDHandler{ID: 8}
+	idnine  = &IDHandler{ID: 9}
+	idten   = &IDHandler{ID: 10}
 )
 
 //
@@ -74,7 +93,7 @@ func activitiesHandler(w http.ResponseWriter, r *http.Request) {
 
 	defer row1.Close()
 
-	var id int
+	var idRef int
 	var link string
 	var name string
 	var date string
@@ -85,11 +104,11 @@ func activitiesHandler(w http.ResponseWriter, r *http.Request) {
 
 	var ps []Ride
 	for row1.Next() {
-		err := row1.Scan(&id, &link, &name, &date, &distance, &time, &avgSpeed, &route)
+		err := row1.Scan(&idRef, &link, &name, &date, &distance, &time, &avgSpeed, &route)
 		if err != nil {
 			log.Panic("activitiesHandler: Scan Error", err)
 		}
-		ps = append(ps, Ride{ID: id, Link: link, Name: name, Date: date, Distance: distance, Time: time, AvgSpeed: avgSpeed, Route: route})
+		ps = append(ps, Ride{ID: idRef, Link: link, Name: name, Date: date, Distance: distance, Time: time, AvgSpeed: avgSpeed, Route: route})
 	}
 
 	if err := t.ExecuteTemplate(w, "activities.html", ps); err != nil {
@@ -98,21 +117,22 @@ func activitiesHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 //
-// Ride One Page
+// Ride Page
 //
-func ridesOneHandler(w http.ResponseWriter, r *http.Request) {
+func (p *IDHandler) rideHandler(w http.ResponseWriter, r *http.Request) {
 	t := template.Must(template.ParseFiles("templates/rides.html"))
-	sql := `SELECT * FROM rides_table WHERE id=$1`
-
-	row1, err := DB.Query(sql, 1)
+	sql := "SELECT * FROM rides_table WHERE id=$1 "
+	id := fmt.Sprintf("%d", p.ID)
+	fmt.Println(id)
+	row1, err := DB.Query(sql, id)
 
 	if err != nil {
-		log.Panic("ridesOneHandler: Query Error", err)
+		log.Panic("rideHandler: Query Error", err)
 	}
 
 	defer row1.Close()
 
-	var id int
+	var idRef int
 	var link string
 	var name string
 	var date string
@@ -123,11 +143,11 @@ func ridesOneHandler(w http.ResponseWriter, r *http.Request) {
 
 	var ps []Ride
 	for row1.Next() {
-		err := row1.Scan(&id, &link, &name, &date, &distance, &time, &avgSpeed, &route)
+		err := row1.Scan(&idRef, &link, &name, &date, &distance, &time, &avgSpeed, &route)
 		if err != nil {
-			log.Panic("ridesOneHandler: Scan Error", err)
+			log.Panic("rideHandler: Scan Error", err)
 		}
-		ps = append(ps, Ride{ID: id, Link: link, Name: name, Date: date, Distance: distance, Time: time, AvgSpeed: avgSpeed, Route: route})
+		ps = append(ps, Ride{ID: idRef, Link: link, Name: name, Date: date, Distance: distance, Time: time, AvgSpeed: avgSpeed, Route: route})
 	}
 
 	if err := t.ExecuteTemplate(w, "rides.html", ps); err != nil {
@@ -136,353 +156,23 @@ func ridesOneHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 //
-// Ride Two Page
+// database connect
+// uses variable to load values from .env file and then pass them in connection parameters via a struct
 //
-func ridesTwoHandler(w http.ResponseWriter, r *http.Request) {
-	t := template.Must(template.ParseFiles("templates/rides.html"))
-	sql := `SELECT * FROM rides_table WHERE id=$1`
-
-	row1, err := DB.Query(sql, 2)
-
-	if err != nil {
-		log.Panic("ridesTwoHandler: Query Error", err)
-	}
-
-	defer row1.Close()
-
-	var id int
-	var link string
-	var name string
-	var date string
-	var distance string
-	var time string
-	var avgSpeed string
-	var route string
-
-	var ps []Ride
-	for row1.Next() {
-		err := row1.Scan(&id, &link, &name, &date, &distance, &time, &avgSpeed, &route)
-		if err != nil {
-			log.Panic("ridesTwoHandler: Scan Error", err)
-		}
-		ps = append(ps, Ride{ID: id, Link: link, Name: name, Date: date, Distance: distance, Time: time, AvgSpeed: avgSpeed, Route: route})
-	}
-
-	if err := t.ExecuteTemplate(w, "rides.html", ps); err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
-}
-
-//
-// Ride Three Page
-//
-func rideThreeHandler(w http.ResponseWriter, r *http.Request) {
-	t := template.Must(template.ParseFiles("templates/rides.html"))
-	sql := `SELECT * FROM rides_table WHERE id=$1`
-
-	row1, err := DB.Query(sql, 3)
-
-	if err != nil {
-		log.Panic("rideThreeHandler: Query Error", err)
-	}
-
-	defer row1.Close()
-
-	var id int
-	var link string
-	var name string
-	var date string
-	var distance string
-	var time string
-	var avgSpeed string
-	var route string
-
-	var ps []Ride
-	for row1.Next() {
-		err := row1.Scan(&id, &link, &name, &date, &distance, &time, &avgSpeed, &route)
-		if err != nil {
-			log.Panic("rideThreeHandler: Scan Error", err)
-		}
-		ps = append(ps, Ride{ID: id, Link: link, Name: name, Date: date, Distance: distance, Time: time, AvgSpeed: avgSpeed, Route: route})
-	}
-
-	if err := t.ExecuteTemplate(w, "rides.html", ps); err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
-}
-
-//
-// Ride Four Page
-//
-func rideFourHandler(w http.ResponseWriter, r *http.Request) {
-	t := template.Must(template.ParseFiles("templates/rides.html"))
-	sql := `SELECT * FROM rides_table WHERE id=$1`
-
-	row1, err := DB.Query(sql, 4)
-
-	if err != nil {
-		log.Panic("rideFourHandler: Query Error", err)
-	}
-
-	defer row1.Close()
-
-	var id int
-	var link string
-	var name string
-	var date string
-	var distance string
-	var time string
-	var avgSpeed string
-	var route string
-
-	var ps []Ride
-	for row1.Next() {
-		err := row1.Scan(&id, &link, &name, &date, &distance, &time, &avgSpeed, &route)
-		if err != nil {
-			log.Panic("rideFourHandler: Scan Error", err)
-		}
-		ps = append(ps, Ride{ID: id, Link: link, Name: name, Date: date, Distance: distance, Time: time, AvgSpeed: avgSpeed, Route: route})
-	}
-
-	if err := t.ExecuteTemplate(w, "rides.html", ps); err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
-}
-
-//
-// Ride Five Page
-//
-func rideFiveHandler(w http.ResponseWriter, r *http.Request) {
-	t := template.Must(template.ParseFiles("templates/rides.html"))
-	sql := `SELECT * FROM rides_table WHERE id=$1`
-
-	row1, err := DB.Query(sql, 5)
-
-	if err != nil {
-		log.Panic("rideFiveHandler: Query Error", err)
-	}
-
-	defer row1.Close()
-
-	var id int
-	var link string
-	var name string
-	var date string
-	var distance string
-	var time string
-	var avgSpeed string
-	var route string
-
-	var ps []Ride
-	for row1.Next() {
-		err := row1.Scan(&id, &link, &name, &date, &distance, &time, &avgSpeed, &route)
-		if err != nil {
-			log.Panic("rideFiveHandler: Scan Error", err)
-		}
-		ps = append(ps, Ride{ID: id, Link: link, Name: name, Date: date, Distance: distance, Time: time, AvgSpeed: avgSpeed, Route: route})
-	}
-
-	if err := t.ExecuteTemplate(w, "rides.html", ps); err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
-}
-
-//
-// Ride Six Page
-//
-func rideSixHandler(w http.ResponseWriter, r *http.Request) {
-	t := template.Must(template.ParseFiles("templates/rides.html"))
-	sql := `SELECT * FROM rides_table WHERE id=$1`
-
-	row1, err := DB.Query(sql, 6)
-
-	if err != nil {
-		log.Panic("rideSixHandler: Query Error", err)
-	}
-
-	defer row1.Close()
-
-	var id int
-	var link string
-	var name string
-	var date string
-	var distance string
-	var time string
-	var avgSpeed string
-	var route string
-
-	var ps []Ride
-	for row1.Next() {
-		err := row1.Scan(&id, &link, &name, &date, &distance, &time, &avgSpeed, &route)
-		if err != nil {
-			log.Panic("rideSixHandler: Scan Error", err)
-		}
-		ps = append(ps, Ride{ID: id, Link: link, Name: name, Date: date, Distance: distance, Time: time, AvgSpeed: avgSpeed, Route: route})
-	}
-
-	if err := t.ExecuteTemplate(w, "rides.html", ps); err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
-}
-
-//
-// Ride Seven Page
-//
-func rideSevenHandler(w http.ResponseWriter, r *http.Request) {
-	t := template.Must(template.ParseFiles("templates/rides.html"))
-	sql := `SELECT * FROM rides_table WHERE id=$1`
-
-	row1, err := DB.Query(sql, 7)
-
-	if err != nil {
-		log.Panic("rideSevenHandler: Query Error", err)
-	}
-
-	defer row1.Close()
-
-	var id int
-	var link string
-	var name string
-	var date string
-	var distance string
-	var time string
-	var avgSpeed string
-	var route string
-
-	var ps []Ride
-	for row1.Next() {
-		err := row1.Scan(&id, &link, &name, &date, &distance, &time, &avgSpeed, &route)
-		if err != nil {
-			log.Panic("rideSevenHandler: Scan Error", err)
-		}
-		ps = append(ps, Ride{ID: id, Link: link, Name: name, Date: date, Distance: distance, Time: time, AvgSpeed: avgSpeed, Route: route})
-	}
-
-	if err := t.ExecuteTemplate(w, "rides.html", ps); err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
-}
-
-//
-// Ride Eight Page
-//
-func rideEightHandler(w http.ResponseWriter, r *http.Request) {
-	t := template.Must(template.ParseFiles("templates/rides.html"))
-	sql := `SELECT * FROM rides_table WHERE id=$1`
-
-	row1, err := DB.Query(sql, 8)
-
-	if err != nil {
-		log.Panic("rideEightHandler: Query Error", err)
-	}
-
-	defer row1.Close()
-
-	var id int
-	var link string
-	var name string
-	var date string
-	var distance string
-	var time string
-	var avgSpeed string
-	var route string
-
-	var ps []Ride
-	for row1.Next() {
-		err := row1.Scan(&id, &link, &name, &date, &distance, &time, &avgSpeed, &route)
-		if err != nil {
-			log.Panic("rideEightHandler: Scan Error", err)
-		}
-		ps = append(ps, Ride{ID: id, Link: link, Name: name, Date: date, Distance: distance, Time: time, AvgSpeed: avgSpeed, Route: route})
-	}
-
-	if err := t.ExecuteTemplate(w, "rides.html", ps); err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
-}
-
-//
-// Ride Nine Page
-//
-func rideNineHandler(w http.ResponseWriter, r *http.Request) {
-	t := template.Must(template.ParseFiles("templates/rides.html"))
-	sql := `SELECT * FROM rides_table WHERE id=$1`
-
-	row1, err := DB.Query(sql, 9)
-
-	if err != nil {
-		log.Panic("rideNineHandler: Query Error", err)
-	}
-
-	defer row1.Close()
-
-	var id int
-	var link string
-	var name string
-	var date string
-	var distance string
-	var time string
-	var avgSpeed string
-	var route string
-
-	var ps []Ride
-	for row1.Next() {
-		err := row1.Scan(&id, &link, &name, &date, &distance, &time, &avgSpeed, &route)
-		if err != nil {
-			log.Panic("rideNineHandler: Scan Error", err)
-		}
-		ps = append(ps, Ride{ID: id, Link: link, Name: name, Date: date, Distance: distance, Time: time, AvgSpeed: avgSpeed, Route: route})
-	}
-
-	if err := t.ExecuteTemplate(w, "rides.html", ps); err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
-}
-
-//
-// Ride Ten Page
-//
-func rideTenHandler(w http.ResponseWriter, r *http.Request) {
-	t := template.Must(template.ParseFiles("templates/rides.html"))
-	sql := `SELECT * FROM rides_table WHERE id=$1`
-
-	row1, err := DB.Query(sql, 10)
-
-	if err != nil {
-		log.Panic("rideTenHandler: Query Error", err)
-	}
-
-	defer row1.Close()
-
-	var id int
-	var link string
-	var name string
-	var date string
-	var distance string
-	var time string
-	var avgSpeed string
-	var route string
-
-	var ps []Ride
-	for row1.Next() {
-		err := row1.Scan(&id, &link, &name, &date, &distance, &time, &avgSpeed, &route)
-		if err != nil {
-			log.Panic("rideTenHandler: Scan Error", err)
-		}
-		ps = append(ps, Ride{ID: id, Link: link, Name: name, Date: date, Distance: distance, Time: time, AvgSpeed: avgSpeed, Route: route})
-	}
-
-	if err := t.ExecuteTemplate(w, "rides.html", ps); err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-	}
-}
-
-// uses const above to add in the connection values for the datatbase
-// and then open a connection to the database
 func dbConnect() {
-	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
-		"password=%s dbname=%s sslmode=disable",
-		host, port, user, password, dbname)
+	err := godotenv.Load(".env_app")
+	if err != nil {
+		log.Fatal("Error loading .envdb file")
+	}
+	postgresHost := os.Getenv("POSTGRES_HOSTNAME")
+	postgresPort := 5432
+	postgresUser := os.Getenv("POSTGRES_USER")
+	postgresPassword := os.Getenv("POSTGRES_PASSWORD")
+	postgresName := os.Getenv("POSTGRES_DB")
+
+	env := ENV{Host: postgresHost, Port: postgresPort, User: postgresUser, Password: postgresPassword, Dbname: postgresName}
+
+	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", env.Host, env.Port, env.User, env.Password, env.Dbname)
 	db, err := sql.Open("postgres", psqlInfo)
 	if err != nil {
 		log.Panic("DbConnect: unable to connect to database", err)
@@ -498,16 +188,16 @@ func main() {
 			http.FileServer(http.Dir("static"))))
 	http.HandleFunc("/home", homeHandler)
 	http.HandleFunc("/activities", activitiesHandler)
-	http.HandleFunc("/activities/rideOne", ridesOneHandler)
-	http.HandleFunc("/activities/rideTwo", ridesTwoHandler)
-	http.HandleFunc("/activities/rideThree", rideThreeHandler)
-	http.HandleFunc("/activities/rideFour", rideFourHandler)
-	http.HandleFunc("/activities/rideFive", rideFiveHandler)
-	http.HandleFunc("/activities/rideSix", rideSixHandler)
-	http.HandleFunc("/activities/rideSeven", rideSevenHandler)
-	http.HandleFunc("/activities/ridEight", rideEightHandler)
-	http.HandleFunc("/activities/rideNine", rideNineHandler)
-	http.HandleFunc("/activities/rideTen", rideTenHandler)
+	http.HandleFunc("/activities/rideOne", idone.rideHandler)
+	http.HandleFunc("/activities/rideTwo", idtwo.rideHandler)
+	http.HandleFunc("/activities/rideThree", idthree.rideHandler)
+	http.HandleFunc("/activities/rideFour", idfour.rideHandler)
+	http.HandleFunc("/activities/rideFive", idfive.rideHandler)
+	http.HandleFunc("/activities/rideSix", idsix.rideHandler)
+	http.HandleFunc("/activities/rideSeven", idseven.rideHandler)
+	http.HandleFunc("/activities/ridEight", ideight.rideHandler)
+	http.HandleFunc("/activities/rideNine", idnine.rideHandler)
+	http.HandleFunc("/activities/rideTen", idten.rideHandler)
 	fmt.Println("Listening")
 	fmt.Println(http.ListenAndServe(":8080", nil))
 }
