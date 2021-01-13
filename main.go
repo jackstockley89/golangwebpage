@@ -10,11 +10,10 @@ import (
 	"time"
 
 	"github.com/joho/godotenv"
-	_ "github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 )
 
-// ENV struct values
+// ENV struct values used for Database Connection Handler function
 type ENV struct {
 	Host     string
 	Port     int
@@ -23,7 +22,7 @@ type ENV struct {
 	Dbname   string
 }
 
-// Ride table query list
+// Ride table query list used by Activites and Ride Handler functions
 type Ride struct {
 	ID       int
 	Link     string
@@ -41,17 +40,12 @@ type Welcome struct {
 	Time string
 }
 
-// Active sets activites page data types
-type Active struct {
-	Title string
-}
-
-// IDHandler set sql query for ride pages
+// IDHandler set sql query for RideHandler function
 type IDHandler struct {
 	ID int
 }
 
-// DB variable used by query function to connect to the database
+// DB variable set in the main function to set the parameters used by query in RideHandler function to return correct data
 var (
 	DB      *sql.DB
 	idone   = &IDHandler{ID: 1}
@@ -66,10 +60,8 @@ var (
 	idten   = &IDHandler{ID: 10}
 )
 
-//
-// Home Page
-//
-func homeHandler(w http.ResponseWriter, r *http.Request) {
+// HomeHandler Page
+func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	welcome := Welcome{"to Cycling Blog", time.Now().Format(time.Stamp)}
 	t := template.Must(template.ParseFiles("templates/home.html"))
 
@@ -78,10 +70,8 @@ func homeHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-//
-// Activities Page
-//
-func activitiesHandler(w http.ResponseWriter, r *http.Request) {
+// ActivitiesHandler Page
+func ActivitiesHandler(w http.ResponseWriter, r *http.Request) {
 	t := template.Must(template.ParseFiles("templates/activities.html"))
 	sql := `SELECT * FROM rides_table`
 
@@ -116,10 +106,8 @@ func activitiesHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-//
-// Ride Page
-//
-func (p *IDHandler) rideHandler(w http.ResponseWriter, r *http.Request) {
+// RideHandler Page
+func (p *IDHandler) RideHandler(w http.ResponseWriter, r *http.Request) {
 	t := template.Must(template.ParseFiles("templates/rides.html"))
 	sql := "SELECT * FROM rides_table WHERE id=$1 "
 	id := fmt.Sprintf("%d", p.ID)
@@ -150,16 +138,15 @@ func (p *IDHandler) rideHandler(w http.ResponseWriter, r *http.Request) {
 		ps = append(ps, Ride{ID: idRef, Link: link, Name: name, Date: date, Distance: distance, Time: time, AvgSpeed: avgSpeed, Route: route})
 	}
 
+	fmt.Println(ps)
+
 	if err := t.ExecuteTemplate(w, "rides.html", ps); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 }
 
-//
-// database connect
-// uses variable to load values from .env file and then pass them in connection parameters via a struct
-//
-func dbConnect() {
+// DbConnect uses variable to load values from .env file and then pass them in connection parameters via a struct
+func DbConnect() {
 	err := godotenv.Load(".env_app")
 	if err != nil {
 		log.Fatal("Error loading .envdb file")
@@ -181,23 +168,24 @@ func dbConnect() {
 	fmt.Println("Successfully connected!")
 }
 
+// Main
 func main() {
-	dbConnect()
+	DbConnect()
 	http.Handle("/static/",
 		http.StripPrefix("/static/",
 			http.FileServer(http.Dir("static"))))
-	http.HandleFunc("/home", homeHandler)
-	http.HandleFunc("/activities", activitiesHandler)
-	http.HandleFunc("/activities/rideOne", idone.rideHandler)
-	http.HandleFunc("/activities/rideTwo", idtwo.rideHandler)
-	http.HandleFunc("/activities/rideThree", idthree.rideHandler)
-	http.HandleFunc("/activities/rideFour", idfour.rideHandler)
-	http.HandleFunc("/activities/rideFive", idfive.rideHandler)
-	http.HandleFunc("/activities/rideSix", idsix.rideHandler)
-	http.HandleFunc("/activities/rideSeven", idseven.rideHandler)
-	http.HandleFunc("/activities/ridEight", ideight.rideHandler)
-	http.HandleFunc("/activities/rideNine", idnine.rideHandler)
-	http.HandleFunc("/activities/rideTen", idten.rideHandler)
+	http.HandleFunc("/home", HomeHandler)
+	http.HandleFunc("/activities", ActivitiesHandler)
+	http.HandleFunc("/activities/rideOne", idone.RideHandler)
+	http.HandleFunc("/activities/rideTwo", idtwo.RideHandler)
+	http.HandleFunc("/activities/rideThree", idthree.RideHandler)
+	http.HandleFunc("/activities/rideFour", idfour.RideHandler)
+	http.HandleFunc("/activities/rideFive", idfive.RideHandler)
+	http.HandleFunc("/activities/rideSix", idsix.RideHandler)
+	http.HandleFunc("/activities/rideSeven", idseven.RideHandler)
+	http.HandleFunc("/activities/ridEight", ideight.RideHandler)
+	http.HandleFunc("/activities/rideNine", idnine.RideHandler)
+	http.HandleFunc("/activities/rideTen", idten.RideHandler)
 	fmt.Println("Listening")
 	fmt.Println(http.ListenAndServe(":8080", nil))
 }
