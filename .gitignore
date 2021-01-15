@@ -16,3 +16,5 @@
 # vendor/
 *.DS_Store
 *.png
+*postgres.go
+*postgres_test.go
