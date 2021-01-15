@@ -1,13 +1,14 @@
 package repository
 
+//Repository interface
 type Repository interface {
 	Close()
-	FinAll()
-	FindByID()
+	FindByID(id string) (*Ride, error)
 }
 
+//Ride struct
 type Ride struct {
-	ID       int
+	ID       string
 	Link     string
 	Name     string
 	Date     string
