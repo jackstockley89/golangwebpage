@@ -38,16 +38,16 @@ func TestFindByID(t *testing.T) {
 		repo.Close()
 	}()
 
-	sql := "SELECT id, link, name, date, distance, time, avgspeed, route FROM rides_table WHERE id = ?"
+	sql := "SELECT id, link, name, date, distance, time, avgspeed, route FROM rides_table WHERE id = \\$1"
 
 	rows := sqlmock.NewRows([]string{"id", "link", "name", "date", "distance", "time", "avgspeed", "route"}).
 		AddRow(u.ID, u.Link, u.Name, u.Date, u.Distance, u.Time, u.AvgSpeed, u.Route)
 
 	mock.ExpectQuery(sql).WithArgs(u.ID).WillReturnRows(rows)
 
-	user, err := repo.FindByID(u.ID)
-	assert.NotNil(t, user)
-	assert.NotError(t, err)
+	ride, err := repo.FindByID(u.ID)
+	assert.NotNil(t, ride)
+	assert.NoError(t, err)
 }
 
 func TestFindByIDError(t *testing.T) {
@@ -57,13 +57,13 @@ func TestFindByIDError(t *testing.T) {
 		repo.Close()
 	}()
 
-	sql := "SELECT * FROM rides_table WHERE id=$1 "
+	sql := "SELECT id, link, name, date, distance, time, avgspeed, route FROM rides_table WHERE id = \\$1"
 
 	rows := sqlmock.NewRows([]string{"id", "link", "name", "date", "distance", "time", "avgspeed", "route"})
 
 	mock.ExpectQuery(sql).WithArgs(u.ID).WillReturnRows(rows)
 
-	user, err := repo.FindByID(u.ID)
-	assert.Empty(t, user)
+	ride, err := repo.FindByID(u.ID)
+	assert.Empty(t, ride)
 	assert.Error(t, err)
 }

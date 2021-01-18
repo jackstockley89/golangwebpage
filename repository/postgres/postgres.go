@@ -38,7 +38,7 @@ func (r *repository) Close() {
 
 func (r *repository) FindByID(id string) (*repo.Ride, error) {
 	ride := new(repo.Ride)
-	sql := "SELECT id, link, name, date, distance, time, avgspeed, route FROM rides_table WHERE id = ?"
+	sql := "SELECT id, link, name, date, distance, time, avgspeed, route FROM rides_table WHERE id = $1"
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
