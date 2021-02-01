@@ -5,7 +5,7 @@ import (
 	"database/sql"
 	"time"
 
-	repo "github.com/jackstockley89/golangwebpage/internal"
+	repo "github.com/jackstockley89/golangwebpage/repository"
 )
 
 // repository represent the repository model
