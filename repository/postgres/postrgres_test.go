@@ -7,7 +7,7 @@ import (
 
 	"github.com/DATA-DOG/go-sqlmock"
 	"github.com/google/uuid"
-	r "github.com/jackstockley89/golangwebpage/repository"
+	r "github.com/jackstockley89/golangwebpage/internal"
 	"github.com/stretchr/testify/assert"
 )
 
