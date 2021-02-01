@@ -8,7 +8,7 @@ type Repository interface {
 
 //Ride struct
 type Ride struct {
-	ID       int
+	ID       string
 	Link     string
 	Name     string
 	Date     string
