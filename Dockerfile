@@ -1,4 +1,4 @@
-FROM golang:1.14.3-alpine3.11
+FROM golang:1.15.7-alpine3.13
 
 RUN apk add git
 RUN apk add postgresql-client
