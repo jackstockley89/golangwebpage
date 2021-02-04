@@ -30,8 +30,8 @@ func TestRideHandler(t *testing.T) {
 	var avgSpeed string = "15"
 	var route string = "Test Route"
 
-	ps := Ride{ID: idRef, Link: link, Name: name, Date: date, Distance: distance, Time: time, AvgSpeed: avgSpeed, Route: route}
-	result := Ride{ID: 99, Link: "Test Link", Name: "Test Name", Date: "01/01/2021", Distance: "100", Time: "05:00:00", AvgSpeed: "15", Route: "Test Route"}
+	ps := TestRide{ID: idRef, Link: link, Name: name, Date: date, Distance: distance, Time: time, AvgSpeed: avgSpeed, Route: route}
+	result := TestRide{ID: 99, Link: "Test Link", Name: "Test Name", Date: "01/01/2021", Distance: "100", Time: "05:00:00", AvgSpeed: "15", Route: "Test Route"}
 
 	psJSON, err := json.Marshal(ps)
 	if err != nil {
