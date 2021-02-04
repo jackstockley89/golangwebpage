@@ -5,15 +5,16 @@
 ![GitHub pull-requests closed](https://img.shields.io/github/issues-pr-closed/jackstockley89/golangwebpage?style=for-the-badge)
 ![GitHub last-commit](https://img.shields.io/github/last-commit/jackstockley89/golangwebpage?style=for-the-badge)
 ![GitHub contributors](https://img.shields.io/github/contributors/jackstockley89/golangwebpage?style=for-the-badge)
-
+![Github action docker image](https://img.shields.io/github/workflow/status/jackstockley89/golangwebpage/docker%20images)
+![Github action issues](https://img.shields.io/github/workflow/status/jackstockley89/golangwebpage/Move%20new%20issues%20into%20cycling-blog%20project)
 <br/>
 
  <h2 align="left" style="font-family: 'Lucida Sans', Arial, sans-serif"><b>Prerequisite</b></h2>
 
 ---
 &nbsp;&nbsp;&nbsp;&nbsp;
-![GO](https://img.shields.io/badge/GO-v1.14.3-blue)
-![Docker](https://img.shields.io/badge/Docker-v19.03.8-blue)
+![GO](https://img.shields.io/github/go-mod/go-version/jackstockley89/golangwebpage)
+![Docker](https://img.shields.io/badge/Docker-v20.10.2-blue)
 
 <br/>
 
