@@ -5,6 +5,11 @@
 ![GitHub pull-requests closed](https://img.shields.io/github/issues-pr-closed/jackstockley89/golangwebpage?style=for-the-badge)
 ![GitHub last-commit](https://img.shields.io/github/last-commit/jackstockley89/golangwebpage?style=for-the-badge)
 ![GitHub contributors](https://img.shields.io/github/contributors/jackstockley89/golangwebpage?style=for-the-badge)
+<br/>
+
+<h2 align="left" style="font-family: 'Lucida Sans', Arial, sans-serif"><b>Actions</b></h2>
+
+&nbsp;&nbsp;
 ![Github action docker image](https://img.shields.io/github/workflow/status/jackstockley89/golangwebpage/docker%20images?style=for-the-badge)
 ![Github action issues](https://img.shields.io/github/workflow/status/jackstockley89/golangwebpage/Go%20Test?style=for-the-badge)
 <br/>
