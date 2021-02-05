@@ -9,12 +9,8 @@
 
 <h2 align="left" style="font-family: 'Lucida Sans', Arial, sans-serif"><b>Actions</b></h2>
 
-<p>Docker Image: </p>
 &nbsp;&nbsp;
 ![Github action docker image](https://img.shields.io/github/workflow/status/jackstockley89/golangwebpage/docker%20images?style=for-the-badge)
-<br/>
-<p>Go Test: </p>
-&nbsp;&nbsp;
 ![Github action Go Test](https://img.shields.io/github/workflow/status/jackstockley89/golangwebpage/Go%20Test?style=for-the-badge)
 <br/>
 
