@@ -37,10 +37,10 @@ body  {
 }
 
 img {
-  max-width: 650px;
+  max-width: 850px;
   max-height: 650px;
-  height: 650px;
-  width: 650px;
+  height: 50%;
+  width: 60%;
 }
 
 .grid-container {
