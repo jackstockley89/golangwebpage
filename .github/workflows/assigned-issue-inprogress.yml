@@ -12,4 +12,4 @@ jobs:
         with:
           project: To do
           column: In Progress
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          repo-token: ${{ secrets.ACTION_TOKEN }}
