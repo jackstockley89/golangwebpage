@@ -10,6 +10,6 @@ jobs:
     steps:
       - uses: alex-page/github-project-automation-plus@v0.3.0
         with:
-          project: To do
+          project: cycling-blog project
           column: In Progress
           repo-token: ${{ secrets.ACTION_TOKEN }}
