@@ -12,6 +12,10 @@ RUN addgroup -g 1000 -S appgroup && \
 WORKDIR /app
 
 COPY . . 
+
+COPY .pgpass /home/appuser/
+RUN chown appuser:appgroup /home/appuser/.pgpass
+RUN chmod 0600 /home/appuser/.pgpass
  
 RUN chown -R appuser:appgroup /app
 RUN chown -R appuser:appgroup /go
