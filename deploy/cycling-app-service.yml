@@ -1,0 +1,28 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: cycling-blog-app-service
+  namespace: golang-app
+spec:
+  selector:
+    app: cycling-blog-app
+  ports:
+  - protocol: TCP
+    port: 8080
+    targetPort: 8080
+---
+kind: Service
+apiVersion: v1
+metadata:
+ name: cycling-blog-db-service
+ namespace: golang-app
+spec:
+  selector:
+    app: cycling-blog-db
+  type: ClusterIP
+  ports:
+  - protocol: TCP
+    port: 5432
+    targetPort: 5432
+
+      

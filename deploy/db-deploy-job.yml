@@ -1,0 +1,17 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  metadata:
+  name: cycling-blog-db
+  namespace: golang-app
+  labels: 
+    app: cycling-blog-db
+spec:
+  template:
+    spec:
+      containers:
+      - name: cycling-blog-db
+        image: jackstock8904/cycling-blog:1.2.1
+        command: ["/usr/bin/psql"]
+        args: ["-h", "cycling-blog-db-service", -U", "demouser", "-d", "cyclingblog", "-p", "5432", "-a", "-f", "sql/create_table.sql" ]
+      restartPolicy: Never
