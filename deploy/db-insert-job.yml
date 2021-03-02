@@ -1,0 +1,21 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  metadata:
+  name: cycling-blog-app-insert
+  namespace: golang-app
+  labels: 
+    app: cycling-blog-app
+spec:
+  template:
+    spec:
+      containers:
+      - name: cycling-blog-app
+        image: jackstock8904/cycling-blog:1.2.3
+        command: ["psql"]
+        args: ["-h", "cycling-blog-db-service", "-U", "demouser", "-d", "cyclingblog", "-w", "-a", "-f", "sql/table_insert.sql"]
+        #command: ["top"]
+        env:
+        - name: PGPASSFILE
+          value: '/home/appuser/.pgpass'
+      restartPolicy: Never

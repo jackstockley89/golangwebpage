@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: cycling-blog-app
-        image: jackstock8904/cycling-blog:latest
+        image: jackstock8904/cycling-blog:1.2.3
         resources:
           requests:
             memory: "64Mi"
