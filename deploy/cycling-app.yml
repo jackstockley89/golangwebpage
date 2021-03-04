@@ -29,12 +29,6 @@ spec:
         - containerPort: 8080
           protocol: TCP
         env:
-        - name: POSTGRES_USER
-          value: demouser
-        - name: POSTGRES_PASSWORD
-          value: P455w0rd
-        - name: POSTGRES_DB
-          value: cyclingblog
-        - name: HOSTNAME
-          value: cycling-blog-db
+        - name: PGPASSFILE
+          value: '/home/appuser/.pgpass'
           
