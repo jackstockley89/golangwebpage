@@ -183,7 +183,7 @@ func main() {
 	http.HandleFunc("/activities/rideFive", idfive.RideHandler)
 	http.HandleFunc("/activities/rideSix", idsix.RideHandler)
 	http.HandleFunc("/activities/rideSeven", idseven.RideHandler)
-	http.HandleFunc("/activities/ridEight", ideight.RideHandler)
+	http.HandleFunc("/activities/rideEight", ideight.RideHandler)
 	http.HandleFunc("/activities/rideNine", idnine.RideHandler)
 	http.HandleFunc("/activities/rideTen", idten.RideHandler)
 	fmt.Println("Listening")

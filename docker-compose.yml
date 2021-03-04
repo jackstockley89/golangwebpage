@@ -6,7 +6,7 @@ services:
   # Database Server
   db:
     image: postgres:13-alpine
-    container_name: cyclingblog-db
+    container_name: cycling-blog-db
     env_file: .env_db
     ports:
       - "5432:5432"
@@ -21,7 +21,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: cyclingblog-app
+    container_name: cycling-blog-app
     env_file: .env_app
     ports:
       - "8080:8080"
