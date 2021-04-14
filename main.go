@@ -40,7 +40,7 @@ type Welcome struct {
 	Time string
 }
 
-// IDHandler set sql query for RideHandler function
+// IDHandler set sql query for RideHandler function this is set by the variable below
 type IDHandler struct {
 	ID int
 }
@@ -60,7 +60,7 @@ var (
 	idten   = &IDHandler{ID: 10}
 )
 
-// HomeHandler Page
+// HomeHandler Page uses the Welcome struct to post welcome message and time on page loading.
 func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	welcome := Welcome{"to Cycling Blog", time.Now().Format(time.Stamp)}
 	t := template.Must(template.ParseFiles("templates/home.html"))
@@ -70,7 +70,9 @@ func HomeHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// ActivitiesHandler Page
+// ActivitiesHandler Page uses the DbConnect function to connect to the backend database
+// Once connected this function will run a query against the database pushing results to a variable
+// The variables will save these results to the Ride struct
 func ActivitiesHandler(w http.ResponseWriter, r *http.Request) {
 	t := template.Must(template.ParseFiles("templates/activities.html"))
 	sql := `SELECT * FROM rides_table`
@@ -106,7 +108,10 @@ func ActivitiesHandler(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-// RideHandler Page
+// RideHandler Page Page uses the DbConnect function to connect to the backend database
+// Once connected this function will run a query against the database pushing results to a variable
+// For part of the query the ID will be pulled back from the ID struct
+// The variables will save these results to the Ride struct
 func (p *IDHandler) RideHandler(w http.ResponseWriter, r *http.Request) {
 	t := template.Must(template.ParseFiles("templates/rides.html"))
 	sql := "SELECT * FROM rides_table WHERE id=$1 "
