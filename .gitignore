@@ -16,3 +16,7 @@
 # vendor/
 *.DS_Store
 *.png
+
+#terraform
+*.terraform*
+infra/EKS/.terraform.lock.hcl
