@@ -6,8 +6,7 @@ module "eks" {
 
   tags = {
     Environment = "training"
-    GithubRepo  = "terraform-aws-eks"
-    GithubOrg   = "terraform-aws-modules"
+    GithubRepo  = "golangwebpage"
   }
 
   vpc_id = module.vpc.vpc_id

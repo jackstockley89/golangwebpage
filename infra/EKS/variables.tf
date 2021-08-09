@@ -19,3 +19,15 @@ variable "namespace" {
   description = "Name of namespace"
   default     = "golang-app"
 }
+
+variable "db_username" {
+  type        = string
+  description = "Database Master Username"
+  default     = "demouser"
+}
+
+variable "db_password" {
+  type        = string
+  description = "Database Master Password"
+  default     = "P455w0rd"
+}
