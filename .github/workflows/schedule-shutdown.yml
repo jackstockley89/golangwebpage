@@ -15,7 +15,7 @@ defaults:
     shell: bash
 
 jobs:
-  terraform-destory:
+  terraform-destroy:
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/master'
     steps:
@@ -25,10 +25,10 @@ jobs:
           terraform_version: 1.0.1
           terraform_wrapper: false
     
-      - name: Run Terrafom Destory in infra/EKS
+      - name: Run Terrafom destroy in infra/EKS
         run: | 
           git_dir=`git rev-parse --show-toplevel`
           #CONFIGURE TERRAFORM AND WORKSPACE
           bash infra/scripts/terraform-init.bash infra/EKS
           terraform -chdir="infra/EKS" workspace select sandbox
-          bash infra/scripts/terraform-destory.bash infra/EKS
+          bash infra/scripts/terraform-destroy.bash infra/EKS
