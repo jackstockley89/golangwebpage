@@ -31,7 +31,7 @@ jobs:
           #CONFIGURE TERRAFORM AND WORKSPACE
           bash infra/scripts/terraform-init.bash infra/EKS
           terraform -chdir="infra/EKS" workspace select sandbox
-          bash infra/scripts/terraform-plan.sh infra/EKS
+          bash infra/scripts/terraform-plan.bash infra/EKS
   
   terraform-apply:
     runs-on: ubuntu-latest
