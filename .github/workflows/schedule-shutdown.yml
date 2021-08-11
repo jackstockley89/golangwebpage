@@ -1,4 +1,4 @@
-name: Publish Docker image
+name: Shutdown EKS Sandbox
 on:
   schedule:
     # * is a special character in YAML so you have to quote this string
