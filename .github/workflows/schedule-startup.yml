@@ -49,3 +49,20 @@ jobs:
           bash infra/scripts/terraform-init.bash infra/EKS
           terraform -chdir="infra/EKS" workspace select sandbox
           bash infra/scripts/terraform-apply.bash infra/EKS
+      - uses: 8398a7/action-slack@v3
+        name: Slack Complete notification
+        with:
+          status: ${{ job.status }}
+          fields: workflow,job,repo
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: ${{ success() }}
+      - uses: 8398a7/action-slack@v3
+        name: Slack Complete notification
+        with:
+          status: ${{ job.status }}
+          fields: workflow,job,repo
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: ${{ failure() }}
+        
