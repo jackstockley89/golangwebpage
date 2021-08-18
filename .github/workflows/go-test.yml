@@ -1,13 +1,10 @@
 on:
-  pull_request:
-    branches:
-    - '**'
   push:
-    paths-ignore:
-      - '.github/**'
-      - 'deploy/**'
-      - 'infra/**'
-      - 'workflow/**'
+    paths:
+      - '!.github/**'
+      - '!deploy/**'
+      - '!infra/**'
+      - '!workflow/**'
 
 name: Go Test
 jobs:
