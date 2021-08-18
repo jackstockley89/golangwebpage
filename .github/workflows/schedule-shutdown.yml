@@ -33,7 +33,7 @@ jobs:
           terraform -chdir="infra/EKS" workspace select sandbox
           bash infra/scripts/terraform-destroy.bash infra/EKS
       - uses: 8398a7/action-slack@v3
-        name: Slack Complete notification
+        name: Slack Success notification
         with:
           status: ${{ job.status }}
           fields: workflow,job,repo
@@ -41,7 +41,7 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         if: ${{ success() }}
       - uses: 8398a7/action-slack@v3
-        name: Slack Complete notification
+        name: Slack Failure notification
         with:
           status: ${{ job.status }}
           fields: workflow,job,repo

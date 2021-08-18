@@ -14,29 +14,9 @@ defaults:
   run:
     shell: bash
 
-jobs:
-  terraform-plan:
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/master'
-    steps:
-      - uses: actions/checkout@v2.3.4
-      - uses: hashicorp/setup-terraform@v1.3.2
-        with:
-          terraform_version: 1.0.1
-          terraform_wrapper: false
-    
-      - name: Run Terrafom Plan in infra/EKS
-        run: | 
-          git_dir=`git rev-parse --show-toplevel`
-          #CONFIGURE TERRAFORM AND WORKSPACE
-          pwd
-          bash infra/scripts/terraform-init.bash infra/EKS
-          terraform -chdir="infra/EKS" workspace select sandbox
-          bash infra/scripts/terraform-plan.bash infra/EKS
-  
+jobs:  
   terraform-apply:
     runs-on: ubuntu-latest
-    needs: [terraform-plan]
     steps:
       - uses: actions/checkout@v2.3.4
       - uses: hashicorp/setup-terraform@v1.3.2
@@ -50,7 +30,7 @@ jobs:
           terraform -chdir="infra/EKS" workspace select sandbox
           bash infra/scripts/terraform-apply.bash infra/EKS
       - uses: 8398a7/action-slack@v3
-        name: Slack Complete notification
+        name: Slack Success notification
         with:
           status: ${{ job.status }}
           fields: workflow,job,repo
@@ -58,7 +38,7 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         if: ${{ success() }}
       - uses: 8398a7/action-slack@v3
-        name: Slack Complete notification
+        name: Slack Failture notification
         with:
           status: ${{ job.status }}
           fields: workflow,job,repo
