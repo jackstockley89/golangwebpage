@@ -2,7 +2,7 @@ name: Startup EKS Sandbox
 on:
   schedule:
      # * is a special character in YAML so you have to quote this string
-     - cron:  '00 08 * * 3'
+     - cron:  '30 06 * * 3'
   workflow_dispatch:
 
 env:
