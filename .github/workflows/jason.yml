@@ -1,6 +1,6 @@
 name: Startup EKS Sandbox
 on:
-  pull_request
+  push
 
 jobs:  
   terraform-apply:
