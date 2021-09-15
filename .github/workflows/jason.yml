@@ -1,6 +1,6 @@
 name: Startup EKS Sandbox
 on:
-  push
+  pull_request
 
 jobs:
   rbac-permissions-check:
