@@ -15,5 +15,5 @@ jobs:
         uses: actions/checkout@master
 
       - name: Output all changes to a file
-          run: |
-            printenv
+        run: |
+          env
