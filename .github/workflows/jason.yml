@@ -1,0 +1,9 @@
+name: Startup EKS Sandbox
+on:
+  pull_request
+
+jobs:  
+  terraform-apply:
+    - name: envvars
+      run: |
+        printenv
