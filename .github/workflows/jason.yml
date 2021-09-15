@@ -14,6 +14,6 @@ jobs:
       - name: Checkout PR code
         uses: actions/checkout@master
 
-     - name: Output all changes to a file
-        run: |
-          printenv
+      - name: Output all changes to a file
+          run: |
+            printenv
