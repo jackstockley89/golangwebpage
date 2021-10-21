@@ -12,6 +12,8 @@
 &nbsp;&nbsp;
 ![Github action docker image](https://img.shields.io/github/workflow/status/jackstockley89/golangwebpage/docker%20images?label=Docker%20Image&style=for-the-badge)
 ![Github action Go Test](https://img.shields.io/github/workflow/status/jackstockley89/golangwebpage/Go%20Test?label=Go%20Test&style=for-the-badge)
+![Github action Startup EKS Sandbox](https://img.shields.io/github/workflow/status/jackstockley89/golangwebpage/Startup%20EKS%20Sandbox?label=Startup%20EKS&style=for-the-badge)
+![Github action Shutdown EKS Sandbox](https://img.shields.io/github/workflow/status/jackstockley89/golangwebpage/Shutdown%20EKS%20Sandbox?label=Shutdown%20EKS&style=for-the-badge)
 <br/>
 
  <h2 align="left" style="font-family: 'Lucida Sans', Arial, sans-serif"><b>Prerequisite</b></h2>
