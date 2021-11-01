@@ -8,7 +8,7 @@ env:
   GITHUB_OAUTH_TOKEN: ${{ secrets.AUTH_CHECK_GITHUB }}
 
 jobs:
-  ckeck-pr-user:
+  check-pr-user:
     runs-on: ${{ matrix.os }}
 
     outputs:
@@ -23,7 +23,8 @@ jobs:
         uses: actions/checkout@v2
       - name: Check PR user 
         id: approve_colab_user
-        uses: jackstockley89/github-actions/auth-check@v1.0.0
+        uses: jackstockley89/github-actions/auth-check@v1.0.2
+        run: echo "::set-output name=author::$(git show -s --format=%an)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
