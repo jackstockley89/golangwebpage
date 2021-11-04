@@ -11,9 +11,6 @@ jobs:
   check-pr-user:
     runs-on: ${{ matrix.os }}
 
-    outputs:
-      output1: ${{ steps.approve_colab_user.outputs }}
-
     strategy:
       matrix:
         os: [ubuntu-latest]
@@ -21,35 +18,38 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Check PR user 
-        id: approve_colab_user
-        uses: jackstockley89/github-actions/auth-check@v1.0.2
-        run: echo "::set-output name=author::$(git show -s --format=%an)
+
+      - id: approve_colab_user
+        name: Check PR user 
+        uses: jackstockley89/github-actions/auth-check@main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Output
+        run: echo ${{ steps.approve_colab_user.outputs.approve_colab_user }}
+
       - name: Comment on PR if true
         uses: actions/github-script@v5
-        if: needs.approve_colab_user.outputs.output1 == 'true'
+        if: steps.approve_colab_user.outputs.approve_colab_user == 'true'
         with:
-          github_token: "${{ secrets.GITHUB_TOKEN }}"
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
           script: |
-            github.rest.pulls.createReviewComment({
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              pull_number: context.repo.pull.number,
               body: 'This is a known Colaborator. Please Review this PR.'
             });
 
       - name: Comment on PR if false
         uses: actions/github-script@v5
-        if: needs.approve_colab_user.outputs.output1 == 'false'
+        if: steps.approve_colab_user.outputs.approve_colab_user == 'false'
         with:
-          github_token: "${{ secrets.GITHUB_TOKEN }}"
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
           script: |
-            github.rest.pulls.createReviewComment({
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              pull_number: context.repo.pull.number,
               body: 'This isn't a known Colaborator. Please do not approve this PR.'
             });
