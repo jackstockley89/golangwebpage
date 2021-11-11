@@ -1,0 +1,55 @@
+name: Pull Request Authentication Check
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+env:
+  GITHUB_OAUTH_TOKEN: ${{ secrets.AUTH_CHECK_GITHUB }}
+
+jobs:
+  check-pr-user:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - id: approve_colab_user
+        name: Check PR user 
+        uses: jackstockley89/github-actions/auth-check@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Output
+        run: echo ${{ steps.approve_colab_user.outputs.approve_colab_user }}
+
+      - name: Comment on PR if true
+        uses: actions/github-script@v5
+        if: steps.approve_colab_user.outputs.approve_colab_user == 'true'
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: 'This is a known Colaborator. Please Review this PR.'
+            });
+
+      - name: Comment on PR if false
+        uses: actions/github-script@v5
+        if: steps.approve_colab_user.outputs.approve_colab_user == 'false'
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: 'This isn't a known Colaborator. Please do not approve this PR.'
+            });
