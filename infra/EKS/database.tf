@@ -16,8 +16,8 @@ resource "aws_db_instance" "cycling-db" {
   vpc_security_group_ids = [
     aws_security_group.cycling_db.id
   ]
-  db_subnet_group_name    = ""
-  option_group_name       = ""
+  db_subnet_group_name    = "cycling-blog-db-sgn"
+  option_group_name       = "cycling-blog-db-ogn"
 
   timeouts {
     create = "40m"
@@ -38,20 +38,20 @@ resource "aws_db_subnet_group" "cycling_db" {
   ]
   tags = {
     Environment = "training"
-    GithubRepo  = "golangwebpahe"
+    GithubRepo  = "golangwebpage"
   }
 }
 
 resource "aws_security_group" "cycling_db" {
   name        = "cycling-db-secrity-group"
   description = "Allow DB inbound traffic"
-  vpc_id      = ""
+  vpc_id      = module.vpc.vpc_id
 
   ingress {
     from_port = 5432
     to_port   = 5432
     protocol  = "tcp"
-    cidr_blocks = ""
+    cidr_blocks = [module.vpc.vpc_cidr_block]
   }
 
   egress {
@@ -68,7 +68,7 @@ resource "aws_security_group" "cycling_db" {
 }
 
 resource "aws_db_option_group" "cycling_db" {
-  name                 = "cycling_postgres_db"
+  name                 = "cycling-postgres-db"
   engine_name          = "PostgresSQL"
   major_engine_version = "13.3-R1"
 
