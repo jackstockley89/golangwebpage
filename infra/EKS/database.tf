@@ -10,7 +10,7 @@ resource "aws_db_instance" "cycling-db" {
   username                            = var.db_username
   password                            = var.db_password
   port                                = "5432"
-  kms_key_id                          = ""
+  kms_key_id                          = data.aws_kms_alias.ebs.target_key_arn
   storage_encrypted                   = true
   iam_database_authentication_enabled = false
   vpc_security_group_ids = [
