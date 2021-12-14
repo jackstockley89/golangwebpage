@@ -16,8 +16,8 @@ resource "aws_db_instance" "cycling-db" {
   vpc_security_group_ids = [
     aws_security_group.cycling_db.id
   ]
-  db_subnet_group_name    = aws_db_subnet_group.cycling_db.id
-  option_group_name       = aws_db_option_group.cycling_db.id
+  db_subnet_group_name = aws_db_subnet_group.cycling_db.id
+  option_group_name    = aws_db_option_group.cycling_db.id
 
   timeouts {
     create = "40m"
@@ -26,13 +26,14 @@ resource "aws_db_instance" "cycling-db" {
   }
 
   tags = {
+    Name        = var.app-name
     Environment = "training"
     GithubRepo  = "golangwebpage"
   }
 }
 
 resource "aws_db_subnet_group" "cycling_db" {
-  name = "cycling-db-subnet-group"
+  name       = "cycling-db-subnet-group"
   subnet_ids = module.vpc.private_subnets
 
   tags = {
@@ -47,9 +48,9 @@ resource "aws_security_group" "cycling_db" {
   vpc_id      = module.vpc.vpc_id
 
   ingress {
-    from_port = 5432
-    to_port   = 5432
-    protocol  = "tcp"
+    from_port   = 5432
+    to_port     = 5432
+    protocol    = "tcp"
     cidr_blocks = [module.vpc.vpc_cidr_block]
   }
 
@@ -61,6 +62,7 @@ resource "aws_security_group" "cycling_db" {
   }
 
   tags = {
+    Name        = var.app-name
     Environment = "training"
     GithubRepo  = "golangwebpage"
   }
@@ -70,4 +72,10 @@ resource "aws_db_option_group" "cycling_db" {
   name                 = "cycling-db-option-group"
   engine_name          = "postgres"
   major_engine_version = "13"
+
+  tags = {
+    Name        = var.app-name
+    Environment = "training"
+    GithubRepo  = "golangwebpage"
+  }
 }

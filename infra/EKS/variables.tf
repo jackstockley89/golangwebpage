@@ -31,3 +31,9 @@ variable "db_password" {
   description = "Database Master Password"
   default     = "P455w0rd"
 }
+
+variable "app-name" {
+  type        = string
+  description = "application name"
+  default     = "jack-lnd-cycling-blog"
+}
