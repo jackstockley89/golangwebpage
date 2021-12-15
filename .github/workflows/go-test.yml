@@ -1,10 +1,8 @@
 on:
   push:
     paths:
-      - '!.github/**'
-      - '!deploy/**'
-      - '!infra/**'
-      - '!workflow/**'
+      - 'internal/**'
+  workflow_dispatch:
 
 name: Go Test
 jobs:

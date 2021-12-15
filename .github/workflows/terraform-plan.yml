@@ -1,0 +1,46 @@
+name: Startup EKS Sandbox
+on:
+  push:
+    paths:
+    - 'infra/EKS/**'
+    - '!infra/EKS/test/**'
+  workflow_dispatch:
+
+env:
+  AWS_ACCESS_KEY_ID:  ${{ secrets.AWS_ACCESS_KEY_ID }}
+  AWS_SECRET_ACCESS_KEY:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+  TF_IN_AUTOMATION: true
+
+defaults:
+  run:
+    shell: bash
+
+jobs:  
+  terraform-apply:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2.3.4
+      - uses: hashicorp/setup-terraform@v1.3.2
+        with:
+          terraform_version: 1.0.1
+          terraform_wrapper: false
+
+      - id: terraform_plan
+        name: Run Terraform apply in infra/EKS
+        run: |
+          bash infra/scripts/terraform-init.bash infra/EKS
+          terraform -chdir="infra/EKS" workspace select sandbox
+          bash infra/scripts/terraform-plan.bash infra/EKS
+
+      - id: comment_on_pr
+        name: Comment Plan on PR
+        uses: actions/github-script@v5
+        with:
+          github-token: "${{ secrets.GITHUB_TOKEN }}"
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: 'echo ${{ steps.terraform_plan.outputs.terraform_plan }}'
+            });
