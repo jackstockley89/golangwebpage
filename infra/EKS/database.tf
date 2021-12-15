@@ -3,21 +3,21 @@ resource "aws_db_instance" "cycling-db" {
   allocated_storage                   = 100
   auto_minor_version_upgrade          = true
   storage_type                        = "gp2"
-  engine                              = "PostgresSQL"
-  engine_version                      = "13.3-R1"
+  engine                              = "postgres"
+  engine_version                      = "13.4"
   instance_class                      = "db.t3.micro"
-  name                                = "cycling-db"
+  name                                = "cycling_db"
   username                            = var.db_username
   password                            = var.db_password
+  skip_final_snapshot                 = true
   port                                = "5432"
-  kms_key_id                          = data.aws_kms_alias.ebs.target_key_arn
   storage_encrypted                   = true
   iam_database_authentication_enabled = false
   vpc_security_group_ids = [
     aws_security_group.cycling_db.id
   ]
-  db_subnet_group_name    = "cycling-blog-db-sgn"
-  option_group_name       = "cycling-blog-db-ogn"
+  db_subnet_group_name    = "cycling-db-subnet-group"
+  option_group_name       = "cycling-db-option-group"
 
   timeouts {
     create = "40m"
@@ -33,9 +33,8 @@ resource "aws_db_instance" "cycling-db" {
 
 resource "aws_db_subnet_group" "cycling_db" {
   name = "cycling-db-subnet-group"
-  subnet_ids = [
-  
-  ]
+  subnet_ids = module.vpc.private_subnets
+
   tags = {
     Environment = "training"
     GithubRepo  = "golangwebpage"
@@ -68,13 +67,7 @@ resource "aws_security_group" "cycling_db" {
 }
 
 resource "aws_db_option_group" "cycling_db" {
-  name                 = "cycling-postgres-db"
-  engine_name          = "PostgresSQL"
-  major_engine_version = "13.3-R1"
-
-  option {
-    option_name = "S3_INTEGRATION"
-    port        = 0
-    version     = "1.0"
-  }
+  name                 = "cycling-db-option-group"
+  engine_name          = "postgres"
+  major_engine_version = "13"
 }
