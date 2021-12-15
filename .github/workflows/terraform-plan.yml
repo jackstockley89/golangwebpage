@@ -1,4 +1,4 @@
-name: Startup EKS Sandbox
+name: Terraform Plan
 on:
   push:
     paths:
@@ -26,7 +26,7 @@ jobs:
           terraform_wrapper: false
 
       - id: terraform_plan
-        name: Run Terraform apply in infra/EKS
+        name: Run Terraform plan in infra/EKS
         run: |
           bash infra/scripts/terraform-init.bash infra/EKS
           terraform -chdir="infra/EKS" workspace select sandbox
