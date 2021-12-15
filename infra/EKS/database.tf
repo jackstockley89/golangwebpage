@@ -16,8 +16,8 @@ resource "aws_db_instance" "cycling-db" {
   vpc_security_group_ids = [
     aws_security_group.cycling_db.id
   ]
-  db_subnet_group_name    = "cycling-db-subnet-group"
-  option_group_name       = "cycling-db-option-group"
+  db_subnet_group_name    = aws_db_subnet_group.cycling_db.id
+  option_group_name       = aws_db_option_group.cycling_db.id
 
   timeouts {
     create = "40m"
