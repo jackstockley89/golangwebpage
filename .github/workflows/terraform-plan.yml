@@ -1,6 +1,6 @@
 name: Terraform Plan
 on:
-  push:
+  pull_request:
     paths:
     - 'infra/EKS/**'
     - '!infra/EKS/test/**'
@@ -13,11 +13,12 @@ env:
 
 defaults:
   run:
-    shell: bash
+    shell: bash {0}
 
 jobs:  
-  terraform-apply:
+  terraform-plan:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v2.3.4
       - uses: hashicorp/setup-terraform@v1.3.2
@@ -25,22 +26,54 @@ jobs:
           terraform_version: 1.0.1
           terraform_wrapper: false
 
+      - id: terraform_fmt
+        name: Run Terraform fmt on infra/EKS   
+        run: terraform -chdir="infra/EKS" fmt
+      
+      - id: terraform_init
+        name: Run Terraform init on infra/EKS
+        run: terraform -chdir="infra/EKS" init
+
+      - id: terraform_workspace
+        name: Select Sandbox Workspace
+        run: terraform -chdir="infra/EKS" workspace select sandbox
+      
+      - id: terraform_validate
+        name: Run Terraform Validate on infra/EKS
+        run: terraform -chdir="infra/EKS" validate -no-color
+
       - id: terraform_plan
-        name: Run Terraform plan in infra/EKS
-        run: |
-          bash infra/scripts/terraform-init.bash infra/EKS
-          terraform -chdir="infra/EKS" workspace select sandbox
-          bash infra/scripts/terraform-plan.bash infra/EKS
+        name: Run Terraform plan on infra/EKS
+        run: terraform -chdir="infra/EKS" plan -detailed-exitcode
 
       - id: comment_on_pr
-        name: Comment Plan on PR
+        name: Comment Output onto Pull Request
+        if: always()
         uses: actions/github-script@v5
+        env:
+            PLAN: "terraform\n${{ steps.terraform_plan.outputs.stdout }}"
+            VALIDATE: "terraform\n${{ steps.terraform_validate.outputs.stdout }}"
         with:
-          github-token: "${{ secrets.GITHUB_TOKEN }}"
-          script: |
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: 'echo ${{ steps.terraform_plan.outputs.terraform_plan }}'
-            });
+            github-token: ${{ secrets.GITHUB_TOKEN }}
+            script: |
+                const output = `#### Terraform Format and Style 🖌\`${{ steps.terraform_fmt.outcome }}\`
+                #### Terraform Initialization ⚙️\`${{ steps.terraform_init.outcome }}\`
+                
+                #### Terraform Validation 🤖${{ steps.terraform_validate.outcome }}
+                <details><summary>Show Validate Output</summary>
+                \`\`\`${process.env.VALIDATE}\`\`\`
+                </details>
+
+                #### Terraform Plan 📖\`${{ steps.terraform_plan.outputs.exitcode }}\`
+                <details><summary>Show</summary>
+                \`\`\`${process.env.PLAN}\`\`\`
+                </details>
+
+                *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Working Directory: \`${{ env.tf_actions_working_dir }}\`, Workflow: \`${{ github.workflow }}\`*`;
+
+                github.rest.issues.createComment({
+                  issue_number: context.issue.number,
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  body: output
+                })
