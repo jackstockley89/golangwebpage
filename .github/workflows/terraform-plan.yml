@@ -1,24 +1,23 @@
 name: Terraform Plan infra/EKS
 on:
   pull_request:
-    types: [opened]
     paths:
     - infra/EKS/**
-
   workflow_dispatch:
 
 env:
   AWS_ACCESS_KEY_ID:  ${{ secrets.AWS_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY:  ${{ secrets.AWS_SECRET_ACCESS_KEY }}
   TF_IN_AUTOMATION: true
-
-defaults:
-  run:
-    shell: bash
+  VALIDATE: "terraform\n${{ steps.terraform_validate.outputs.terraform_validate }}"
+  PLAN: "terraform\n${{ steps.terraform_plan.outputs.terraform_plan }}"
 
 jobs:  
   terraform-plan:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash
 
     steps:
       - uses: actions/checkout@v2.3.4
@@ -43,21 +42,18 @@ jobs:
         name: Run Terraform Validate on infra/EKS
         run: terraform -chdir="infra/EKS" validate -no-color
 
-      - run: echo ${{ steps.terraform_validate.outputs.terraform_validate }}
+      - run: echo ${{ steps.terraform_validate.outputs.output }}
 
       - id: terraform_plan
         name: Run Terraform plan on infra/EKS
         run: terraform -chdir="infra/EKS" plan -no-color
 
-      - run: echo ${{ steps.terraform_plan.outputs.terraform_plan }}
+      - run: echo ${{ steps.terraform_plan.outputs.output }}
 
       - id: comment_on_pr
         name: Comment Output onto Pull Request
-        if: always()
+        if: github.event_name == 'pull_request'
         uses: actions/github-script@v5
-        env:
-            PLAN: "terraform\n${{ steps.terraform_plan.outputs.terraform_plan }}"
-            VALIDATE: "terraform\n${{ steps.terraform_validate.outputs.terraform_validate }}"
         with:
             github-token: ${{ secrets.GITHUB_TOKEN }}
             script: |
@@ -65,16 +61,22 @@ jobs:
                 #### Terraform Initialization \`${{ steps.terraform_init.outcome }}\`
                 
                 #### Terraform Validate \`${{ steps.terraform_validate.outcome }}\`
+                
                 <details><summary>Show Validate Output</summary>
+                
                 \`\`\`${process.env.VALIDATE}\`\`\`
+                
                 </details>
 
-                #### Terraform Plan \`${{ steps.terraform_plan.outputs.outcome }}\`
+                #### Terraform Plan
+                
                 <details><summary>Show</summary>
+                
                 \`\`\`${process.env.PLAN}\`\`\`
+                
                 </details>
 
-                *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Working Directory: \`${{ env.tf_actions_working_dir }}\`, Workflow: \`${{ github.workflow }}\`*`;
+                *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Workflow: \`${{ github.workflow }}\`*`;
 
                 github.rest.issues.createComment({
                   issue_number: context.issue.number,
