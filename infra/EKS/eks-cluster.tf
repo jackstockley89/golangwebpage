@@ -4,11 +4,6 @@ module "eks" {
   cluster_version = "1.21"
   subnets         = module.vpc.private_subnets
 
-  tags = {
-    Environment = "training"
-    GithubRepo  = "golangwebpage"
-  }
-
   vpc_id = module.vpc.vpc_id
 
   workers_group_defaults = {
@@ -29,6 +24,13 @@ module "eks" {
       asg_desired_capacity          = 1
     },
   ]
+
+  tags = {
+    Name        = var.app-name
+    Environment = "training"
+    GithubRepo  = "golangwebpage"
+  }
+
 }
 
 data "aws_eks_cluster" "cluster" {

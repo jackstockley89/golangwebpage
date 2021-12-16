@@ -1,7 +1,8 @@
 on:
   pull_request:
+    types: [opened]
     paths:
-      - 'internal/**'
+      - internal/**
   workflow_dispatch:
 
 name: Go Test
