@@ -1,9 +1,10 @@
-name: Terraform Plan
+name: Terraform Plan infra/EKS
 on:
   pull_request:
+    types: [opened]
     paths:
-    - 'infra/EKS/**'
-    - '!infra/EKS/test/**'
+    - infra/EKS/**
+
   workflow_dispatch:
 
 env:
@@ -13,7 +14,7 @@ env:
 
 defaults:
   run:
-    shell: bash {0}
+    shell: bash
 
 jobs:  
   terraform-plan:
@@ -42,29 +43,33 @@ jobs:
         name: Run Terraform Validate on infra/EKS
         run: terraform -chdir="infra/EKS" validate -no-color
 
+      - run: echo ${{ steps.terraform_validate.outputs.terraform_validate }}
+
       - id: terraform_plan
         name: Run Terraform plan on infra/EKS
-        run: terraform -chdir="infra/EKS" plan -detailed-exitcode
+        run: terraform -chdir="infra/EKS" plan -no-color
+
+      - run: echo ${{ steps.terraform_plan.outputs.terraform_plan }}
 
       - id: comment_on_pr
         name: Comment Output onto Pull Request
         if: always()
         uses: actions/github-script@v5
         env:
-            PLAN: "terraform\n${{ steps.terraform_plan.outputs.stdout }}"
-            VALIDATE: "terraform\n${{ steps.terraform_validate.outputs.stdout }}"
+            PLAN: "terraform\n${{ steps.terraform_plan.outputs.terraform_plan }}"
+            VALIDATE: "terraform\n${{ steps.terraform_validate.outputs.terraform_validate }}"
         with:
             github-token: ${{ secrets.GITHUB_TOKEN }}
             script: |
-                const output = `#### Terraform Format and Style 🖌\`${{ steps.terraform_fmt.outcome }}\`
-                #### Terraform Initialization ⚙️\`${{ steps.terraform_init.outcome }}\`
+                const output = `#### Terraform Format and Style \`${{ steps.terraform_fmt.outcome }}\`
+                #### Terraform Initialization \`${{ steps.terraform_init.outcome }}\`
                 
-                #### Terraform Validation 🤖${{ steps.terraform_validate.outcome }}
+                #### Terraform Validate \`${{ steps.terraform_validate.outcome }}\`
                 <details><summary>Show Validate Output</summary>
                 \`\`\`${process.env.VALIDATE}\`\`\`
                 </details>
 
-                #### Terraform Plan 📖\`${{ steps.terraform_plan.outputs.exitcode }}\`
+                #### Terraform Plan \`${{ steps.terraform_plan.outputs.outcome }}\`
                 <details><summary>Show</summary>
                 \`\`\`${process.env.PLAN}\`\`\`
                 </details>
