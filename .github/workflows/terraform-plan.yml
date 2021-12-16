@@ -50,6 +50,7 @@ jobs:
         uses: actions/github-script@v5
         if: github.event_name == 'pull_request'
         env:
+            WORKSPACE: "terraform\n${{ steps.terraform_workspace.outputs.stdout }}"
             VALIDATE: "terraform\n${{ steps.terraform_validate.outputs.stdout }}"
             PLAN: "terraform\n${{ steps.terraform_plan.outputs.stdout }}"
         with:
@@ -57,6 +58,13 @@ jobs:
             script: |
                 const output = `#### Terraform Format and Style \`${{ steps.terraform_fmt.outcome }}\`
                 #### Terraform Initialization \`${{ steps.terraform_init.outcome }}\`
+                #### Terraform Workspace \`${{ steps.terraform_workspace.outcome }}\`
+
+                <details><summary>Show</summary>
+                
+                \`\`\`${process.env.WORKSPACE}\`\`\`
+                
+                </details>
 
                 #### Terraform Validate \`${{ steps.terraform_validate.outcome }}\`
                 
