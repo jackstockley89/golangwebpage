@@ -38,8 +38,12 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: 'This is a known Colaborator. Please Review this PR.'
+              body: 'This is a known Colaborator. Please Review this Pull Request.'
             });
+      - name: adding collaborator
+        uses: jackstockley89/github-actions/assignee@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Comment on PR if false
         uses: actions/github-script@v5
@@ -51,5 +55,9 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: 'This isn't a known Colaborator. Please do not approve this PR.'
+              body: 'This isn't a known Colaborator. This Pull Request will now be closed.'
             });
+      - name: close pull request
+        uses: jackstockley89/github-actions/close-pr@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
