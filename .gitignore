@@ -19,4 +19,6 @@
 
 #terraform
 *.terraform*
+*terraform.tfstate.backup*
+*terraform.tfstate*
 infra/EKS/.terraform.lock.hcl

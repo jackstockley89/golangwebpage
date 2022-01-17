@@ -1,0 +1,30 @@
+name: localstack-action-example
+on:
+##  pull_request:
+##    paths:
+##    - infra/bootstrap/**
+  workflow_dispatch:
+
+jobs:
+  example-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Start LocalStack
+        env:
+          LOCALSTACK_API_KEY: ${{ secrets.LOCALSTACK_API_KEY }}
+        run: |
+          # install LocalStack cli and awslocal
+          pip install localstack awscli-local
+          # Make sure to pull the latest version of the image
+          docker pull localstack/localstack
+          # Start LocalStack in the background
+          localstack start -d
+          # Wait 30 seconds for the LocalStack container to become ready before timing out
+          echo "Waiting for LocalStack startup..."
+          localstack wait -t 30
+          echo "Startup complete"          
+      - name: Run Tests against LocalStack
+        run: |
+          # run s3 bucket test for bootstrap infra
+          cd infra/bootstrap/test
+          go test s3_test.go
