@@ -24,6 +24,8 @@ jobs:
 
       - name: Setup Terraform 
         uses: hashicorp/setup-terraform@v1.3.2
+        with: 
+          terraform_version: 1.0.1
 
       - id: terraform_fmt
         name: Run Terraform fmt on infra/EKS
@@ -92,5 +94,5 @@ jobs:
                 })
       
       - name: Terraform Plan Status
-        if: steps.plan.outcome == 'failure'
+        if: steps.terraform_plan.outcome == 'failure'
         run: exit 1
