@@ -9,14 +9,17 @@
 
 <h2 align="left" style="font-family: 'Lucida Sans', Arial, sans-serif"><b>Actions</b></h2>
 
-&nbsp;&nbsp;
-![Github action docker image](https://img.shields.io/github/workflow/status/jackstockley89/golangwebpage/docker%20images?label=Docker%20Image&style=for-the-badge)
-![Github action Go Test](https://img.shields.io/github/workflow/status/jackstockley89/golangwebpage/Go%20Test?label=Go%20Test&style=for-the-badge)
-![Github action Startup EKS Sandbox](https://img.shields.io/github/workflow/status/jackstockley89/golangwebpage/Startup%20EKS%20Sandbox?label=Startup%20EKS&style=for-the-badge)
-![Github action Shutdown EKS Sandbox](https://img.shields.io/github/workflow/status/jackstockley89/golangwebpage/Shutdown%20EKS%20Sandbox?label=Shutdown%20EKS&style=for-the-badge)
+[![Pull Request Authentication Check](https://github.com/jackstockley89/golangwebpage/actions/workflows/auth-check.yml/badge.svg)](https://github.com/jackstockley89/golangwebpage/actions/workflows/auth-check.yml)
+[![Terraform Plan infra/EKS](https://github.com/jackstockley89/golangwebpage/actions/workflows/terraform-plan.yml/badge.svg)](https://github.com/jackstockley89/golangwebpage/actions/workflows/terraform-plan.yml)
+[![localstack-action-example](https://github.com/jackstockley89/golangwebpage/actions/workflows/localstack-testing.yml/badge.svg)](https://github.com/jackstockley89/golangwebpage/actions/workflows/localstack-testing.yml)
+[![Go Test](https://github.com/jackstockley89/golangwebpage/actions/workflows/go-test.yml/badge.svg)](https://github.com/jackstockley89/golangwebpage/actions/workflows/go-test.yml)
+
+[![Publish Docker image](https://github.com/jackstockley89/golangwebpage/actions/workflows/docker-build-and-push.yml/badge.svg)](https://github.com/jackstockley89/golangwebpage/actions/workflows/docker-build-and-push.yml)
+[![Startup EKS Sandbox](https://github.com/jackstockley89/golangwebpage/actions/workflows/schedule-startup.yml/badge.svg)](https://github.com/jackstockley89/golangwebpage/actions/workflows/schedule-startup.yml)
+[![Shutdown EKS Sandbox](https://github.com/jackstockley89/golangwebpage/actions/workflows/schedule-shutdown.yml/badge.svg)](https://github.com/jackstockley89/golangwebpage/actions/workflows/schedule-shutdown.yml)
 <br/>
 
- <h2 align="left" style="font-family: 'Lucida Sans', Arial, sans-serif"><b>Prerequisite</b></h2>
+<h2 align="left" style="font-family: 'Lucida Sans', Arial, sans-serif"><b>Prerequisite</b></h2>
 
 ---
 &nbsp;&nbsp;&nbsp;&nbsp;
