@@ -24,6 +24,8 @@ jobs:
 
       - name: Setup Terraform 
         uses: hashicorp/setup-terraform@v1.3.2
+        with: 
+          terraform_version: 1.0.1
 
       - id: terraform_fmt
         name: Run Terraform fmt on infra/EKS
@@ -44,7 +46,7 @@ jobs:
       - id: terraform_plan
         name: Run Terraform plan on infra/EKS
         run: terraform -chdir="infra/EKS" plan -no-color -refresh=true || true
-        continue-on-error: true
+        continue-on-error: false
 
       - name: Comment Output onto Pull Request
         uses: actions/github-script@v5
@@ -90,7 +92,3 @@ jobs:
                   repo: context.repo.repo,
                   body: output
                 })
-      
-      - name: Terraform Plan Status
-        if: steps.plan.outcome == 'failure'
-        run: exit 1
