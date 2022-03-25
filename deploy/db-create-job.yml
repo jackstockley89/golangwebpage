@@ -11,11 +11,29 @@ spec:
     spec:
       containers:
       - name: cycling-blog-app
-        image: jackstock8904/cycling-blog:1.2.3
+        image: jackstock8904/cycling-blog:1.2.4
+        imagePullPolicy: Always
         command: ["psql"]
-        args: ["-h", "cycling-blog-db-service", "-U", "demouser", "-d", "cyclingblog", "-w", "-a", "-f", "sql/create_table.sql"]
-        #command: ["top"]
+        args: ["-h", "$(CYCLING_BLOG_DB_SERVICE_SERVICE_HOST)", "-U", "$(POSTGRES_USER)", "-d", "$(POSTGRES_DB)", "-w", "-a", "-f", "sql/create_table.sql"]
         env:
         - name: PGPASSFILE
-          value: '/home/appuser/.pgpass'
+          valueFrom: 
+            secretKeyRef:
+              name: pgpass
+              key: connect
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: pgpass
+              key: username
+        - name: PGPASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: pgpass
+              key: password
+        - name: POSTGRES_DB
+          valueFrom:
+            secretKeyRef:
+              name: pgpass
+              key: db_name
       restartPolicy: Never

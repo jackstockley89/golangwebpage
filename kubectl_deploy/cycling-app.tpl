@@ -2,11 +2,11 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: cycling-blog-app
-  namespace: golang-app
+  namespace: jacksapp-dev
   labels:
     app: cycling-blog-app
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: cycling-blog-app
@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: cycling-blog-app
-        image: jackstock8904/cycling-blog:1.2.4
+        image: ${ECR_URL}:${IMAGE_TAG}
         imagePullPolicy: Always
         resources:
           requests:

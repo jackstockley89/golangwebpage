@@ -1,24 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: cycling-blog-app
-  namespace: golang-app
-  labels:
-    app: cycling-blog-app
+  name: cycling-blog-db
+  namespace: jacksapp-dev
+  labels: 
+    app: cycling-blog-db
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
-      app: cycling-blog-app
+      app: cycling-blog-db
   template:
     metadata:
       labels:
-        app: cycling-blog-app
-    spec:
+        app: cycling-blog-db
+    spec: 
       containers:
-      - name: cycling-blog-app
-        image: jackstock8904/cycling-blog:1.2.4
-        imagePullPolicy: Always
+      - name: cycling-blog-db
+        image: bitnami/postgresql:latest
         resources:
           requests:
             memory: "64Mi"
@@ -27,19 +26,14 @@ spec:
             memory: "128Mi"
             cpu: "500m"
         ports:
-        - containerPort: 8080
+        - containerPort: 5432
         env:
-        - name: PGPASSFILE
-          valueFrom: 
-            secretKeyRef:
-              name: pgpass
-              key: connect
         - name: POSTGRES_USER
           valueFrom:
             secretKeyRef:
               name: pgpass
               key: username
-        - name: PGPASSWORD
+        - name: POSTGRES_PASSWORD
           valueFrom:
             secretKeyRef:
               name: pgpass
@@ -49,4 +43,9 @@ spec:
             secretKeyRef:
               name: pgpass
               key: db_name
-          
+        - name: HOSTNAME
+          valueFrom:
+            secretKeyRef:
+              name: pgpass
+              key: hostname
+

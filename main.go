@@ -9,7 +9,6 @@ import (
 	"os"
 	"time"
 
-	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 )
 
@@ -152,15 +151,11 @@ func (p *IDHandler) RideHandler(w http.ResponseWriter, r *http.Request) {
 
 // DbConnect uses variable to load values from .env file and then pass them in connection parameters via a struct
 func DbConnect() {
-	err := godotenv.Load(".env_app")
-	if err != nil {
-		log.Fatal("Error loading .envdb file")
-	}
-	postgresHost := os.Getenv("POSTGRES_HOSTNAME")
+	postgresHost, _ := os.LookupEnv("CYCLING_BLOG_DB_SERVICE_SERVICE_HOST")
 	postgresPort := 5432
-	postgresUser := os.Getenv("POSTGRES_USER")
-	postgresPassword := os.Getenv("POSTGRES_PASSWORD")
-	postgresName := os.Getenv("POSTGRES_DB")
+	postgresUser, _ := os.LookupEnv("POSTGRES_USER")
+	postgresPassword, _ := os.LookupEnv("PGPASSWORD")
+	postgresName, _ := os.LookupEnv("POSTGRES_DB")
 
 	env := ENV{Host: postgresHost, Port: postgresPort, User: postgresUser, Password: postgresPassword, Dbname: postgresName}
 
@@ -179,7 +174,7 @@ func main() {
 	http.Handle("/static/",
 		http.StripPrefix("/static/",
 			http.FileServer(http.Dir("static"))))
-	http.HandleFunc("/home", HomeHandler)
+	http.HandleFunc("/", HomeHandler)
 	http.HandleFunc("/activities", ActivitiesHandler)
 	http.HandleFunc("/activities/rideOne", idone.RideHandler)
 	http.HandleFunc("/activities/rideTwo", idtwo.RideHandler)
