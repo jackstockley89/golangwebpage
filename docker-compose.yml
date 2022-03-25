@@ -16,11 +16,9 @@ services:
     networks:
       - app-network
   
-  # Applicstion Server
+  # Application Server
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: jackstockley/cycling-blog:1.2.3
     container_name: cycling-blog-app
     env_file: .env_app
     ports:
