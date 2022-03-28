@@ -37,7 +37,9 @@ jobs:
       - name: Update image tag
         env:
           ECR_URL: ${{ secrets.ECR_URL }}
-        run: export IMAGE_TAG=${{ github.sha }} && cat kubectl_deploy/cycling_app.tpl | envsubst > cycling_app.yaml
+
+        run: export IMAGE_TAG=${{ github.sha }} && cat kubectl_deploy/cycling-app.tpl | envsubst > cycling-app.yaml
+
       
       - name: Authenticate to the cluster
         env:
@@ -51,4 +53,5 @@ jobs:
 
       - name: Apply the updated manifest
         run: |
-          kubectl -n ${KUBE_NAMESPACE} apply -f cycling_app.yaml
+
+          kubectl -n ${KUBE_NAMESPACE} apply -f cycling-app.yaml
