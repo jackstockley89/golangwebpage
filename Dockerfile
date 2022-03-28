@@ -1,4 +1,4 @@
-FROM golang:1.15.7-alpine3.13
+FROM golang:1.17.8-alpine3.15
 
 RUN apk add git
 RUN apk add postgresql-client
@@ -12,6 +12,10 @@ RUN addgroup -g 1000 -S appgroup && \
 WORKDIR /app
 
 COPY . . 
+
+RUN echo ${PGPASSFILE} > /home/appuser/.pgpass && \
+    chown appuser:appgroup /home/appuser/.pgpass && \
+    chmod 0600 /home/appuser/.pgpass
  
 RUN chown -R appuser:appgroup /app
 RUN chown -R appuser:appgroup /go
