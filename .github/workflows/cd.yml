@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - 'main'
+      - 'master'
     paths:
       - main.go
       - sql/*.sql
@@ -37,7 +37,7 @@ jobs:
       - name: Update image tag
         env:
           ECR_URL: ${{ secrets.ECR_URL }}
-        run: export IMAGE_TAG=${{ github.sha }} && cat kubernetes-deploy.tpl | envsubst > kubernetes-deploy.yaml
+        run: export IMAGE_TAG=${{ github.sha }} && cat kubectl_deploy/kubernetes-deploy.tpl | envsubst > kubernetes-deploy.yaml
       
       - name: Authenticate to the cluster
         env:
