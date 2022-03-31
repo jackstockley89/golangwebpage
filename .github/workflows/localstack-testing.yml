@@ -26,4 +26,4 @@ jobs:
       - name: Run Tests against LocalStack
         run: |
           # run s3 bucket test for bootstrap infra
-          go test infra/bootstrap/test s3_test.go
+          go test infra/bootstrap/test/s3_test.go
