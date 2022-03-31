@@ -15,8 +15,8 @@
 [![Go Test](https://github.com/jackstockley89/golangwebpage/actions/workflows/go-test.yml/badge.svg)](https://github.com/jackstockley89/golangwebpage/actions/workflows/go-test.yml)
 
 [![Publish Docker image](https://github.com/jackstockley89/golangwebpage/actions/workflows/docker-build-and-push.yml/badge.svg)](https://github.com/jackstockley89/golangwebpage/actions/workflows/docker-build-and-push.yml)
-[![Startup EKS Sandbox](https://github.com/jackstockley89/golangwebpage/actions/workflows/schedule-startup.yml/badge.svg)](https://github.com/jackstockley89/golangwebpage/actions/workflows/schedule-startup.yml)
-[![Shutdown EKS Sandbox](https://github.com/jackstockley89/golangwebpage/actions/workflows/schedule-shutdown.yml/badge.svg)](https://github.com/jackstockley89/golangwebpage/actions/workflows/schedule-shutdown.yml)
+[![Continuous Deployment](https://github.com/jackstockley89/golangwebpage/actions/workflows/cd.yml/badge.svg)](https://github.com/jackstockley89/golangwebpage/actions/workflows/cd.yml)
+[![CodeQL](https://github.com/jackstockley89/golangwebpage/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/jackstockley89/golangwebpage/actions/workflows/codeql-analysis.yml)
 <br/>
 
 <h2 align="left" style="font-family: 'Lucida Sans', Arial, sans-serif"><b>Prerequisite</b></h2>

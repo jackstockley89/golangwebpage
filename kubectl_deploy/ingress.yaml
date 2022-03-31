@@ -13,8 +13,18 @@ spec:
   tls:
   - hosts:
     - jackstockley-helloworld.apps.live.cloud-platform.service.justice.gov.uk
+  - hosts:
+    - jacksapp-devs.service.justice.gov.uk
+    secretName: jacksapp-dev-certificate
   rules:
   - host: jackstockley-helloworld.apps.live.cloud-platform.service.justice.gov.uk
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: cycling-blog-app-service
+          servicePort: 8080
+  - host: jacksapp-devs.service.justice.gov.uk
     http:
       paths:
       - path: /
