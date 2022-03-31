@@ -1,8 +1,8 @@
 name: localstack-action-example
 on:
-##  pull_request:
-##    paths:
-##    - infra/bootstrap/**
+  pull_request:
+    paths:
+    - infra/bootstrap/**
   workflow_dispatch:
 
 jobs:
@@ -26,5 +26,4 @@ jobs:
       - name: Run Tests against LocalStack
         run: |
           # run s3 bucket test for bootstrap infra
-          cd infra/bootstrap/test
-          go test s3_test.go
+          go test infra/bootstrap/test s3_test.go
