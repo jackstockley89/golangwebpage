@@ -6,12 +6,20 @@ on:
   workflow_dispatch:
 
 jobs:
-  example-job:
-    runs-on: ubuntu-latest
+  localstack-s3-test:
+    strategy:
+      matrix:
+        go-version: [1.17.x]
+        os: [ubuntu-latest]
+    runs-on: ${{ matrix.os }}
     steps:
+      - name: Install Go
+        uses: actions/setup-go@v2
+        with:
+          go-version: ${{ matrix.go-version }}
+      - name: Checkout code
+        uses: actions/checkout@v2
       - name: Start LocalStack
-        env:
-          LOCALSTACK_API_KEY: ${{ secrets.LOCALSTACK_API_KEY }}
         run: |
           # install LocalStack cli and awslocal
           pip install localstack awscli-local
@@ -22,8 +30,8 @@ jobs:
           # Wait 30 seconds for the LocalStack container to become ready before timing out
           echo "Waiting for LocalStack startup..."
           localstack wait -t 30
-          echo "Startup complete"          
+          echo "Startup complete"
       - name: Run Tests against LocalStack
         run: |
           # run s3 bucket test for bootstrap infra
-          go test infra/bootstrap/test s3_test.go
+          go test -v ./infra/bootstrap/test/...
