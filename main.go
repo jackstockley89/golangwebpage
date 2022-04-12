@@ -10,6 +10,7 @@ import (
 	"time"
 
 	_ "github.com/lib/pq"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 )
 
 // ENV struct values used for Database Connection Handler function
@@ -186,6 +187,7 @@ func main() {
 	http.HandleFunc("/activities/rideEight", ideight.RideHandler)
 	http.HandleFunc("/activities/rideNine", idnine.RideHandler)
 	http.HandleFunc("/activities/rideTen", idten.RideHandler)
+	http.Handle("/metrics", promhttp.Handler())
 	fmt.Println("Listening")
 	fmt.Println(http.ListenAndServe(":8080", nil))
 }
