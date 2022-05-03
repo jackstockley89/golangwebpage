@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"net/http/httptest"
 	"testing"
 
 	_ "github.com/lib/pq"
@@ -55,19 +56,12 @@ func TestRideHandler(t *testing.T) {
 }
 
 func TestHomeHandler(t *testing.T) {
-	type args struct {
-		w http.ResponseWriter
-		r *http.Request
-	}
-	tests := []struct {
-		name string
-		args args
-	}{
-		// TODO: Add test cases.
-	}
-	for _, tt := range tests {
-		t.Run(tt.name, func(t *testing.T) {
-			HomeHandler(tt.args.w, tt.args.r)
-		})
+	w := httptest.NewRecorder()
+	r := httptest.NewRequest("GET", "/", nil)
+
+	HomeHandler(w, r)
+
+	if want, got := http.StatusOK, w.Result().StatusCode; want != got {
+		t.Fatal("expected status code", want, "got", got)
 	}
 }
