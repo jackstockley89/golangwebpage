@@ -45,8 +45,8 @@ jobs:
 
       - id: terraform_plan
         name: Run Terraform plan on infra/EKS
-        run: terraform -chdir="infra/EKS" plan -no-color -refresh=true || true
-        continue-on-error: false
+        run: terraform -chdir="infra/EKS" plan -no-color -detailed-exitcode || true
+        continue-on-error: true
 
       - name: Comment Output onto Pull Request
         uses: actions/github-script@v5
@@ -92,3 +92,6 @@ jobs:
                   repo: context.repo.repo,
                   body: output
                 })
+      - name: Terraform Plan Status
+        if: steps.terraform_plan.exitcode == 1
+        run: exit 1
