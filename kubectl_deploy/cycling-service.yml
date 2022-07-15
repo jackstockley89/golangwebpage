@@ -3,9 +3,12 @@ apiVersion: v1
 metadata:
   name: cycling-blog-app-service
   namespace: jacksapp-dev
+  labels:
+    app: cycling-blog-app
 spec:
   ports:
-  - protocol: TCP
+  - name: http
+    protocol: TCP
     port: 8080
     targetPort: 8080
   selector:
@@ -18,7 +21,8 @@ metadata:
  namespace: jacksapp-dev
 spec:
   ports:
-  - protocol: TCP
+  - name: db
+    protocol: TCP
     port: 5432
     targetPort: 5432
   selector:
