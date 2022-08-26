@@ -1,0 +1,21 @@
+name: Pull Request Checker
+
+on:
+  schedule:
+    - cron: '00 23 1 * *'
+  workflow_dispatch:
+
+jobs:
+  pull-request-checker:
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+
+    runs-on: ${{ matrix.os }}
+    
+    steps:
+    - uses: actions/checkout@v2
+    - name: list open pull requests
+      run: hub pr list
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
