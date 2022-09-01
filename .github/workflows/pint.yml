@@ -3,7 +3,7 @@ name: pint
 on:
   pull_request:
     paths:
-    - namespaces/live.cloud-platform.service.justice.gov.uk/*/*promethus.yaml
+    - kubectl_deploy/*/*promethus.yaml
     - kubectl_deploy/*/*promethus.yml
   workflow_dispatch:
 
