@@ -1,0 +1,24 @@
+name: pint
+
+on:
+  pull_request:
+    paths:
+    - namespaces/live.cloud-platform.service.justice.gov.uk/*/*promethus.yaml
+    - kubectl_deploy/*/*promethus.yml
+  workflow_dispatch:
+
+jobs:
+  pint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+
+      - name: Run pint
+        uses: prymitive/pint-action@v1
+        with:
+          token: ${{ github.token }}
+          # directory containing Prometheus rules
+          workdir: 'kubectl_deploy'
+          config: 'pint/.pint.hcl'
