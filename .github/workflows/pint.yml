@@ -20,5 +20,5 @@ jobs:
         with:
           token: ${{ github.token }}
           # directory containing Prometheus rules
-          workdir: 'kubectl_deploy'
+          workdir: 'kubectl_deploy/monitoring'
           config: 'pint/.pint.hcl'
