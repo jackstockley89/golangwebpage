@@ -1,19 +1,19 @@
 ci {
-  include    = [ "namespaces/live.cloud-platform.service.justice.gov.uk/*/*promethus.yml", "namespaces/live.cloud-platform.service.justice.gov.uk/*/*promethus.yaml" ]
+  include    = [ "kubectl_deploy/*/*promethus.yml", "kubectl_deploy/*/*promethus.yaml" ]
 }
 
 rule {
+  
   match {
-    path = "kubectl-deploy/*/.*"
+    path = "kubectl_deploy/*/*promethus.yaml"
     kind = "alerting"
-    annotation = "(.*)" {
-      value = "(.*)"
-    }
-    expr = "(.*)" {
-      value = "(.*)"
-    }
   }
-  ignore {
-    command = "watch"
+}
+
+rule {
+  
+  match {
+    path = "kubectl_deploy/*/*promethus.yml"
+    kind = "alerting"
   }
 }
