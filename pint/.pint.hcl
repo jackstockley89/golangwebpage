@@ -1,19 +1,16 @@
 ci {
-  include    = [ "kubectl_deploy/*/*promethus.yml", "kubectl_deploy/*/*promethus.yaml" ]
+  include    = [ "kubectl_deploy/monitoring/*promethus.yml", "kubectl_deploy/monitoring/*promethus.yaml" ]
 }
 
 rule {
   
   match {
-    path = "kubectl_deploy/*/*promethus.yaml"
+    path = "kubectl_deploy/monitoring/*promethus.yaml"
     kind = "alerting"
   }
-}
 
-rule {
-  
   match {
-    path = "kubectl_deploy/*/*promethus.yml"
+    path = "kubectl_deploy/monitoring/*promethus.yml"
     kind = "alerting"
   }
 }
