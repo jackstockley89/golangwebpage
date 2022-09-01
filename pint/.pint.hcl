@@ -5,18 +5,6 @@ ci {
 rule {
   
   match {
-    path = "kubectl-deploy/*/.*"
     kind = "alerting"
-    annotation = "(.*)" {
-      value = "(.*)"
-    }
-    
-    expr = "(.*)" {
-      value = "(.*)"
-    }
-  }
-  
-  ignore {
-    command = "watch"
   }
 }
