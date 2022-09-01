@@ -1,7 +1,6 @@
 ci {
-  include    = [ "namespaces/live.cloud-platform.service.justice.gov.uk/*/*promethus.yml", "namespaces/live.cloud-platform.service.justice.gov.uk/*/*promethus.yaml" ]
+  include    = [ "kubectl-deploy/*/*promethus.yml", "kubectl-deploy/*/*promethus.yaml" ]
 }
-
 rule {
   match {
     path = "kubectl-deploy/*/.*"
@@ -17,4 +16,3 @@ rule {
     command = "watch"
   }
 }
-
