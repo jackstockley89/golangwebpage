@@ -25,4 +25,4 @@ lint_files() {
   fi
 }
 
-lint_files "/data" "*.yaml"
+lint_files "kubectl_deploy" "*.yaml"
