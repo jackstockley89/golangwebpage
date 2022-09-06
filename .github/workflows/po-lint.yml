@@ -1,0 +1,34 @@
+name: pint
+
+on:
+  pull_request:
+    paths:
+    - kubectl_deploy/*/*promethus.yaml
+    - kubectl_deploy/*/*promethus.yml
+  workflow_dispatch:
+
+jobs:
+  pint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Run po-lint
+        id: po-lint
+        run: |
+          chmod +x ./po-lint/po-lint.bash
+          ./po-lint/po-lint.bash
+        shell: bash
+      - name: output
+        uses: actions/github-script@v6
+        with:
+            github-token: ${{ secrets.GITHUB_TOKEN }}
+            script: |
+                const output = `#### Pothetheus Operator Linting Results\`${{ steps.po-lint.outcome }}\``
+
+                github.rest.issues.createComment({
+                  issue_number: context.issue.number,
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  body: output
+                })
+      
