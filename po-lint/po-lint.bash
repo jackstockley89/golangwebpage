@@ -17,6 +17,8 @@ lint_files() {
     exit ${had_errors}
   elif [ -x "$(command -v docker)" ]; then
     echo "Using Dockerized linter."
+    echo $PWD
+    ls -ltrh
     docker run --rm --volume "$PWD:/data:ro" --workdir /data ${LINTER} \
     /bin/bash -c "/go/bin/po-lint $1/$2"
   else
@@ -25,5 +27,5 @@ lint_files() {
   fi
 }
 
-lint_files "kubectl_deploy" "*prometheus.yaml"
+lint_files "kubectl_deploy*" "*prometheus.yaml"
 
