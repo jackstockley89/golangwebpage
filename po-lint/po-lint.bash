@@ -25,4 +25,5 @@ lint_files() {
   fi
 }
 
-lint_files "kubectl_deploy" "*.yaml"
+lint_files "kubectl_deploy" "*prometheus.yaml"
+
