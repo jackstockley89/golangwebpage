@@ -19,8 +19,7 @@ jobs:
       - name: Run po-lint
         id: po-lint
         run: |
-          go run po-lint/po-lint.go
-        shell: bash
+          go run -v ./po-lint/po-lint.go
       - name: output
         uses: actions/github-script@v6
         with:
