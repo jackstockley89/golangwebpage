@@ -16,16 +16,16 @@ jobs:
         with:
           go-version: ${{ matrix.go-version }}
       - uses: actions/checkout@v3
-      - name: Run po-lint
-        id: po-lint
+      - name: Run po-linter
+        id: po-linter
         run: |
-          go run -v ./po-lint/po-lint.go
+          go run -v ./po-lint/po-linter.go
       - name: output
         uses: actions/github-script@v6
         with:
             github-token: ${{ secrets.GITHUB_TOKEN }}
             script: |
-                const output = `#### Pothetheus Operator Linting Results\`${{ steps.po-lint.outcome }}\``
+                const output = `#### Pothetheus Operator Linting Results\`${{ steps.po-linter.outcome }}\``
 
                 github.rest.issues.createComment({
                   issue_number: context.issue.number,
