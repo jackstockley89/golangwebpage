@@ -30,7 +30,8 @@ jobs:
       - name: Result
         uses: actions/github-script@v6
         env:
-            ERROR: "${{ steps.po-linter.outputs.stderr }}"
+            STDOUT: "${{ steps.po-linter.outputs.stdout }}"
+            STDERR: "${{ steps.po-linter.outputs.stderr }}"
         with:
             github-token: ${{ secrets.ACTION_TOKEN }}
             script: |
@@ -38,7 +39,8 @@ jobs:
 
                 <details><summary>Error</summary>
 
-                \`\`\`${process.env.ERROR}\`\`\`
+                \`\`\`${process.env.STDOUT}\`\`\`
+                \`\`\`${process.env.STDERR}\`\`\`
 
                 </details>
 
