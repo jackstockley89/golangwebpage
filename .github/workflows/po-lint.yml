@@ -24,14 +24,13 @@ jobs:
         continue-on-error: true
         id: po-linter
         run: |
-          go run -v ./po-lint/po-linter.go
+          echo "::set-output name=polinter::$(go run -v ./po-lint/po-linter.go)"
         env:
           GITHUB_OAUTH_TOKEN: ${{ secrets.ACTION_TOKEN }}
       - name: Result
         uses: actions/github-script@v6
         env:
-            STDOUT: "${{ steps.po-linter.outputs.stdout }}"
-            STDERR: "${{ steps.po-linter.outputs.stderr }}"
+            OUTPUT: "${{ steps.po-linter.outputs.polinter }}"
         with:
             github-token: ${{ secrets.ACTION_TOKEN }}
             script: |
@@ -39,8 +38,7 @@ jobs:
 
                 <details><summary>Error</summary>
 
-                \`\`\`${process.env.STDOUT}\`\`\`
-                \`\`\`${process.env.STDERR}\`\`\`
+                \`\`\`${process.env.OUTPUT}\`\`\`
 
                 </details>
 
