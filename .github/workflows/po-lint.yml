@@ -31,13 +31,13 @@ jobs:
       - name: Result
         uses: actions/github-script@v6
         env:
-            OUTPUT: "${{ steps.po-linter.outputs }}"
+            OUTPUT: "${{ steps.po-linter.outputs.po-linter }}"
         with:
             github-token: ${{ secrets.ACTION_TOKEN }}
             script: |
                 const output = `#### Prometheus Operator Linting Results\`${{ steps.po-linter.outcome }}\`
 
-                <details><summary>Error</summary>
+                <details><summary>Summary</summary>
 
                 \`\`\`${process.env.OUTPUT}\`\`\`
 

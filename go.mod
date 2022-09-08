@@ -16,6 +16,7 @@ require (
 	github.com/ghodss/yaml v1.0.0
 	github.com/ministryofjustice/cloud-platform-environments/pkg/authenticate v0.0.0-20210923104034-4b61cc95504b
 	github.com/prometheus-operator/prometheus-operator v0.59.0
+	github.com/sethvargo/go-githubactions v1.0.0
 	k8s.io/apimachinery v0.25.0
 )
 
@@ -98,6 +99,7 @@ require (
 	github.com/prometheus/client_model v0.2.0 // indirect
 	github.com/prometheus/common/sigv4 v0.1.0 // indirect
 	github.com/prometheus/procfs v0.8.0 // indirect
+	github.com/sethvargo/go-envconfig v0.6.0 // indirect
 	github.com/spf13/cobra v1.5.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/thanos-io/thanos v0.28.0 // indirect

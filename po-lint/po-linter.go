@@ -19,6 +19,7 @@ import (
 	v1 "github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring/v1"
 	v1alpha1 "github.com/prometheus-operator/prometheus-operator/pkg/apis/monitoring/v1alpha1"
 	"github.com/prometheus/prometheus/model/rulefmt"
+	githubaction "github.com/sethvargo/go-githubactions"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
 )
 
@@ -41,8 +42,6 @@ func prDir(token, githubrepo, githubref string) ([]string, error) {
 	githubrefS := strings.Split(githubref, "/")
 	branch := githubrefS[2]
 	bid, _ := strconv.Atoi(branch)
-
-	fmt.Println(owner, repo, bid)
 
 	repos, _, _ := client.PullRequests.ListFiles(context.Background(), owner, repo, bid, nil)
 
@@ -193,6 +192,7 @@ func polint(dir []string) {
 			log.Print("MetaType is unknown to linter. Not in Alertmanager, Prometheus, PrometheusRule, ServiceMonitor, PodMonitor, Probe, ThanosRuler, AlertmanagerConfig")
 		}
 	}
+	githubaction.SetOutput("po-linter", "true")
 }
 
 func validateRules(content []byte) error {
