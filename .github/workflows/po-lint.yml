@@ -31,19 +31,17 @@ jobs:
       - name: Result
         uses: actions/github-script@v6
         env:
-            OUTPUT: "${{ steps.po-linter.outputs.po-linter }}"
+            summary: "Result:\n${{ steps.po-linter.outputs.po-linter }}"
         with:
             github-token: ${{ secrets.ACTION_TOKEN }}
             script: |
-                const output = `#### Prometheus Operator Linting Results\`${{ steps.po-linter.outcome }}\`
+                const output = `#### Prometheus Operator Linting Results \`${{ steps.po-linter.outcome }}\`
 
-                <details><summary>Summary</summary>
+                <details><summary>Show</summary>
 
-                \`\`\`${process.env.OUTPUT}\`\`\`
+                ${process.env.summary}
 
-                </details>
-
-                *Pusher: @${{ github.actor }}, Action: \`${{ github.event_name }}\`, Workflow: \`${{ github.workflow }}\`*`;
+                </details>`
 
                 github.rest.issues.createComment({
                   issue_number: context.issue.number,
@@ -51,3 +49,6 @@ jobs:
                   repo: context.repo.repo,
                   body: output
                 })
+      - name: Exitcode
+        if: steps.po-linter.outcome != 'success'
+        run: exit 1
