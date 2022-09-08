@@ -24,6 +24,8 @@ jobs:
         id: po-linter
         run: |
           go run -v ./po-lint/po-linter.go
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: output
         uses: actions/github-script@v6
         with:
