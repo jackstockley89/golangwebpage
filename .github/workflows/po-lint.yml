@@ -32,13 +32,13 @@ jobs:
         with:
             github-token: ${{ secrets.ACTION_TOKEN }}
             script: |
-                const output = `#### Pothetheus Operator Linting Results\`${{ steps.po-linter.outcome }}\``
+                const output = `#### Pothetheus Operator Linting Results\`${{ steps.po-linter.outcome }}\`
 
                 <details><summary>Error</summary>
 
                 \`\`\`${steps.po-linter.outcome.stdout}\`\`\`
 
-                </details>
+                </details>`
 
                 github.rest.issues.createComment({
                   issue_number: context.issue.number,
