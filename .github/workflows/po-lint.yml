@@ -25,11 +25,11 @@ jobs:
         run: |
           go run -v ./po-lint/po-linter.go
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_OAUTH_TOKEN: ${{ secrets.ACTION_TOKEN }}
       - name: output
         uses: actions/github-script@v6
         with:
-            github-token: ${{ secrets.GITHUB_TOKEN }}
+            github-token: ${{ secrets.ACTION_TOKEN }}
             script: |
                 const output = `#### Pothetheus Operator Linting Results\`${{ steps.po-linter.outcome }}\``
 
