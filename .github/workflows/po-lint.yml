@@ -29,6 +29,8 @@ jobs:
           GITHUB_OAUTH_TOKEN: ${{ secrets.ACTION_TOKEN }}
       - name: Result
         uses: actions/github-script@v6
+        env:
+            ERROR: "po-lint\n${{ steps.po-linter.outputs.stdout }}"
         with:
             github-token: ${{ secrets.ACTION_TOKEN }}
             script: |
@@ -36,7 +38,7 @@ jobs:
 
                 <details><summary>Error</summary>
 
-                \`\`\`${steps.po-linter.outcome.stdout}\`\`\`
+                \`\`\`${process.env.ERROR}\`\`\`
 
                 </details>`
 
