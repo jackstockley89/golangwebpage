@@ -30,11 +30,11 @@ jobs:
       - name: Result
         uses: actions/github-script@v6
         env:
-            ERROR: "po-lint\n${{ steps.po-linter.outputs.stdout }}"
+            ERROR: "${{ steps.po-linter.outputs.stderr }}"
         with:
             github-token: ${{ secrets.ACTION_TOKEN }}
             script: |
-                const output = `#### Pothetheus Operator Linting Results\`${{ steps.po-linter.outcome }}\`
+                const output = `#### Prometheus Operator Linting Results\`${{ steps.po-linter.outcome }}\`
 
                 <details><summary>Error</summary>
 
