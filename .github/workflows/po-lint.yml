@@ -21,24 +21,27 @@ jobs:
           go-version: ${{ matrix.go-version }}
       - uses: actions/checkout@v3
       - name: Run po-linter
+        continue-on-error: true
         id: po-linter
         run: |
-          go run -v ./po-lint/po-linter.go
+            go run -v ./po-lint/po-linter.go
+
         env:
           GITHUB_OAUTH_TOKEN: ${{ secrets.ACTION_TOKEN }}
-      - name: output not valid
-        if: step.po-linter.outputs.exitcode == 1
+      - name: Result
         uses: actions/github-script@v6
+        env:
+            summary: "Result:\n${{ steps.po-linter.outputs.po-linter }}"
         with:
             github-token: ${{ secrets.ACTION_TOKEN }}
             script: |
-                const output = `#### Pothetheus Operator Linting Results\`${{ steps.po-linter.outcome }}\``
+                const output = `#### Prometheus Operator Linting Results \`${{ steps.po-linter.outcome }}\`
 
-                <details><summary>Error</summary>
+                <details><summary>Show</summary>
 
-                \`\`\`${steps.po-linter.outcome.stdout}\`\`\`
+                ${process.env.summary}
 
-                </details>
+                </details>`
 
                 github.rest.issues.createComment({
                   issue_number: context.issue.number,
@@ -46,17 +49,6 @@ jobs:
                   repo: context.repo.repo,
                   body: output
                 })
-      - name: output valid
-        if: step.po-linter.outputs.exitcode == 0
-        uses: actions/github-script@v6
-        with:
-            github-token: ${{ secrets.ACTION_TOKEN }}
-            script: |
-                const output = `#### Pothetheus Operator Linting Results\`${{ steps.po-linter.outcome }}\``
-
-                github.rest.issues.createComment({
-                  issue_number: context.issue.number,
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  body: output
-                })
+      - name: Exitcode
+        if: steps.po-linter.outcome != 'success'
+        run: exit 1
