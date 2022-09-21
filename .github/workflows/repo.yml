@@ -17,7 +17,8 @@ jobs:
     - uses: actions/checkout@v3
     - name: list open issues
       run: |
-        list=`gh issue list`
+        list=`gh issue list --json number,title --template \
+        '{{range .}}{{tablerow (printf "#%v" .number | autocolor "green") .title}}{{end}}'`
         list="${list//'%'/'%25'}"
         list="${list//$'\n'/'%0A'}"
         list="${list//$'\r'/'%0D'}"
