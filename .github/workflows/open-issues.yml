@@ -2,7 +2,7 @@ name: Open Issues
 
 on:
   schedule:
-    - cron: '00 23 1 * *'
+    - cron: '01 23 1 * *'
   workflow_dispatch:
 
 jobs:
