@@ -17,6 +17,8 @@
 [![Publish Docker image](https://github.com/jackstockley89/golangwebpage/actions/workflows/docker-build-and-push.yml/badge.svg)](https://github.com/jackstockley89/golangwebpage/actions/workflows/docker-build-and-push.yml)
 [![Continuous Deployment](https://github.com/jackstockley89/golangwebpage/actions/workflows/cd.yml/badge.svg)](https://github.com/jackstockley89/golangwebpage/actions/workflows/cd.yml)
 [![CodeQL](https://github.com/jackstockley89/golangwebpage/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/jackstockley89/golangwebpage/actions/workflows/codeql-analysis.yml)
+[![Open Issues](https://github.com/jackstockley89/golangwebpage/actions/workflows/open-issues.yml/badge.svg)](https://github.com/jackstockley89/golangwebpage/actions/workflows/open-issues.yml)
+[![Pull Request Checker](https://github.com/jackstockley89/golangwebpage/actions/workflows/pr-checker.yml/badge.svg)](https://github.com/jackstockley89/golangwebpage/actions/workflows/pr-checker.yml)
 <br/>
 
 <h2 align="left" style="font-family: 'Lucida Sans', Arial, sans-serif"><b>Prerequisite</b></h2>
