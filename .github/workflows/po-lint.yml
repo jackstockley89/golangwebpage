@@ -19,7 +19,7 @@ jobs:
 
 
       - name: Run po-linter
-        uses: cloud-platform-po-linter@po-linter
+        uses: ministryofjustice/cloud-platform-po-linter@po-linter
         continue-on-error: true
         id: po-linter
 
