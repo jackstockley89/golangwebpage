@@ -1,4 +1,4 @@
-name: pint
+name: Prometheus Operator Linter
 
 on:
   pull_request:
@@ -15,16 +15,13 @@ jobs:
         os: [ubuntu-latest]
     runs-on: ${{ matrix.os }}
     steps:
-      - name: Install Go
-        uses: actions/setup-go@v3
-        with:
-          go-version: ${{ matrix.go-version }}
       - uses: actions/checkout@v3
+
+
       - name: Run po-linter
+        uses: cloud-platform-po-linter@po-linter
         continue-on-error: true
         id: po-linter
-        run: |
-            go run -v ./po-lint/po-linter.go
 
         env:
           GITHUB_OAUTH_TOKEN: ${{ secrets.ACTION_TOKEN }}
