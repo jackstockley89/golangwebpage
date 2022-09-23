@@ -3,8 +3,10 @@ name: Prometheus Operator Linter
 on:
   pull_request:
     paths:
-    - kubectl_deploy/*/*promethus.yaml
-    - kubectl_deploy/*/*promethus.yml
+    - kubectl_deploy/*prometheus.yaml
+    - kubectl_deploy/*prometheus.yml
+    - kubectl_deploy/*/*prometheus.yaml
+    - kubectl_deploy/*/*prometheus.yml
   workflow_dispatch:
 
 jobs:
