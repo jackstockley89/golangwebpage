@@ -9,24 +9,28 @@ on:
     - kubectl_deploy/*/*prometheus.yml
   workflow_dispatch:
 
+env:
+  GITHUB_OAUTH_TOKEN: ${{ secrets.AUTH_CHECK_GITHUB }}
+
 jobs:
-  pint:
+  po-lint:
+    runs-on: ${{ matrix.os }}
+
     strategy:
       matrix:
-        go-version: [1.18.x]
         os: [ubuntu-latest]
-    runs-on: ${{ matrix.os }}
-    steps:
-      - uses: actions/checkout@v3
 
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
 
       - name: Run po-linter
         uses: ministryofjustice/cloud-platform-po-linter@po-linter
         continue-on-error: true
         id: po-linter
-
         env:
           GITHUB_OAUTH_TOKEN: ${{ secrets.ACTION_TOKEN }}
+          
       - name: Result
         uses: actions/github-script@v6
         env:
