@@ -1,0 +1,12 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: cycling-blog-app
+  namespace: jacksapp-dev
+spec:
+  selector:
+    matchLabels:
+      app: cycling-blog-app
+  endpoints:
+  - port: http # this is the port name you grabbed from your running service
+    interval: 15s

@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.db_deployment.app }}
+  namespace: {{ .Values.namespace }}
+  labels: 
+    app: {{ .Values.db_deployment.app }}
+spec:
+  replicas: {{ .Values.db_deployment.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.db_deployment.app }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.db_deployment.app }}
+    spec: 
+      containers:
+      - name: {{ .Values.db_deployment.app }}
+        image: {{ .Values.db_deployment.template.containers.image }}
+        resources:
+          requests:
+            memory: {{ .Values.db_deployment.template.containers.resources.requests.memory }}
+            cpu: {{ .Values.db_deployment.template.containers.resources.requests.cpu }}
+          limits:
+            memory: {{ .Values.db_deployment.template.containers.resources.limits.memory }}
+            cpu: {{ .Values.db_deployment.template.containers.resources.limits.cpu }}
+        ports:
+        - containerPort: {{ .Values.db_deployment.template.containers.ports.containerPort }}
+        env:
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: pgpass
+              key: username
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: pgpass
+              key: password
+        - name: POSTGRES_DB
+          valueFrom:
+            secretKeyRef:
+              name: pgpass
+              key: db_name
+        - name: HOSTNAME
+          valueFrom:
+            secretKeyRef:
+              name: pgpass
+              key: hostname
+
