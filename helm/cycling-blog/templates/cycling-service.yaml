@@ -24,6 +24,6 @@ spec:
   - name: {{ .Values.db_service.ports.name }}
     protocol: {{ .Values.db_service.ports.protocol }}
     port: {{ .Values.db_service.ports.port }}
-    targetPort: {{ .Values.adb_service.ports.port }}
+    targetPort: {{ .Values.db_service.ports.port }}
   selector:
     app: {{ .Values.db_deployment.app }}

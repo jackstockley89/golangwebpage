@@ -24,10 +24,10 @@ spec:
             memory: {{ .Values.app_deployment.template.containers.resources.requests.memory }}
             cpu: {{ .Values.app_deployment.template.containers.resources.requests.cpu }}
           limits:
-            memory: {{ .Values.app_deployment.template.containers.resources.limts.memory }}
+            memory: {{ .Values.app_deployment.template.containers.resources.limits.memory }}
             cpu: {{ .Values.app_deployment.template.containers.resources.limits.cpu }}
         ports:
-        - containerPort: {{ .Values.app_deployment.template.containers.ports.containerPort }}
+        - containerPort: {{ .Values.app_service.ports.port }}
         env:
         - name: PGPASSFILE
           valueFrom: 

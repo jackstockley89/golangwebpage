@@ -1,17 +1,22 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  metadata:
   name: cycling-blog-app-insert
   namespace: jacksapp-dev
   labels: 
     app: cycling-blog-app
-spec:
+  annotations:
+    # This is what defines this resource as a hook. Without this line, the
+    # job is considered part of the release.
+    "helm.sh/hook": post-install
+    "helm.sh/hook-weight": "10"
+    "helm.sh/hook-delete-policy": hook-succeeded
+spec: 
   template:
     spec:
       containers:
       - name: cycling-blog-app
-        image: 754256621582.dkr.ecr.eu-west-2.amazonaws.com/webops/jacksapp-dev-ecr:2.0
+        image: jackstock8904/cycling-blog:latest
         imagePullPolicy: Always
         command: ["psql"]
         args: ["-h", "$(CYCLING_BLOG_DB_SERVICE_SERVICE_HOST)", "-U", "$(POSTGRES_USER)", "-d", "$(POSTGRES_DB)", "-w", "-a", "-f", "sql/table_insert.sql"]

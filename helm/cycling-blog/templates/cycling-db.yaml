@@ -26,7 +26,7 @@ spec:
             memory: {{ .Values.db_deployment.template.containers.resources.limits.memory }}
             cpu: {{ .Values.db_deployment.template.containers.resources.limits.cpu }}
         ports:
-        - containerPort: {{ .Values.db_deployment.template.containers.ports.containerPort }}
+        - containerPort: {{ .Values.db_service.ports.port }}
         env:
         - name: POSTGRES_USER
           valueFrom:

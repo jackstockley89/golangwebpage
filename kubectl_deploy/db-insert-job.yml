@@ -9,6 +9,12 @@ metadata:
 spec:
   template:
     spec:
+      initContainers:
+      - name: check-db-ready
+        image: bitnami/postgresql:latest
+        command: ['sh', '-c', 
+          'until pg_isready -h postgres -p 5432; 
+          do echo waiting for database; sleep 2; done;']
       containers:
       - name: cycling-blog-app
         image: 754256621582.dkr.ecr.eu-west-2.amazonaws.com/webops/jacksapp-dev-ecr:2.0

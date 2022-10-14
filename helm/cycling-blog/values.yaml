@@ -1,4 +1,5 @@
 # Declare variables to be passed into your templates.
+envProd: "false"
 namespace: jacksapp-dev
 
 app_service:
@@ -18,22 +19,14 @@ db_service:
 ingress:
   enabled: true
   name: jackstockley-helloworld-ingress
-  annotations:
-    ingressClasslass: nginx
-    setIdentifier: jackstockley-helloworld-ingress-jacksapp-dev-green
-    awsWeight: "100"
-  tls:
-    hosts:
-    - host_1: jackstockley-helloworld.apps.live.cloud-platform.service.justice.gov.uk
-    - host_2: jacksapp-devs.service.justice.gov.uk
-      secretName: jacksapp-dev-certificate
-    rules:
-      http:
-        paths:
-        - path: /
-          backend:
-            serviceName: cycling-blog-app-service
-            servicePort: 8080
+  hosts:
+  - host: jackstockley-helloworld.apps.live.cloud-platform.service.justice.gov.uk
+  - host: jacksapp-devs.service.justice.gov.uk
+    secretName: jacksapp-dev-certificate
+  path: /
+  serviceName: cycling-blog-app-service
+  servicePort: 8080  
+  
 
 db_deployment:
   replicas: 1
@@ -56,7 +49,7 @@ app_deployment:
   app: cycling-blog-app
   template:
     containers:
-      image: ${ECR_URL}:${IMAGE_TAG}
+      image: jackstock8904/cycling-blog:latest
       imagePullPolicy: Always
       resources:
         requests:
