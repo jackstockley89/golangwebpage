@@ -28,4 +28,4 @@ spec:
       - path: /
         backend:
           serviceName: cycling-blog-app-service
-          servicePort: 8080
+          servicePort: 8080   
