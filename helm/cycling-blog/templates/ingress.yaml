@@ -1,15 +1,14 @@
-{{- $envProd := .Values.envProd -}}
+{{- $envAWS := .Values.envAWS -}}
 {{- $path := .Values.ingress.path -}}
 {{- $serviceName := .Values.ingress.serviceName -}}
 {{- $servicePort := .Values.ingress.servicePort -}}
-{{- if eq $envProd "true" -}}
+{{- if eq $envAWS true -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: {{ .Values.ingress.name }}
   namespace: {{ .Values.namespace }}
   annotations:
-    kubernetes.io/ingress.class: nginx
     external- dns.alpha.kubernetes.io/set-identifier: jackstockley-helloworld-ingress-jacksapp-dev-green
     external-dns.alpha.kubernetes.io/aws-weight: "100"
 spec:
