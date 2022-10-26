@@ -20,7 +20,7 @@ jobs:
     if: github.ref == 'refs/heads/master'
     steps:
       - uses: actions/checkout@v3
-      - uses: hashicorp/setup-terraform@v2.0.0
+      - uses: hashicorp/setup-terraform@v2.0.2
         with:
           terraform_version: 1.0.1
           terraform_wrapper: false
