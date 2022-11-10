@@ -22,7 +22,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Run po-linter
-        uses: ministryofjustice/cloud-platform-po-linter@1.0.0
+        uses: docker://ministryofjustice/cloud-platform-po-linter:latest
         continue-on-error: true
         id: po-linter
         env:
