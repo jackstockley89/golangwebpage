@@ -21,9 +21,10 @@ jobs:
 
       - id: approve_colab_user
         name: Check PR user 
-        uses: jackstockley89/github-actions/auth-check@main
+        uses: jackstockley89/github-actions/auth-check@v1.0.5
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COMMAND: auth-check
 
       - name: Output
         run: echo ${{ steps.approve_colab_user.outputs.approve_colab_user }}
@@ -41,10 +42,11 @@ jobs:
               body: 'This is a known Colaborator. Please Review this Pull Request.'
             });
       - name: adding collaborator
-        uses: jackstockley89/github-actions/assignee@main
+        uses: jackstockley89/github-actions/assignee@v1.0.5
         if: steps.approve_colab_user.outputs.approve_colab_user == 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COMMAND: assignee
 
       - name: Comment on PR if false
         uses: actions/github-script@v6
@@ -59,7 +61,8 @@ jobs:
               body: 'This isn't a known Colaborator. This Pull Request will now be closed.'
             });
       - name: close pull request
-        uses: jackstockley89/github-actions/close-pr@main
+        uses: jackstockley89/github-actions/close-pr@v1.0.5
         if: steps.approve_colab_user.outputs.approve_colab_user == 'false'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          COMMAND: close-pr
