@@ -24,7 +24,6 @@ jobs:
         uses: docker://jackstock8904/auth-check:latest
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          COMMAND: auth-check
 
       - name: Output
         run: echo ${{ steps.approve_colab_user.outputs.approve_colab_user }}
@@ -46,7 +45,6 @@ jobs:
         if: steps.approve_colab_user.outputs.approve_colab_user == 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          COMMAND: assignee
 
       - name: Comment on PR if false
         uses: actions/github-script@v6
@@ -65,4 +63,3 @@ jobs:
         if: steps.approve_colab_user.outputs.approve_colab_user == 'false'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          COMMAND: close-pr
