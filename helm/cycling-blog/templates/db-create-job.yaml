@@ -2,7 +2,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: cycling-blog-app-create
-  namespace: jacksapp-dev
+  namespace: {{ .Values.namespace }}
   labels: 
     app: cycling-blog-app
   annotations:

@@ -1,18 +1,19 @@
 {{- $envAWS := .Values.envAWS -}}
-{{- $envAWS := .Values.envIng -}}
+{{- $envIng := .Values.envIng -}}
 {{- $path := .Values.ingress.path -}}
 {{- $serviceName := .Values.ingress.serviceName -}}
 {{- $servicePort := .Values.ingress.servicePort -}}
+
 {{- if eq $envAWS true -}}
-  {{- if eq $envIng v1beta -}}
+  {{- if eq $envIng "v1beta1" -}}
   apiVersion: networking.k8s.io/v1beta1
   kind: Ingress
   metadata:
     name: {{ .Values.ingress.name }}
     namespace: {{ .Values.namespace }}
     annotations:
-      external- dns.alpha.kubernetes.io/set-identifier: {{ .Values.annotations.set-indentifier }}
-      external-dns.alpha.kubernetes.io/aws-weight: {{ .Values.annotations.aws-weight }}
+      external- dns.alpha.kubernetes.io/set-identifier: {{ .Values.annotations.setIndentifier }}
+      external-dns.alpha.kubernetes.io/aws-weight: {{ .Values.annotations.awsWeight }}
   spec:
     tls:
     {{- range .Values.ingress.hosts }}
@@ -31,15 +32,15 @@
                 serviceName: {{ $serviceName }} 
                 servicePort: {{ $servicePort }}
       {{- end }}
-  {{- else if eq $envIng v1 -}}
+  {{- else if eq $envIng "v1" -}}
   apiVersion: networking.k8s.io/v1
   kind: Ingress
   metadata:
     name: {{ .Values.ingress.name }}
     namespace: {{ .Values.namespace }}
     annotations:
-      external- dns.alpha.kubernetes.io/set-identifier: {{ .Values.annotations.set-indentifier }}
-      external-dns.alpha.kubernetes.io/aws-weight: {{ .Values.annotations.aws-weight }}
+      external- dns.alpha.kubernetes.io/set-identifier: {{ .Values.annotations.setIndentifier }}
+      external-dns.alpha.kubernetes.io/aws-weight: {{ .Values.annotations.awsWeight }}
   spec:
     tls:
     {{- range .Values.ingress.hosts }}
@@ -61,7 +62,7 @@
                     number: {{ $servicePort }}
       {{- end }}
   {{- end }}
-{{- else if $envAWS false -}}
+{{- else if eq $envAWS false -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
