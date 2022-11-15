@@ -1,0 +1,77 @@
+# Declare variables to be passed into your templates.
+envAWS: true
+envIng: v1
+namespace: jacksapp-dev
+
+annotations:
+  set-identifier: jackstockley-helloworld-ingress-jacksapp-dev-green
+  aws-weight: "100"
+
+app_service:
+  name: cycling-blog-app-service
+  ports:
+    name: http
+    protocol: TCP
+    port: 8080
+
+db_service:
+  name: cycling-blog-db-service
+  ports:
+    name: db
+    protocol: TCP
+    port: 5432
+
+ingress:
+  enabled: true
+  name: jackstockley-helloworld-ingress
+  hosts:
+  - host: jackstockley-helloworld.apps.live.cloud-platform.service.justice.gov.uk
+  - host: jacksapp-devs.service.justice.gov.uk
+    secretName: jacksapp-dev-certificate
+  path: /
+  serviceName: cycling-blog-app-service
+  servicePort: 8080  
+  
+
+db_deployment:
+  replicas: 1
+  app: cycling-blog-db
+  template:
+    containers:
+      image: bitnami/postgresql:latest
+      resources:
+        requests:
+          memory: "64Mi"
+          cpu: "250m"
+        limits:
+          memory: "64Mi"
+          cpu: "250m"
+      ports:
+      - containerPort: 5432
+
+app_deployment:
+  replicas: 1
+  app: cycling-blog-app
+  template:
+    containers:
+      image: jackstock8904/cycling-blog:latest
+      imagePullPolicy: Always
+      resources:
+        requests:
+          memory: "64Mi"
+          cpu: "250m"
+        limits:
+          memory: "128Mi"
+          cpu: "500m"
+      ports:
+      - containerPort: 8080
+   
+secret:
+  data:
+    auth: amFjazokYXByMSRUNE52Q2t4MCRQdzJPcVZkbnU4bmxUUmsxdGpNTkExCg==
+    connect: Y3ljbGluZy1ibG9nLWRiLXNlcnZpY2U6NTQzMjpjeWNsaW5nYmxvZzpkZW1vdXNlcjpQNDU1dzByZA==
+    hostname: Y3ljbGluZy1ibG9nLWRi
+    username: ZGVtb3VzZXI=
+    password: UDQ1NXcwcmQ=
+    dbname: Y3ljbGluZ2Jsb2c=
+    port: NTQzMg==

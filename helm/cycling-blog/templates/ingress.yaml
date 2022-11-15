@@ -1,37 +1,67 @@
 {{- $envAWS := .Values.envAWS -}}
+{{- $envAWS := .Values.envIng -}}
 {{- $path := .Values.ingress.path -}}
 {{- $serviceName := .Values.ingress.serviceName -}}
 {{- $servicePort := .Values.ingress.servicePort -}}
 {{- if eq $envAWS true -}}
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: {{ .Values.ingress.name }}
-  namespace: {{ .Values.namespace }}
-  annotations:
-    external- dns.alpha.kubernetes.io/set-identifier: jackstockley-helloworld-ingress-jacksapp-dev-green
-    external-dns.alpha.kubernetes.io/aws-weight: "100"
-spec:
-  tls:
-  {{- range .Values.ingress.hosts }}
-    - hosts:
-      - {{ .host }}
-      secretName: {{ .secretName }}
-  {{- end }}
-  rules:
+  {{- if eq $envIng v1beta -}}
+  apiVersion: networking.k8s.io/v1beta1
+  kind: Ingress
+  metadata:
+    name: {{ .Values.ingress.name }}
+    namespace: {{ .Values.namespace }}
+    annotations:
+      external- dns.alpha.kubernetes.io/set-identifier: {{ .Values.annotations.set-indentifier }}
+      external-dns.alpha.kubernetes.io/aws-weight: {{ .Values.annotations.aws-weight }}
+  spec:
+    tls:
     {{- range .Values.ingress.hosts }}
-    - host: {{ .host }}
-      http:
-        paths:
-          - path: {{ $path }}
-            pathType: ImplementationSpecific
-            backend:
-              service:
-                name: {{ $serviceName }}
-                port:
-                  number: {{ $servicePort }}
+      - hosts:
+        - {{ .host }}
+        secretName: {{ .secretName }}
     {{- end }}
-{{- else -}}
+    rules:
+      {{- range .Values.ingress.hosts }}
+      - host: {{ .host }}
+        http:
+          paths:
+            - path: {{ $path }}
+              pathType: ImplementationSpecific
+              backend:
+                serviceName: {{ $serviceName }} 
+                servicePort: {{ $servicePort }}
+      {{- end }}
+  {{- else if eq $envIng v1 -}}
+  apiVersion: networking.k8s.io/v1
+  kind: Ingress
+  metadata:
+    name: {{ .Values.ingress.name }}
+    namespace: {{ .Values.namespace }}
+    annotations:
+      external- dns.alpha.kubernetes.io/set-identifier: {{ .Values.annotations.set-indentifier }}
+      external-dns.alpha.kubernetes.io/aws-weight: {{ .Values.annotations.aws-weight }}
+  spec:
+    tls:
+    {{- range .Values.ingress.hosts }}
+      - hosts:
+        - {{ .host }}
+        secretName: {{ .secretName }}
+    {{- end }}
+    rules:
+      {{- range .Values.ingress.hosts }}
+      - host: {{ .host }}
+        http:
+          paths:
+            - path: {{ $path }}
+              pathType: ImplementationSpecific
+              backend:
+                service:
+                  name: {{ $serviceName }}
+                  port:
+                    number: {{ $servicePort }}
+      {{- end }}
+  {{- end }}
+{{- else if $envAWS false -}}
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
