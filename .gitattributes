@@ -1,2 +1,2 @@
-  values.yaml filter=git-crypt diff=git-crypt
+  helm/values-*.yaml filter=git-crypt diff=git-crypt
   kubectl_deploy/secret.yaml filter=git-crypt diff=git-crypt
