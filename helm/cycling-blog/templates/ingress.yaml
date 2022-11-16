@@ -12,6 +12,7 @@
     name: {{ .Values.ingress.name }}
     namespace: {{ .Values.namespace }}
     annotations:
+      kubernetes.io/ingress.class: nginx
       external- dns.alpha.kubernetes.io/set-identifier: {{ .Values.annotations.setIndentifier }}
       external-dns.alpha.kubernetes.io/aws-weight: {{ .Values.annotations.awsWeight }}
   spec:
@@ -42,6 +43,7 @@
       external- dns.alpha.kubernetes.io/set-identifier: {{ .Values.annotations.setIndentifier }}
       external-dns.alpha.kubernetes.io/aws-weight: {{ .Values.annotations.awsWeight }}
   spec:
+    ingressClassName: default
     tls:
     {{- range .Values.ingress.hosts }}
       - hosts:
