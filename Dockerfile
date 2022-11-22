@@ -14,11 +14,11 @@ WORKDIR /app
 COPY go.mod /app
 COPY go.sum /app
 COPY main.go /app
-COPY sql /app
-COPY static /app
-COPY templates /app
 COPY .env_db /app
 COPY .env_app /app
+ADD sql /app/sql
+ADD static /app/static
+ADD templates /app/templates
 
 RUN chown -R appuser:appgroup /app
 RUN chown -R appuser:appgroup /go/bin
