@@ -6,7 +6,7 @@ metadata:
   labels:
     app: {{ .Values.app_deployment.app }}
 spec:
-  replicas: 1
+  replicas: {{ .Values.app_deployment.replicas }}
   selector:
     matchLabels:
       app: {{ .Values.app_deployment.app }}
@@ -29,24 +29,10 @@ spec:
         ports:
         - containerPort: {{ .Values.app_service.ports.port }}
         env:
-        - name: PGPASSFILE
+        {{- range .Values.db_env }}
+        - name: {{ .name }}
           valueFrom: 
             secretKeyRef:
-              name: pgpass
-              key: connect
-        - name: POSTGRES_USER
-          valueFrom:
-            secretKeyRef:
-              name: pgpass
-              key: username
-        - name: PGPASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: pgpass
-              key: password
-        - name: POSTGRES_DB
-          valueFrom:
-            secretKeyRef:
-              name: pgpass
-              key: db_name
-          
+              name: {{ .secretName }}
+              key: {{ .key }}
+        {{- end }}

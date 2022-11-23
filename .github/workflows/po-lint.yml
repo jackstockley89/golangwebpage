@@ -27,6 +27,7 @@ jobs:
         id: po-linter
         env:
           GITHUB_OAUTH_TOKEN: ${{ secrets.ACTION_TOKEN }}
+          REPO_DIRECTORY: kubectl_deploy
           
       - name: Result
         uses: actions/github-script@v6

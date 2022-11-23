@@ -28,24 +28,10 @@ spec:
         ports:
         - containerPort: {{ .Values.db_service.ports.port }}
         env:
-        - name: POSTGRES_USER
-          valueFrom:
+        {{- range .Values.db_env }}
+        - name: {{ .name }}
+          valueFrom: 
             secretKeyRef:
-              name: pgpass
-              key: username
-        - name: POSTGRES_PASSWORD
-          valueFrom:
-            secretKeyRef:
-              name: pgpass
-              key: password
-        - name: POSTGRES_DB
-          valueFrom:
-            secretKeyRef:
-              name: pgpass
-              key: db_name
-        - name: HOSTNAME
-          valueFrom:
-            secretKeyRef:
-              name: pgpass
-              key: hostname
-
+              name: {{ .secretName }}
+              key: {{ .key }}
+        {{- end }}
