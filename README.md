@@ -14,7 +14,7 @@
 [![localstack-action-example](https://github.com/jackstockley89/golangwebpage/actions/workflows/localstack-testing.yml/badge.svg)](https://github.com/jackstockley89/golangwebpage/actions/workflows/localstack-testing.yml)
 [![Go Test](https://github.com/jackstockley89/golangwebpage/actions/workflows/go-test.yml/badge.svg)](https://github.com/jackstockley89/golangwebpage/actions/workflows/go-test.yml)
 
-[![Publish Docker image](https://github.com/jackstockley89/golangwebpage/actions/workflows/docker-build-and-push.yml/badge.svg)](https://github.com/jackstockley89/golangwebpage/actions/workflows/docker-build-and-push.yml)
+[![Release Go project](https://github.com/jackstockley89/golangwebpage/actions/workflows/go-releaser.yaml/badge.svg)](https://github.com/jackstockley89/golangwebpage/actions/workflows/go-releaser.yaml)
 [![Continuous Deployment](https://github.com/jackstockley89/golangwebpage/actions/workflows/cd.yml/badge.svg)](https://github.com/jackstockley89/golangwebpage/actions/workflows/cd.yml)
 [![CodeQL](https://github.com/jackstockley89/golangwebpage/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/jackstockley89/golangwebpage/actions/workflows/codeql-analysis.yml)
 [![Open Issues](https://github.com/jackstockley89/golangwebpage/actions/workflows/open-issues.yml/badge.svg)](https://github.com/jackstockley89/golangwebpage/actions/workflows/open-issues.yml)
