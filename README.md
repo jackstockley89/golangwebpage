@@ -9,7 +9,7 @@
 
 <h2 align="left" style="font-family: 'Lucida Sans', Arial, sans-serif"><b>Actions</b></h2>
 
-[![Pull Request Authentication Check](https://github.com/jackstockley89/golangwebpage/actions/workflows/auth-check.yml/badge.svg)](https://github.com/jackstockley89/golangwebpage/actions/workflows/auth-check.yml)
+[![Pull Request Authentication Check](https://github.com/jackstockley89/golangwebpage/actions/workflows/auth-check.yaml/badge.svg)](https://github.com/jackstockley89/golangwebpage/actions/workflows/auth-check.yaml)
 [![Terraform Plan infra/EKS](https://github.com/jackstockley89/golangwebpage/actions/workflows/terraform-plan.yml/badge.svg)](https://github.com/jackstockley89/golangwebpage/actions/workflows/terraform-plan.yml)
 [![localstack-action-example](https://github.com/jackstockley89/golangwebpage/actions/workflows/localstack-testing.yml/badge.svg)](https://github.com/jackstockley89/golangwebpage/actions/workflows/localstack-testing.yml)
 [![Go Test](https://github.com/jackstockley89/golangwebpage/actions/workflows/go-test.yml/badge.svg)](https://github.com/jackstockley89/golangwebpage/actions/workflows/go-test.yml)
