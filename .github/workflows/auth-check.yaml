@@ -2,6 +2,8 @@ name: Pull Request Authentication Check
 
 on:
   pull_request:
+    branches-ignore:
+      - 'dependabot/**'
   workflow_dispatch:
 
 env:
@@ -17,11 +19,11 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - id: approve_colab_user
         name: Check PR user 
-        uses: jackstockley89/github-actions/auth-check@main
+        uses: docker://jackstock8904/auth-check:latest
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
@@ -29,7 +31,7 @@ jobs:
         run: echo ${{ steps.approve_colab_user.outputs.approve_colab_user }}
 
       - name: Comment on PR if true
-        uses: actions/github-script@v5
+        uses: actions/github-script@v6
         if: steps.approve_colab_user.outputs.approve_colab_user == 'true'
         with:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
@@ -41,13 +43,13 @@ jobs:
               body: 'This is a known Colaborator. Please Review this Pull Request.'
             });
       - name: adding collaborator
-        uses: jackstockley89/github-actions/assignee@main
+        uses: docker://jackstock8904/assignee:latest
         if: steps.approve_colab_user.outputs.approve_colab_user == 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Comment on PR if false
-        uses: actions/github-script@v5
+        uses: actions/github-script@v6
         if: steps.approve_colab_user.outputs.approve_colab_user == 'false'
         with:
           github-token: "${{ secrets.GITHUB_TOKEN }}"
@@ -59,7 +61,7 @@ jobs:
               body: 'This isn't a known Colaborator. This Pull Request will now be closed.'
             });
       - name: close pull request
-        uses: jackstockley89/github-actions/close-pr@main
+        uses: docker://jackstock8904/close-pr:latest
         if: steps.approve_colab_user.outputs.approve_colab_user == 'false'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

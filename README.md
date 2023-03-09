@@ -9,14 +9,16 @@
 
 <h2 align="left" style="font-family: 'Lucida Sans', Arial, sans-serif"><b>Actions</b></h2>
 
-[![Pull Request Authentication Check](https://github.com/jackstockley89/golangwebpage/actions/workflows/auth-check.yml/badge.svg)](https://github.com/jackstockley89/golangwebpage/actions/workflows/auth-check.yml)
+[![Pull Request Authentication Check](https://github.com/jackstockley89/golangwebpage/actions/workflows/auth-check.yaml/badge.svg)](https://github.com/jackstockley89/golangwebpage/actions/workflows/auth-check.yaml)
 [![Terraform Plan infra/EKS](https://github.com/jackstockley89/golangwebpage/actions/workflows/terraform-plan.yml/badge.svg)](https://github.com/jackstockley89/golangwebpage/actions/workflows/terraform-plan.yml)
 [![localstack-action-example](https://github.com/jackstockley89/golangwebpage/actions/workflows/localstack-testing.yml/badge.svg)](https://github.com/jackstockley89/golangwebpage/actions/workflows/localstack-testing.yml)
 [![Go Test](https://github.com/jackstockley89/golangwebpage/actions/workflows/go-test.yml/badge.svg)](https://github.com/jackstockley89/golangwebpage/actions/workflows/go-test.yml)
 
-[![Publish Docker image](https://github.com/jackstockley89/golangwebpage/actions/workflows/docker-build-and-push.yml/badge.svg)](https://github.com/jackstockley89/golangwebpage/actions/workflows/docker-build-and-push.yml)
+[![Release Go project](https://github.com/jackstockley89/golangwebpage/actions/workflows/go-releaser.yaml/badge.svg)](https://github.com/jackstockley89/golangwebpage/actions/workflows/go-releaser.yaml)
 [![Continuous Deployment](https://github.com/jackstockley89/golangwebpage/actions/workflows/cd.yml/badge.svg)](https://github.com/jackstockley89/golangwebpage/actions/workflows/cd.yml)
 [![CodeQL](https://github.com/jackstockley89/golangwebpage/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/jackstockley89/golangwebpage/actions/workflows/codeql-analysis.yml)
+[![Open Issues](https://github.com/jackstockley89/golangwebpage/actions/workflows/open-issues.yml/badge.svg)](https://github.com/jackstockley89/golangwebpage/actions/workflows/open-issues.yml)
+[![Pull Request Checker](https://github.com/jackstockley89/golangwebpage/actions/workflows/pr-checker.yml/badge.svg)](https://github.com/jackstockley89/golangwebpage/actions/workflows/pr-checker.yml)
 <br/>
 
 <h2 align="left" style="font-family: 'Lucida Sans', Arial, sans-serif"><b>Prerequisite</b></h2>

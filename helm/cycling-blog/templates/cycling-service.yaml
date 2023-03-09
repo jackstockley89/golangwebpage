@@ -1,0 +1,29 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: {{ .Values.app_service.name }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.app_deployment.app }}
+spec:
+  ports:
+  - name: {{ .Values.app_service.ports.name }}
+    protocol: {{ .Values.app_service.ports.protocol }}
+    port: {{ .Values.app_service.ports.port }}
+    targetPort: {{ .Values.app_service.ports.port }}
+  selector:
+    app: {{ .Values.app_deployment.app }}
+---
+kind: Service
+apiVersion: v1
+metadata:
+ name: {{ .Values.db_service.name }}
+ namespace: {{ .Values.namespace }}
+spec:
+  ports:
+  - name: {{ .Values.db_service.ports.name }}
+    protocol: {{ .Values.db_service.ports.protocol }}
+    port: {{ .Values.db_service.ports.port }}
+    targetPort: {{ .Values.db_service.ports.port }}
+  selector:
+    app: {{ .Values.db_deployment.app }}

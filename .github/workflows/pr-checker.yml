@@ -1,0 +1,34 @@
+name: Pull Request Checker
+
+on:
+  schedule:
+    - cron: '00 23 1 * *'
+  workflow_dispatch:
+
+jobs:
+  pull-request-checker:
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+
+    runs-on: ${{ matrix.os }}
+    
+    steps:
+    - uses: actions/checkout@v3
+    - name: list open pull requests
+      run: |
+        list=`hub pr list`
+        list="${list//'%'/'%25'}"
+        list="${list//$'\n'/'%0A'}"
+        list="${list//$'\r'/'%0D'}"
+        echo "::set-output name=OpenPullRequests::$list"
+      id: prlist
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Slack Notification
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_MESSAGE: '${{ steps.prlist.outputs.OpenPullRequests }}'
+        SLACK_TITLE: Open Pull Requests 
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}

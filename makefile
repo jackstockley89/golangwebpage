@@ -1,5 +1,5 @@
-IMAGE := jackstockley89/golangwebpage
-TAG := 1.2.3
+IMAGE := jackstock8904/cycling-blog
+TAG := 1.2.6
 
 .built-image: Dockerfile makefile
 		docker build -t ${IMAGE} .

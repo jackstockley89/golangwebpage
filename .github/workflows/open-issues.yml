@@ -1,0 +1,35 @@
+name: Open Issues
+
+on:
+  schedule:
+    - cron: '01 23 1 * *'
+  workflow_dispatch:
+
+jobs:
+  pull-request-checker:
+    strategy:
+      matrix:
+        os: [ubuntu-latest]
+
+    runs-on: ${{ matrix.os }}
+    
+    steps:
+    - uses: actions/checkout@v3
+    - name: list open issues
+      run: |
+        list=`gh issue list --json number,title --template \
+        '{{range .}}{{tablerow (printf "#%v" .number | autocolor "green") .title}}{{end}}'`
+        list="${list//'%'/'%25'}"
+        list="${list//$'\n'/'%0A'}"
+        list="${list//$'\r'/'%0D'}"
+        echo "::set-output name=OpenIssues::$list"
+      id: ilist
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Slack Notification
+      uses: rtCamp/action-slack-notify@v2
+      env:
+        SLACK_MESSAGE: '${{ steps.ilist.outputs.OpenIssues }}'
+        SLACK_TITLE: Open Issues
+        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK_URL }}
