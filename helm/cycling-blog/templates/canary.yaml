@@ -1,0 +1,118 @@
+{{- $canary := .Values.canary -}}
+{{- $envAWS := .Values.envAWS -}}
+{{- $path := .Values.canary_ingress.path -}}
+{{- $serviceName := .Values.canary_ingress.serviceName -}}
+{{- $servicePort := .Values.canary_ingress.servicePort -}}
+
+{{- if eq $canary true -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.canary_deployment.app }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.canary_deployment.app }}
+spec:
+  replicas: {{ .Values.canary_deployment.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.canary_deployment.app }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.canary_deployment.app }}
+    spec:
+      containers:
+      - name: {{ .Values.canary_deployment.app }}
+        image: {{ .Values.canary_deployment.template.containers.image }}
+        imagePullPolicy: {{ .Values.canary_deployment.template.containers.imagePullPolicy }}
+        resources:
+          requests:
+            memory: {{ .Values.canary_deployment.template.containers.resources.requests.memory }}
+            cpu: {{ .Values.canary_deployment.template.containers.resources.requests.cpu }}
+          limits:
+            memory: {{ .Values.canary_deployment.template.containers.resources.limits.memory }}
+            cpu: {{ .Values.canary_deployment.template.containers.resources.limits.cpu }}
+        ports:
+        - containerPort: {{ .Values.canary_service.ports.port }}
+        env:
+        {{- range .Values.db_env }}
+        - name: {{ .name }}
+          valueFrom: 
+            secretKeyRef:
+              name: {{ .secretName }}
+              key: {{ .key }}
+        {{- end }}
+---
+{{- if eq $envAWS true -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Values.canary_ingress.name }}
+  namespace: {{ .Values.namespace }}
+  annotations:
+    nginx.ingress.kubernetes.io/canary: "true"
+    nginx.ingress.kubernetes.io/canary-weight: "20"
+    nginx.ingress.kubernetes.io/canary-by-header: "X-Canary"
+spec:
+  ingressClassName: default
+  tls:
+  {{- range .Values.canary_ingress.hosts }}
+    - hosts:
+      - {{ .host }}
+      secretName: {{ .secretName }}
+  {{- end }}
+  rules:
+    {{- range .Values.canary_ingress.hosts }}
+    - host: {{ .host }}
+      http:
+        paths:
+          - path: {{ $path }}
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: {{ $serviceName }}
+                port:
+                  number: {{ $servicePort }}
+    {{- end }}
+{{- else if eq $envAWS false -}}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ .Values.canary_ingress.name }}
+  namespace: {{ .Values.namespace }}
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/canary: "true"
+    nginx.ingress.kubernetes.io/canary-weight: "20"
+    nginx.ingress.kubernetes.io/canary-by-header: "X-Canary"
+spec:
+  rules:
+  - host: {{ .Values.canary_ingress.host }}
+  - http:
+      paths:
+      - path: {{ $path }}
+        pathType: Prefix 
+        backend:
+          service:
+            name: {{ $serviceName }}
+            port:
+              number: {{ $servicePort }}
+{{- end }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Values.canary_service.name }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.canary_deployment.app }}
+spec:
+  ports:
+  - name: {{ .Values.canary_service.ports.name }}
+    protocol: {{ .Values.canary_service.ports.protocol }}
+    port: {{ .Values.canary_service.ports.port }}
+    targetPort: {{ .Values.canary_service.ports.port }}
+  selector:
+    app: {{ .Values.canary_deployment.app }}
+{{- end }}
