@@ -1,3 +1,6 @@
+{{- $envRDS := .Values.envRDS -}}
+
+{{- if eq $envRDS false -}}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -35,3 +38,4 @@ spec:
               name: {{ .secretName }}
               key: {{ .key }}
         {{- end }}
+{{- end }}
