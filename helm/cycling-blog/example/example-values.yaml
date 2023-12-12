@@ -1,0 +1,115 @@
+# Declare variables to be passed into your templates.
+envAWS: [true/false]
+envRDS: [true/false]
+canary: [true/false]
+namespace: [name of the namespace to be deployed to]
+
+annotations:
+  hookDeletePolicy: hook-succeeded ## used for jobs to delete after success deployment
+  setIdentifier: [<ingress name>-<namespace name>-green] ## used for ingress 
+app_service:
+  name: [application service name]
+  ports:
+    name: [protocol name]
+    protocol: [TCP/]
+    port: [port number]
+
+db_service:
+  name: [database service name]
+  ## secret name and key should only be used for rds instances
+  secretName: [rds secret output name]
+  key: [rds endpoint secret value]
+  ## ports section is only needed for none rds db instances
+  ports:
+    name: [protocol name]
+    protocol: [TCP/]
+    port: [port number]
+
+ingress:
+  enabled: true
+  name: [ingress name]
+  hosts:
+  - host: [application frontend address]
+    secretName: [certificate secret name]
+  path: /
+  serviceName: [application service name]
+  servicePort: [application port number]
+  
+## only set db_deployment when not using a rds instance
+db_deployment:
+  replicas: [number of pods]
+  app: [name of database]
+  template:
+    containers:
+      image: [image address]
+      imagePullPolicy: [Always/]
+      resources:
+        requests:
+          memory: [min pod memory]
+          cpu: [min pod cpu]
+        limits:
+          memory: [max pod memory]
+          cpu: [max pod cpu]
+      ports:
+      - containerPort: [database port number]
+
+app_deployment:
+  replicas: [number of pods]
+  app: [name of application]
+  template:
+    containers:
+      image: [image address]
+      imagePullPolicy: [Always/]
+      resources:
+        requests:
+          memory: [min pod memory]
+          cpu: [min pod cpu]
+        limits:
+          memory: [max pod memory]
+          cpu: [max pod cpu]
+      ports:
+      - containerPort: [application port number]
+
+cycling_blog_db_create:
+  name: [job name]
+  app: [application name]
+  template:
+    containers:
+      imagePullPolicy: Always
+      command: ["psql"]
+      args: ["-h", "$(CYCLING_BLOG_DB_SERVICE_SERVICE_HOST)", "-U", "$(POSTGRES_USER)", "-d", "$(POSTGRES_DB)", "-w", "-a", "-f", "[file name]"]
+    restartPolicy: Never
+
+cycling_blog_db_insert:
+  name: [job name]  
+  app: [application name]
+  template:
+    containers:
+      imagePullPolicy: Always
+      command: ["psql"]
+      args: ["-h", "$(CYCLING_BLOG_DB_SERVICE_SERVICE_HOST)", "-U", "$(POSTGRES_USER)", "-d", "$(POSTGRES_DB)", "-w", "-a", "-f", "[file name]"]
+    restartPolicy: Never
+
+db_env:
+- name: POSTGRES_USER
+  secretName: [database secret output name]
+  key: [database username value]
+- name: PGPASSWORD
+  secretName: [database secret output name]
+  key: [database password value]
+- name: POSTGRESQL_PASSWORD
+  secretName: [database secret output name]
+  key: [database password value]
+- name: POSTGRES_DB
+  secretName: [database secret output name]
+  key: [database name value]
+
+secret:
+  data:
+    auth: [encrypted secret]
+    connect: [encrypted secret]
+    hostname: [encrypted secret]
+    username: [encrypted secret]
+    password: [encrypted secret]
+    dbname: [encrypted secret]
+    port: [encrypted secret]

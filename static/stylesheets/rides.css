@@ -1,0 +1,85 @@
+body  {
+  background-image: url("/static/stylesheets/images/background.jpg");
+  height: 100%;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.navcontainer {
+  position: absolute;
+  margin: 20px;
+  width: auto;
+}
+
+.topnav {
+  overflow: hidden;
+  background-color: #333;
+}
+
+.topnav a {
+  float: left;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+  font-family: 'Lato', sans-serif;
+  font-weight: bold;
+}
+
+.topnav a:hover {
+  background-color: #ddd;
+  color: black;
+  font-family: 'Lato', sans-serif;
+  font-weight: bold;
+}
+
+img {
+  max-width: 4032px;
+  max-height: 2198px;
+  width: 75%;
+}
+
+.grid-container {
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  margin-top: 0px;
+}
+
+.grid-element {
+  padding: 0px;
+  border: 1px solid transparent;
+}
+  
+table {
+  border-collapse: collapse;
+  width: 100%;
+  table-layout: fixed;
+}
+
+td, th {
+  border: 1px solid transparent;
+  padding: 8px;
+}
+
+th {
+  position: sticky;
+  top: -0;
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: center;
+  background-color: #09a4f1;
+  color: white;
+  font-family: 'Lato', sans-serif; 	  
+  font-size: 30px;
+  font-weight: bold;
+}
+
+td {
+  text-align: center;
+  color: #000000;
+  font-family: 'Lato', sans-serif;
+  font-size: 25px;
+  font-weight: normal;
+}

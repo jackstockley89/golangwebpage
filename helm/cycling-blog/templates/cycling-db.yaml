@@ -1,0 +1,41 @@
+{{- $envRDS := .Values.envRDS -}}
+
+{{- if eq $envRDS false -}}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.db_deployment.app }}
+  namespace: {{ .Values.namespace }}
+  labels: 
+    app: {{ .Values.db_deployment.app }}
+spec:
+  replicas: {{ .Values.db_deployment.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.db_deployment.app }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.db_deployment.app }}
+    spec: 
+      containers:
+      - name: {{ .Values.db_deployment.app }}
+        image: {{ .Values.db_deployment.template.containers.image }}
+        resources:
+          requests:
+            memory: {{ .Values.db_deployment.template.containers.resources.requests.memory }}
+            cpu: {{ .Values.db_deployment.template.containers.resources.requests.cpu }}
+          limits:
+            memory: {{ .Values.db_deployment.template.containers.resources.limits.memory }}
+            cpu: {{ .Values.db_deployment.template.containers.resources.limits.cpu }}
+        ports:
+        - containerPort: {{ .Values.db_service.ports.port }}
+        env:
+        {{- range .Values.db_env }}
+        - name: {{ .name }}
+          valueFrom: 
+            secretKeyRef:
+              name: {{ .secretName }}
+              key: {{ .key }}
+        {{- end }}
+{{- end }}

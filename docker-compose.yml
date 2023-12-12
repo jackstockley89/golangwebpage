@@ -1,0 +1,40 @@
+# Docker Compose file Reference (https://docs.docker.com/compose/compose-file/)
+
+version: '3.8'
+
+services:
+  # Database Server
+  db:
+    image: postgres:13-alpine
+    container_name: cycling-blog-db
+    env_file: .env_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - /Users/jackstockley/repo/script-volume:/scripts-volume:rw
+      - /Users/jackstockley/repo/postgres/data:/var/lib/postgresql/data:rw
+    networks:
+      - app-network
+  
+  # Application Server
+  app:
+    image: jackstockley/cycling-blog:1.2.3
+    container_name: cycling-blog-app
+    env_file: .env_app
+    ports:
+      - "8080:8080"
+    volumes:
+      - /Users/jackstockley/repo/script-volume:/scripts-volume:rw
+    depends_on: 
+      - db
+    networks:
+      - app-network
+  
+# Network
+networks:
+  app-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.110.0.0/16
+

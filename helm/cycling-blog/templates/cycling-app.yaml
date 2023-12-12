@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.app_deployment.app }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    app: {{ .Values.app_deployment.app }}
+spec:
+  replicas: {{ .Values.app_deployment.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.app_deployment.app }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.app_deployment.app }}
+    spec:
+      containers:
+      - name: {{ .Values.app_deployment.app }}
+        image: {{ .Values.app_deployment.template.containers.image }}
+        imagePullPolicy: {{ .Values.app_deployment.template.containers.imagePullPolicy }}
+        resources:
+          requests:
+            memory: {{ .Values.app_deployment.template.containers.resources.requests.memory }}
+            cpu: {{ .Values.app_deployment.template.containers.resources.requests.cpu }}
+          limits:
+            memory: {{ .Values.app_deployment.template.containers.resources.limits.memory }}
+            cpu: {{ .Values.app_deployment.template.containers.resources.limits.cpu }}
+        ports:
+        - containerPort: {{ .Values.app_service.ports.port }}
+        env:
+        {{- range .Values.db_env }}
+        - name: {{ .name }}
+          valueFrom: 
+            secretKeyRef:
+              name: {{ .secretName }}
+              key: {{ .key }}
+        {{- end }}

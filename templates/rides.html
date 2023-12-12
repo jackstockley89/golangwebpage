@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <link rel="stylesheet" href="/static/stylesheets/rides.css"> 
+   </head>
+   <body>
+      <div class="container">
+         <div class="topnav">
+            <a href="/home">Home</a>
+            <a href="/activities">Activities</a>
+         </div>
+      </div>
+      <div class="grid-container">
+         <div class="grid-element">
+            <table >
+               {{ range . }}
+               <tr>
+                  <th scope="col">{{.Name}}</th>
+               </tr>
+               {{ end }}
+               {{ range . }}
+               <tr>
+                  <td><img src={{.Route}} alt="25May2020" /></td>
+               </tr>
+               {{ end }}
+           </table>
+           <table >
+               <tr>
+                  <th scope="col">Date</th>
+                  <th scope="col">Distance (mi)</th>
+                  <th scope="col">Time</th>
+                  <th scope="col">AvgSpeed (mph)</th>
+               </tr>
+               {{ range . }}
+               <tr>
+                  <td>{{.Date}}</td>
+                  <td>{{.Distance}}</td>
+                  <td>{{.Time}}</td>
+                  <td>{{.AvgSpeed}}</td>
+               </tr>
+            {{ end }}
+        </table>
+         </div>
+      </div>
+   </body>
+</html>

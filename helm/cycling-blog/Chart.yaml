@@ -1,0 +1,9 @@
+apiVersion: v2
+name: cycling-blog
+version: 1.0.0
+description: blog showing cycling progression
+sources:
+  - https://github.com/jackstockley89/golangwebpage/helm-chart/helm/cycling-blog
+maintainers:
+  - name: jackstockley89
+    email: jack.stockley@digital.justice.gov.uk

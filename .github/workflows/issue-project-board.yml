@@ -1,0 +1,15 @@
+name: Move new issues into cycling-blog project
+
+on:
+  issues:
+    types: [opened]
+
+jobs:
+  automate-project-columns:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: alex-page/github-project-automation-plus@v0.8.2
+        with:
+          project: cycling-blog project
+          column: To do
+          repo-token: ${{ secrets.ACTION_TOKEN }}

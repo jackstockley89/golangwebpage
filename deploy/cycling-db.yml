@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cycling-blog-db
+  namespace: golang-app
+  labels: 
+    app: cycling-blog-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: cycling-blog-db
+  template:
+    metadata:
+      labels:
+        app: cycling-blog-db
+    spec: 
+      containers:
+      - name: cycling-blog-db
+        image: postgres:13-alpine
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 5432
+        env:
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: pgpass
+              key: username
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: pgpass
+              key: password
+        - name: POSTGRES_DB
+          valueFrom:
+            secretKeyRef:
+              name: pgpass
+              key: db_name
+        - name: HOSTNAME
+          valueFrom:
+            secretKeyRef:
+              name: pgpass
+              key: hostname
+
