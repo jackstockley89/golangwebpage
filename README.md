@@ -68,3 +68,9 @@ To stop the application with and database with
 ```
 docker-compose down
 ```
+
+<br/>
+
+<h2 align="left" style="font-family: 'Lucida Sans', Arial, sans-serif"><b>How to Run in Kubernetes</b></h2>
+
+---
