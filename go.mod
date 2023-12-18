@@ -54,9 +54,9 @@ require (
 	github.com/ulikunitz/xz v0.5.8 // indirect
 	github.com/zclconf/go-cty v1.8.1 // indirect
 	go.opencensus.io v0.23.0 // indirect
-	golang.org/x/crypto v0.0.0-20220722155217-630584e8d5aa // indirect
-	golang.org/x/sys v0.5.0 // indirect
-	golang.org/x/text v0.7.0 // indirect
+	golang.org/x/crypto v0.17.0 // indirect
+	golang.org/x/sys v0.15.0 // indirect
+	golang.org/x/text v0.14.0 // indirect
 	golang.org/x/xerrors v0.0.0-20220609144429-65e65417b02f // indirect
 	google.golang.org/api v0.91.0 // indirect
 	google.golang.org/genproto v0.0.0-20220902135211-223410557253 // indirect
@@ -68,7 +68,7 @@ require (
 require (
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/prometheus/common v0.37.0 // indirect
-	golang.org/x/net v0.7.0 // indirect
+	golang.org/x/net v0.10.0 // indirect
 	golang.org/x/oauth2 v0.0.0-20220822191816-0ebed06d0094 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
 	google.golang.org/protobuf v1.28.1 // indirect
