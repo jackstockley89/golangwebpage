@@ -19,7 +19,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Run po-linter
         uses: docker://ministryofjustice/cloud-platform-po-linter:latest
@@ -30,7 +30,7 @@ jobs:
           REPO_DIRECTORY: kubectl_deploy
           
       - name: Result
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         env:
             summary: "Result:\n${{ steps.po-linter.outputs.po-linter }}"
         with:
