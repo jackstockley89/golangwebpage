@@ -48,7 +48,7 @@ jobs:
         run: terraform -chdir="infra/EKS" plan -no-color -detailed-exitcode || true
 
       - name: Comment Output onto Pull Request
-        uses: actions/github-script@v6
+        uses: actions/github-script@v7
         if: github.event_name == 'pull_request' && steps.terraform_plan.outputs.exitcode == 2
         env:
             WORKSPACE: "terraform\n${{ steps.terraform_workspace.outputs.stdout }}"
