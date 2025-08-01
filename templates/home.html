@@ -1,21 +1,23 @@
 <!DOCTYPE html>
 
-<html>
+<html lang="en">
    <head>
+      <title>Home</title>
       <meta charset="UTF-8">
+      <link rel="stylesheet" href="/static/stylesheets/defaults.css">
       <link rel="stylesheet" href="/static/stylesheets/home.css">
+      <link rel="stylesheet" href="/static/stylesheets/navbar.css">
    </head>
    <body>
-      <div class="container">
-         <div class="topnav">
-            <a href="./">Home</a>
-            <a href="./activities">Activities</a>
-         </div>
-      </div>
+      <div id="navbar-container"></div>
       <div class="grid-container">
          <div class="grid-element">
-            <div class="welcome center">Welcome {{.Name}}, it is {{.Time}}</div>
+            <div class="welcome center">Welcome</div>
          </div>
       </div>
+
+      <script src="/static/javascript/navbar.js"></script>
+
    </body>
 </html>
+

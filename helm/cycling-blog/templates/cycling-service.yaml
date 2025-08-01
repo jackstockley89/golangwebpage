@@ -1,5 +1,3 @@
-{{- $envRDS := .Values.envRDS -}}
-
 kind: Service
 apiVersion: v1
 metadata:
@@ -15,32 +13,3 @@ spec:
     targetPort: {{ .Values.app_service.ports.port }}
   selector:
     app: {{ .Values.app_deployment.app }}
----
-{{- if eq $envRDS true -}}
-kind: Service
-apiVersion: v1
-metadata:
- name: {{ .Values.db_service.name }}
- namespace: {{ .Values.namespace }}
-spec:
-  type: ExternalName
-  externalName: 
-    valueFrom:
-      secretKeyRef:
-        name: {{ .Values.db_service.secretName }}
-        key: {{ .Values.db_service.key }}
-{{- else if eq $envRDS false -}}
-kind: Service
-apiVersion: v1
-metadata:
- name: {{ .Values.db_service.name }}
- namespace: {{ .Values.namespace }}
-spec:
-  ports:
-  - name: {{ .Values.db_service.ports.name }}
-    protocol: {{ .Values.db_service.ports.protocol }}
-    port: {{ .Values.db_service.ports.port }}
-    targetPort: {{ .Values.db_service.ports.port }}
-  selector:
-    app: {{ .Values.db_deployment.app }}
-{{- end }}

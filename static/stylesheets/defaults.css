@@ -1,0 +1,13 @@
+body  {
+  height: 100%;
+  background-color: aliceblue ;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.grid-container {
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  margin-top: 0px;
+}

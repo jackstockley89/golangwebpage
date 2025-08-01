@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <title>{{.Details.Name}}</title>
+      <meta charset="UTF-8">
+      <link rel="stylesheet" href="/static/stylesheets/defaults.css">
+      <link rel="stylesheet" href="/static/stylesheets/activities.css">
+      <link rel="stylesheet" href="/static/stylesheets/navbar.css">
+   </head>
+   <body>
+      <div id="navbar-container"></div>
+      <div class="grid-container">
+         <div class="grid-element">
+            <div class="activity-details">
+               <table>
+                  <thead>
+                     <tr class="route-header">
+                        <th>Route</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr class="route-row">
+                        <td><img class="route-image" src="{{.Details.Route}}" alt="Route Image"></td>
+                     </tr>
+                  </tbody>
+               </table>
+               <table>
+                  <thead>
+                     <tr>
+                        <th>Date</th>
+                        <th>Distance</th>
+                        <th>Time</th>
+                        <th>Average Speed</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td>{{.Details.Date}}</td>
+                        <td>{{.Details.Distance}} miles</td>
+                        <td>{{.Details.Time}}</td>
+                        <td>{{.Details.AvgSpeed}} mph</td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+      </div>
+
+      <script src="/static/javascript/navbar.js"></script>
+
+   </body>
+</html>

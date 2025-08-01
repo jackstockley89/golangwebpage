@@ -28,11 +28,3 @@ spec:
             cpu: {{ .Values.app_deployment.template.containers.resources.limits.cpu }}
         ports:
         - containerPort: {{ .Values.app_service.ports.port }}
-        env:
-        {{- range .Values.db_env }}
-        - name: {{ .name }}
-          valueFrom: 
-            secretKeyRef:
-              name: {{ .secretName }}
-              key: {{ .key }}
-        {{- end }}

@@ -1,37 +1,35 @@
 <!DOCTYPE html>
 <html lang="en">
    <head>
+      <title>Activities</title>
       <meta charset="UTF-8">
-      <link rel="stylesheet" href="/static/stylesheets/activities.css"> 
+      <link rel="stylesheet" href="/static/stylesheets/defaults.css">
+      <link rel="stylesheet" href="/static/stylesheets/activities.css">
+      <link rel="stylesheet" href="/static/stylesheets/navbar.css">
    </head>
    <body>
-      <div class="container">
-         <div class="topnav">
-            <a href="./home">Home</a>
-            <a href="./activities">Activities</a>
-         </div>
-      </div>
+
+      <div id="navbar-container"></div>
       <div class="grid-container">
          <div class="grid-element">
-            <table >
-               <tr>
-                  <th scope="col">Date</th>
-                  <th scope="col">Distance (mi)</th>
-                  <th scope="col">Time</th>
-                  <th scope="col">AvgSpeed (mph)</th>
-                  <th scope="col">Route</th>
-               </tr>
-               {{ range . }}
-               <tr>
-                  <td><a href={{.Link}}>{{.Date}}</a></td>
-                  <td><a href={{.Link}}>{{.Distance}}</a></td>
-                  <td><a href={{.Link}}>{{.Time}}</a></td>
-                  <td><a href={{.Link}}>{{.AvgSpeed}}</a></td>
-                  <td><img src={{.Route}} alt="Image" /></td>
-               </tr>
-               {{ end }}
-           </table>
+            <table class="activities">
+               <tbody>
+                  {{range .Activities}}
+                  <tr class="activity-row">
+                     <td class="activity-name">
+                        <a href="/activities/{{.ID}}">{{.Details.Name}}</a>
+                     </td>
+                     <td class="activity-date">
+                        <a href="/activities/{{.ID}}">{{.Details.Date}}</a>
+                     </td>
+                  </tr>
+                  {{end}}
+               </tbody>
+            </table>
          </div>
       </div>
+
+      <script src="/static/javascript/navbar.js"></script>
+
    </body>
 </html>
