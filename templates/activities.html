@@ -3,6 +3,7 @@
    <head>
       <title>Activities</title>
       <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <link rel="stylesheet" href="/static/stylesheets/defaults.css">
       <link rel="stylesheet" href="/static/stylesheets/activities.css">
       <link rel="stylesheet" href="/static/stylesheets/navbar.css">
@@ -12,20 +13,22 @@
       <div id="navbar-container"></div>
       <div class="grid-container">
          <div class="grid-element">
-            <table class="activities">
-               <tbody>
-                  {{range .Activities}}
-                  <tr class="activity-row">
-                     <td class="activity-name">
-                        <a href="/activities/{{.ID}}">{{.Details.Name}}</a>
-                     </td>
-                     <td class="activity-date">
-                        <a href="/activities/{{.ID}}">{{.Details.Date}}</a>
-                     </td>
-                  </tr>
-                  {{end}}
-               </tbody>
-            </table>
+            <div class="activity-grid">
+               {{range .Activities}}
+               <a class="activity-card" href="/activities/{{.ID}}">
+                  <div class="activity-preview">
+                     <img src="{{.Details.Route}}" alt="{{.Details.Name}} route preview">
+                  </div>
+                  <div class="activity-card-content">
+                     <div>
+                        <h2>{{.Details.Name}}</h2>
+                        <p>{{.Details.Date}}</p>
+                     </div>
+                     <span class="activity-arrow" aria-hidden="true">&#8599;</span>
+                  </div>
+               </a>
+               {{end}}
+            </div>
          </div>
       </div>
 

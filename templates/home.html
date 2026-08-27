@@ -4,6 +4,7 @@
    <head>
       <title>Home</title>
       <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <link rel="stylesheet" href="/static/stylesheets/defaults.css">
       <link rel="stylesheet" href="/static/stylesheets/home.css">
       <link rel="stylesheet" href="/static/stylesheets/navbar.css">
@@ -12,7 +13,14 @@
       <div id="navbar-container"></div>
       <div class="grid-container">
          <div class="grid-element">
-            <div class="welcome center">Welcome</div>
+            <main class="home-content">
+               <section class="home-intro">
+                  <h1 class="welcome">Welcome</h1>
+                  <p class="home-kicker">A cycling journal</p>
+                  <p class="home-description">A collection of routes, distances, and days spent riding. Browse the rides to see each route and its full set of details.</p>
+                  <a class="home-action" href="/activities">Explore the rides <span aria-hidden="true">&#8594;</span></a>
+               </section>
+            </main>
          </div>
       </div>
 

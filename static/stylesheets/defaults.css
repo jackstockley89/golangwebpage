@@ -1,13 +1,38 @@
-body  {
-  height: 100%;
-  background-color: aliceblue ;
+:root {
+  --ink: #173042;
+  --muted-ink: #59707b;
+  --paper: #f4f8f5;
+  --surface: rgba(255, 255, 255, 0.78);
+  --line: rgba(23, 48, 66, 0.12);
+  --accent: #e36d45;
+  --accent-dark: #bd4d2e;
+  --nav: #173042;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  min-height: 100%;
+}
+
+body {
+  min-height: 100vh;
+  margin: 0;
+  color: var(--ink);
+  background-color: var(--paper);
+  background-image:
+    radial-gradient(circle at 8% 12%, rgba(227, 109, 69, 0.16), transparent 28rem),
+    radial-gradient(circle at 92% 86%, rgba(62, 145, 126, 0.14), transparent 32rem),
+    linear-gradient(135deg, #f7faf7 0%, #edf5f1 100%);
   background-attachment: fixed;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+  font-family: Georgia, 'Times New Roman', serif;
 }
 
 .grid-container {
   grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-  margin-top: 0px;
+  width: min(1120px, calc(100% - 48px));
+  margin: 0 auto;
+  padding: 64px 0;
 }
